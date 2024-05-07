@@ -904,9 +904,9 @@ config WCD_DSP_GLINK
 source "drivers/soc/qcom/memshare/Kconfig"
 source "drivers/soc/qcom/vendor/Kconfig"
 
-config ZFG_BOOT_MODE
+config ZTE_BOOT_MODE
 	depends on ARCH_MSM8937
-	bool "ZFG BOOT MODE"
+	bool "ZTE BOOT MODE"
 	default n
 	help
 	   Support for boot mode

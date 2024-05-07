@@ -14,11 +14,11 @@
 #include <linux/kernel.h>
 #include "msm_sensor.h"
 #include "msm_ois.h"
-#include "zfg_camera_sensor_util.h"
+#include "zte_camera_sensor_util.h"
 
-#define CONFIG_ZFG_CAMERA_UTIL_DEBUG
+#define CONFIG_ZTE_CAMERA_UTIL_DEBUG
 #undef CDBG
-#ifdef CONFIG_ZFG_CAMERA_UTIL_DEBUG
+#ifdef CONFIG_ZTE_CAMERA_UTIL_DEBUG
 #define CDBG(fmt, args...) pr_err(fmt, ##args)
 #else
 #define CDBG(fmt, args...) do { } while (0)

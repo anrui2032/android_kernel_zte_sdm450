@@ -59,32 +59,32 @@ if FB_MSM_MDSS
 endif
 
 #
-config ZFG_LCD_COMMON_FUNCTION
-	bool "Support for ZFG lcd common function"
+config ZTE_LCD_COMMON_FUNCTION
+	bool "Support for ZTE lcd common function"
 	default y
 
-config ZFG_LCD_BACKLIGHT_LEVEL_CURVE
-	depends on ZFG_LCD_COMMON_FUNCTION
-	bool "Support for ZFG lcd backlight curve"
+config ZTE_LCD_BACKLIGHT_LEVEL_CURVE
+	depends on ZTE_LCD_COMMON_FUNCTION
+	bool "Support for ZTE lcd backlight curve"
 
-config ZFG_LCD_REG_DEBUG
-	depends on ZFG_LCD_COMMON_FUNCTION
+config ZTE_LCD_REG_DEBUG
+	depends on ZTE_LCD_COMMON_FUNCTION
 	bool "Support lcd register debug in root version"
 
-config ZFG_LCD_GPIO_CTRL_POWER
-	depends on ZFG_LCD_COMMON_FUNCTION
-	bool "Support for ZFG gpio power ctrl"
+config ZTE_LCD_GPIO_CTRL_POWER
+	depends on ZTE_LCD_COMMON_FUNCTION
+	bool "Support for ZTE gpio power ctrl"
 
-config ZFG_LCDBL_I2C_CTRL_VSP_VSN
-	depends on ZFG_LCD_COMMON_FUNCTION
-	bool "Support for ZFG vsp vsn power ctrl"
+config ZTE_LCDBL_I2C_CTRL_VSP_VSN
+	depends on ZTE_LCD_COMMON_FUNCTION
+	bool "Support for ZTE vsp vsn power ctrl"
 
-config ZFG_LCD_DCSBL_CABC_GRADIENT
-	depends on ZFG_LCD_COMMON_FUNCTION
-	bool "Support for ZFG dcs bl cabc gradient effect"
+config ZTE_LCD_DCSBL_CABC_GRADIENT
+	depends on ZTE_LCD_COMMON_FUNCTION
+	bool "Support for ZTE dcs bl cabc gradient effect"
 
-config ZFG_LCD_CABC3_EXTREME_POWER_SAVE
-	depends on ZFG_LCD_COMMON_FUNCTION
-	bool "Support for ZFG extreme power save modem cabc"
+config ZTE_LCD_CABC3_EXTREME_POWER_SAVE
+	depends on ZTE_LCD_COMMON_FUNCTION
+	bool "Support for ZTE extreme power save modem cabc"
 #
 endif

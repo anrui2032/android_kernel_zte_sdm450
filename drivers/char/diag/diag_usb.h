@@ -40,13 +40,13 @@
 
 /*begin-4 -TF project, encrypt the DiagPort -zhenghuan 2014/12/23*/
 /*choose macro
-    ZFG_FEATURE_TF_SECURITY_SYSTEM_HIGH
-    ZFG_FEATURE_TF_SECURITY_SYSTEM */
-#ifdef ZFG_FEATURE_TF_SECURITY_SYSTEM
+    ZTE_FEATURE_TF_SECURITY_SYSTEM_HIGH
+    ZTE_FEATURE_TF_SECURITY_SYSTEM */
+#ifdef ZTE_FEATURE_TF_SECURITY_SYSTEM
 #define DIAG_LOCK_ON
 #endif
 
-#ifdef ZFG_FEATURE_TF_SECURITY_SYSTEM
+#ifdef ZTE_FEATURE_TF_SECURITY_SYSTEM
 int is_diag_locked(void);
 #endif
 /*end-4 -TF project, encrypt the DiagPort -zhenghuan 2014/12/23*/

@@ -47,15 +47,15 @@ module_param_named(
 static int apSleep_modemAwake_timeThreshold = 10;
 static int apSleep_modemAwake_precent = 900;
 static int apSleep_modemAwake_count = 5;
-module_param_named(zfg_amss_time_threshold, apSleep_modemAwake_timeThreshold, int, S_IRUGO | S_IWUSR | S_IWGRP);
-module_param_named(zfg_amss_awake_precent, apSleep_modemAwake_precent, int, S_IRUGO | S_IWUSR | S_IWGRP);
-module_param_named(zfg_amss_awake_acount, apSleep_modemAwake_count, int, S_IRUGO | S_IWUSR | S_IWGRP);
-static int zfg_amss_acount;
+module_param_named(zte_amss_time_threshold, apSleep_modemAwake_timeThreshold, int, S_IRUGO | S_IWUSR | S_IWGRP);
+module_param_named(zte_amss_awake_precent, apSleep_modemAwake_precent, int, S_IRUGO | S_IWUSR | S_IWGRP);
+module_param_named(zte_amss_awake_acount, apSleep_modemAwake_count, int, S_IRUGO | S_IWUSR | S_IWGRP);
+static int zte_amss_acount;
 static struct device  *msm_cpu_pm_dev;
 
 
 enum {
-	MSM_PM_DEBUG_ZFG_IDLE_CLOCK = BIT(10),/* LOG default not open*/
+	MSM_PM_DEBUG_ZTE_IDLE_CLOCK = BIT(10),/* LOG default not open*/
 };
 
 typedef struct {
@@ -67,7 +67,7 @@ typedef struct {
 	uint32_t modemawake_timeout_crash;
 } pm_count_time;
 
-static pm_count_time *zfg_imem_ptr = NULL;
+static pm_count_time *zte_imem_ptr = NULL;
 
 static int kernel_sleep_count;
 
@@ -131,72 +131,72 @@ static struct notifier_block __refdata lcd_fb_notifier = {
 
 static unsigned pm_modem_sleep_time_get(void)
 {
-	if (!zfg_imem_ptr) {
-		pr_err("zfg_imem_ptr is null,pm_modem_sleep_time_get return\n");
+	if (!zte_imem_ptr) {
+		pr_err("zte_imem_ptr is null,pm_modem_sleep_time_get return\n");
 		return 0;
 	}
-	pr_info("[PM_V] get modemsleeptime %d\n", zfg_imem_ptr->modemsleeptime);
-	return zfg_imem_ptr->modemsleeptime;
+	pr_info("[PM_V] get modemsleeptime %d\n", zte_imem_ptr->modemsleeptime);
+	return zte_imem_ptr->modemsleeptime;
 }
 
 static unsigned pm_modem_phys_link_time_get(void)
 {
-	if (!zfg_imem_ptr) {
-		pr_err("zfg_imem_ptr is null,pm_modem_phys_link_time_get return\n");
+	if (!zte_imem_ptr) {
+		pr_err("zte_imem_ptr is null,pm_modem_phys_link_time_get return\n");
 		return 0;
 	}
-	pr_info("[PM_V] get physlinktime %d\n", zfg_imem_ptr->physlinktime);
-	return zfg_imem_ptr->physlinktime;
+	pr_info("[PM_V] get physlinktime %d\n", zte_imem_ptr->physlinktime);
+	return zte_imem_ptr->physlinktime;
 }
 
 static unsigned pm_modem_awake_time_get(int *current_sleep)
 {
-	if (!zfg_imem_ptr) {
-		pr_err("zfg_imem_ptr is null,pm_modem_awake_time_get return\n");
+	if (!zte_imem_ptr) {
+		pr_err("zte_imem_ptr is null,pm_modem_awake_time_get return\n");
 		return 0;
 	}
-	*current_sleep =  zfg_imem_ptr->modemsleep_or_awake;
-	pr_info("[PM_V] get modemawaketime %d,current_sleep=%d\n", zfg_imem_ptr->modemawaketime, *current_sleep);
-	return zfg_imem_ptr->modemawaketime;
+	*current_sleep =  zte_imem_ptr->modemsleep_or_awake;
+	pr_info("[PM_V] get modemawaketime %d,current_sleep=%d\n", zte_imem_ptr->modemawaketime, *current_sleep);
+	return zte_imem_ptr->modemawaketime;
 }
 
 static int pm_modem_sleep_time_show(char *buffer, struct kernel_param *kp)
 {
-	if (!zfg_imem_ptr) {
-		pr_err("zfg_imem_ptr is null,pm_modem_sleep_time_get return\n");
+	if (!zte_imem_ptr) {
+		pr_err("zte_imem_ptr is null,pm_modem_sleep_time_get return\n");
 		return 0;
 	}
-	pr_info("[PM_V] get modemsleeptime %d\n", zfg_imem_ptr->modemsleeptime);
-	return  snprintf(buffer, 8,  "%d", (zfg_imem_ptr->modemsleeptime / 1000));
+	pr_info("[PM_V] get modemsleeptime %d\n", zte_imem_ptr->modemsleeptime);
+	return  snprintf(buffer, 8,  "%d", (zte_imem_ptr->modemsleeptime / 1000));
 }
 
 static int pm_modem_awake_time_show(char *buffer, struct kernel_param *kp)
 {
-	if (!zfg_imem_ptr) {
-		pr_err("zfg_imem_ptr is null,modemawaketime return\n");
+	if (!zte_imem_ptr) {
+		pr_err("zte_imem_ptr is null,modemawaketime return\n");
 		return 0;
 	}
-	pr_info("[PM_V] get modemawaketime %d\n", zfg_imem_ptr->modemawaketime);
-	return  snprintf(buffer, 8, "%d", (zfg_imem_ptr->modemawaketime / 1000));
+	pr_info("[PM_V] get modemawaketime %d\n", zte_imem_ptr->modemawaketime);
+	return  snprintf(buffer, 8, "%d", (zte_imem_ptr->modemawaketime / 1000));
 }
 static int pm_modem_sleep_or_awake_show(char *buffer, struct kernel_param *kp)
 {
-	if (!zfg_imem_ptr) {
-		pr_err("zfg_imem_ptr is null,pm_modem_sleep_or_awake_get return\n");
+	if (!zte_imem_ptr) {
+		pr_err("zte_imem_ptr is null,pm_modem_sleep_or_awake_get return\n");
 		return 0;
 	}
-	pr_info("[PM_V] get modemsleep_or_awake %d,\n", zfg_imem_ptr->modemsleep_or_awake);
-	return  snprintf(buffer, 8, "%d", zfg_imem_ptr->modemsleep_or_awake);
+	pr_info("[PM_V] get modemsleep_or_awake %d,\n", zte_imem_ptr->modemsleep_or_awake);
+	return  snprintf(buffer, 8, "%d", zte_imem_ptr->modemsleep_or_awake);
 }
 
 static int pm_modem_phys_link_time_show(char *buffer, struct kernel_param *kp)
 {
-	if (!zfg_imem_ptr) {
-		pr_err("zfg_imem_ptr is null,pm_modem_phys_link_time_get return\n");
+	if (!zte_imem_ptr) {
+		pr_err("zte_imem_ptr is null,pm_modem_phys_link_time_get return\n");
 		return 0;
 	}
-	pr_info("[PM_V] get physlinktime %d\n", zfg_imem_ptr->physlinktime);
-	return  snprintf(buffer, 8, "%d", zfg_imem_ptr->physlinktime);
+	pr_info("[PM_V] get physlinktime %d\n", zte_imem_ptr->physlinktime);
+	return  snprintf(buffer, 8, "%d", zte_imem_ptr->physlinktime);
 }
 
 
@@ -213,7 +213,7 @@ module_param_call(showphyslinktime, NULL, pm_modem_phys_link_time_show,
 
 
 /*Interface For Ril Open F3 Log*/
-static int zfg_amss_invalid_parameter(void)
+static int zte_amss_invalid_parameter(void)
 {
 	if (apSleep_modemAwake_count <= 0)
 		return 0;
@@ -225,7 +225,7 @@ static int zfg_amss_invalid_parameter(void)
 		return 1;
 }
 
-static  void  zfg_amss_updateEvent(int modemState)
+static  void  zte_amss_updateEvent(int modemState)
 {
 	char *event = NULL;
 	char *envp[2];
@@ -243,22 +243,22 @@ static  void  zfg_amss_updateEvent(int modemState)
 	}
 }
 
-static int  zfg_amss_needF3log(int apSleep_time_s, int modemAwake_percent)
+static int  zte_amss_needF3log(int apSleep_time_s, int modemAwake_percent)
 {
 	int invalidParameter = 0;
 
-	invalidParameter = zfg_amss_invalid_parameter();
+	invalidParameter = zte_amss_invalid_parameter();
 
 	if (apSleep_time_s < 0 || (modemAwake_percent < 900 || modemAwake_percent > 1000))
 		return 0;
 	if (invalidParameter == 0)
 		return 0;
 
-	if (zfg_amss_acount > apSleep_modemAwake_count)
-		zfg_amss_acount = 0;
+	if (zte_amss_acount > apSleep_modemAwake_count)
+		zte_amss_acount = 0;
 
-	zfg_amss_acount = zfg_amss_acount + 1;
-	if ((zfg_amss_acount == apSleep_modemAwake_count) && invalidParameter == 1)
+	zte_amss_acount = zte_amss_acount + 1;
+	if ((zte_amss_acount == apSleep_modemAwake_count) && invalidParameter == 1)
 		return 1;
 	else
 		return 0;
@@ -270,22 +270,22 @@ static int  zfg_amss_needF3log(int apSleep_time_s, int modemAwake_percent)
 #define THRESOLD_FOR_OFFLINE_AWAKE_TIME 100 /*ms*/
 #define THRESOLD_FOR_OFFLINE_TIME 5000 /*s*/
 
-static int mEnableRrecordFlag_ZFG = 0;
-module_param_named(zfg_enableRecord,
-	mEnableRrecordFlag_ZFG, int, S_IRUGO | S_IWUSR | S_IWGRP);
+static int mEnableRrecordFlag_ZTE = 0;
+module_param_named(zte_enableRecord,
+	mEnableRrecordFlag_ZTE, int, S_IRUGO | S_IWUSR | S_IWGRP);
 
 #define RECORED_TOTAL_TIME
 static struct timespec time_updated_when_sleep_awake;
 
-/*ZFG_PM: called after exit PowerCollapse from suspend,
+/*ZTE_PM: called after exit PowerCollapse from suspend,
 which will inform modem app has exit suspend.*/
 static void inform_modem_app_enter_suspend(bool entersuspend)
 {
-	if (zfg_imem_ptr) {
+	if (zte_imem_ptr) {
 		if (entersuspend) {/*true?sleep:resume*/
-			zfg_imem_ptr->app_suspend_state = 0xAA;
+			zte_imem_ptr->app_suspend_state = 0xAA;
 		} else {
-			zfg_imem_ptr->app_suspend_state = 0;
+			zte_imem_ptr->app_suspend_state = 0;
 			pr_info("PM notify app resume\n");
 		}
 	}
@@ -483,9 +483,9 @@ static void record_sleep_awake_time_vendor(bool enter_sleep)
 		time_updated_when_sleep_awake = ts;
 
 		/*Interface For Ril Open F3 Log*/
-		result_state = zfg_amss_needF3log(time_updated_when_sleep_awake_s,
+		result_state = zte_amss_needF3log(time_updated_when_sleep_awake_s,
 								percentage_amss_not_sleep_while_app_suspend);
-		zfg_amss_updateEvent(result_state);
+		zte_amss_updateEvent(result_state);
 	}
 
 	amss_current_sleep_or_awake_previous = amss_current_sleep_or_awake;
@@ -493,7 +493,7 @@ static void record_sleep_awake_time_vendor(bool enter_sleep)
 }
 
 
-static int zfg_pm_debug_probe(struct platform_device *pdev)
+static int zte_pm_debug_probe(struct platform_device *pdev)
 {
 	int ret = 0;
 
@@ -505,9 +505,9 @@ static int zfg_pm_debug_probe(struct platform_device *pdev)
 	return ret;
 }
 
-static int zfg_pm_debug_suspend(struct device *dev)
+static int zte_pm_debug_suspend(struct device *dev)
 {
-	if (mEnableRrecordFlag_ZFG == 0) {
+	if (mEnableRrecordFlag_ZTE == 0) {
 		return 0;
 	}
 	record_sleep_awake_time_vendor(false);
@@ -515,10 +515,10 @@ static int zfg_pm_debug_suspend(struct device *dev)
 	return 0;
 }
 
-static int zfg_pm_debug_resume(struct device *dev)
+static int zte_pm_debug_resume(struct device *dev)
 {
-	if (mEnableRrecordFlag_ZFG == 0) {
-		pr_info("[PM_V]: not enable to record zfg_pm_debug_resume vendor!\n");
+	if (mEnableRrecordFlag_ZTE == 0) {
+		pr_info("[PM_V]: not enable to record zte_pm_debug_resume vendor!\n");
 		return 0;
 	}
 	record_sleep_awake_time_vendor(true);
@@ -526,33 +526,33 @@ static int zfg_pm_debug_resume(struct device *dev)
 	return 0;
 }
 
-static int  zfg_pm_debug_remove(struct platform_device *pdev)
+static int  zte_pm_debug_remove(struct platform_device *pdev)
 {
 	return 0;
 }
 
-static const struct of_device_id zfg_pm_debug_table[] = {
-	{.compatible = "zfg_pm_debug_vendor"},
+static const struct of_device_id zte_pm_debug_table[] = {
+	{.compatible = "zte_pm_debug_vendor"},
 	{},
 };
 
-static const struct dev_pm_ops zfg_pm_debug_ops = {
-	.suspend	= zfg_pm_debug_suspend,
-	.resume = zfg_pm_debug_resume,
+static const struct dev_pm_ops zte_pm_debug_ops = {
+	.suspend	= zte_pm_debug_suspend,
+	.resume = zte_pm_debug_resume,
 };
 
-static struct platform_driver zfg_pm_debug_driver = {
-	.probe = zfg_pm_debug_probe,
-	.remove	= zfg_pm_debug_remove,
+static struct platform_driver zte_pm_debug_driver = {
+	.probe = zte_pm_debug_probe,
+	.remove	= zte_pm_debug_remove,
 	.driver = {
-		.name = "zfg_pm_debug_vendor",
+		.name = "zte_pm_debug_vendor",
 		.owner = THIS_MODULE,
-		.pm	= &zfg_pm_debug_ops,
-		.of_match_table = zfg_pm_debug_table,
+		.pm	= &zte_pm_debug_ops,
+		.of_match_table = zte_pm_debug_table,
 	},
 };
 
-int __init zfg_pm_debug_vendor_init(void)
+int __init zte_pm_debug_vendor_init(void)
 {
 	static bool registered;
 	struct device_node *np; 
@@ -568,21 +568,21 @@ int __init zfg_pm_debug_vendor_init(void)
 	if (!np) {
 		pr_err("unable to find DT imem msm-imem-pm-count-time node\n");
 	} else {
-		zfg_imem_ptr = (pm_count_time  *)of_iomap(np, 0);
-		if (!zfg_imem_ptr)
+		zte_imem_ptr = (pm_count_time  *)of_iomap(np, 0);
+		if (!zte_imem_ptr)
 			pr_err("unable to map imem golden copyoffset\n");
 	}
 
-	return platform_driver_register(&zfg_pm_debug_driver);
+	return platform_driver_register(&zte_pm_debug_driver);
 }
-late_initcall(zfg_pm_debug_vendor_init);
+late_initcall(zte_pm_debug_vendor_init);
 
-static void __exit zfg_pm_debug_vendor_exit(void)
+static void __exit zte_pm_debug_vendor_exit(void)
 {
-	platform_driver_unregister(&zfg_pm_debug_driver);
+	platform_driver_unregister(&zte_pm_debug_driver);
 }
-module_exit(zfg_pm_debug_vendor_exit);
+module_exit(zte_pm_debug_vendor_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("pm sleep wake time for zfg");
-MODULE_ALIAS("platform:zfg_pm_debug_vendor");
+MODULE_DESCRIPTION("pm sleep wake time for zte");
+MODULE_ALIAS("platform:zte_pm_debug_vendor");

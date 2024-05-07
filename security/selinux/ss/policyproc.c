@@ -1,6 +1,6 @@
 /* policyproc.c -- preprocess/postprocess policy as binary image
  *
- * Copyright 2017-2018 ZFG Corp.
+ * Copyright 2017-2018 ZTE Corp.
  * All Rights Reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Written by Jia Jia <jia.jia@zfg.com.cn>
+ * Written by Jia Jia <jia.jia@zte.com.cn>
  */
 
 #include <linux/atomic.h>

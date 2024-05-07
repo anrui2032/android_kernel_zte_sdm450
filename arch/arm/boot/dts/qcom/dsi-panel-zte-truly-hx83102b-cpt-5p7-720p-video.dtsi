@@ -13,7 +13,7 @@
 	dsi_truly_hx83102b_cpt_720p_video: qcom,mdss_dsi_truly_hx83102b_cpt_720p_video {
 		qcom,mdss-dsi-panel-name = "hx83102b truly 720p video 5p7inch dsi panel";
 		qcom,cont-splash-enabled;
-		zfg,lcd_bl_vsp_vsn_voltage = <0xf>;
+		zte,lcd_bl_vsp_vsn_voltage = <0xf>;
 		qcom,mdss-dsi-panel-controller = <&mdss_dsi0>;
 		qcom,mdss-dsi-panel-type = "dsi_video_mode";
 		qcom,mdss-dsi-panel-framerate = <60>;
@@ -125,7 +125,7 @@
 		qcom,mdss-pan-physical-height-dimension = <128>;
 		qcom,mdss-dsi-tx-eot-append;
 		qcom,mdss-dsi-post-init-delay = <1>;
-		zfg,lcm_reset_pin_keep_high_sleeping;
+		zte,lcm_reset_pin_keep_high_sleeping;
 
 		qcom,esd-check-enabled;
 		qcom,mdss-dsi-panel-status-command=[14 01 00 01 05 00 01 0a

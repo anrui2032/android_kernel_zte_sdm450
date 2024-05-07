@@ -42,7 +42,7 @@
 	eeprom0: qcom,eeprom@0 {
 		cell-index = <0>;
 		compatible = "qcom,eeprom";
-		qcom,eeprom-name = "zfg_ov13855_z5250a";
+		qcom,eeprom-name = "zte_ov13855_z5250a";
 		qcom,cci-master = <0>;
 		reg = <0x0>;
 		qcom,slave-addr = <0xA0>;

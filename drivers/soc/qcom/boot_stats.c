@@ -122,7 +122,7 @@ unsigned long long int msm_timer_get_sclk_ticks(void)
 	return t1;
 }
 
-#ifdef CONFIG_ZFG_BOOT_MODE
+#ifdef CONFIG_ZTE_BOOT_MODE
 static int __init bootmode_init(char *mode)
 {
 	int boot_mode = 0;

@@ -60,11 +60,11 @@ obj-$(CONFIG_LEDS_QPNP_WLED)		+= leds-qpnp-wled.o
 obj-$(CONFIG_LEDS_SYSCON)		+= leds-syscon.o
 obj-$(CONFIG_LEDS_VERSATILE)		+= leds-versatile.o
 obj-$(CONFIG_LEDS_MENF21BMC)		+= leds-menf21bmc.o
-# added by zfg_fangjun for color_led - modem control led,start
+# added by zte_fangjun for color_led - modem control led,start
 obj-$(CONFIG_LEDS_MSM_QMI)		+= leds-gpio-modem.o
-# added by zfg_fangjun for color_led - modem control led,end
+# added by zte_fangjun for color_led - modem control led,end
 obj-$(CONFIG_LEDS_AW2013)		+= leds-aw2013.o
-obj-$(CONFIG_ZFG_LEDS_GPIO)		+= zfg-leds-gpio.o
+obj-$(CONFIG_ZTE_LEDS_GPIO)		+= zte-leds-gpio.o
 
 # LED SPI Drivers
 obj-$(CONFIG_LEDS_DAC124S085)		+= leds-dac124s085.o

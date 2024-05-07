@@ -145,8 +145,8 @@
 			pinctrl-1 = <&msm_gpio_47_output_high>;
 			pinctrl-2 = <&msm_gpio_48>;
 	};
-	zfg_misc {
-		compatible = "zfg-misc";
+	zte_misc {
+		compatible = "zte-misc";
 	};
 	hall_sensor {
 		compatible = "ah,hall_ic";

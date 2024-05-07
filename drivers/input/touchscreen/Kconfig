@@ -13,7 +13,7 @@ if INPUT_TOUCHSCREEN
 
 source "drivers/input/touchscreen/synaptics_dsx/Kconfig"
 source "drivers/input/touchscreen/synaptics_dsx_2.6/Kconfig"
-source "drivers/input/touchscreen/zfg_synaptics_dsx_2.6/Kconfig"
+source "drivers/input/touchscreen/zte_synaptics_dsx_2.6/Kconfig"
 source "drivers/input/touchscreen/novatek_touch/Kconfig"
 
 config OF_TOUCHSCREEN
@@ -1162,9 +1162,9 @@ config TOUCHSCREEN_MSTAR_DRV_V5_7
 	  module will be called Mstar touchscreens.
 source "drivers/input/touchscreen/focaltech_touch/Kconfig"
 source "drivers/input/touchscreen/focaltech_touch_V2_1/Kconfig"
-source "drivers/input/touchscreen/synaptics_zfg_2.7/Kconfig"
+source "drivers/input/touchscreen/synaptics_zte_2.7/Kconfig"
 
-source "drivers/input/touchscreen/zfg_gt1151/Kconfig"
+source "drivers/input/touchscreen/zte_gt1151/Kconfig"
 
 source "drivers/input/touchscreen/HiMax83102/Kconfig"
 

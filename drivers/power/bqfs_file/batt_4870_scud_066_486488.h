@@ -10,7 +10,7 @@
 
 /*
 this file is generated from
-bq27426G1_ZFG_47K_4870mAH_1544_0016_20170615_Optimized_N5C-1000mA_RB.gm.fs
+bq27426G1_ZTE_47K_4870mAH_1544_0016_20170615_Optimized_N5C-1000mA_RB.gm.fs
 at Thu Jul 13 18:42:52 2017
 */
 

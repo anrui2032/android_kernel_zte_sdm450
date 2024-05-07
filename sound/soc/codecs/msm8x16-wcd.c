@@ -312,7 +312,7 @@ struct msm8x16_wcd_spmi msm8x16_wcd_modules[MAX_MSM8X16_WCD_DEVICE];
 static void *adsp_state_notifier;
 
 static struct snd_soc_codec *registered_codec;
-#if defined(CONFIG_ZFG_USE_AMP_AW87316)
+#if defined(CONFIG_ZTE_USE_AMP_AW87316)
 extern void wcd_mbhc_clr_and_turnon_hph_padac(struct wcd_mbhc *mbhc);
 extern void wcd_mbhc_set_and_turnoff_hph_padac(struct wcd_mbhc *mbhc);
 #endif
@@ -4953,7 +4953,7 @@ static int msm8x16_wcd_codec_enable_spk_ext_pa(struct snd_soc_dapm_widget *w,
 	case SND_SOC_DAPM_POST_PMU:
 		dev_dbg(w->codec->dev,
 			"%s: enable external speaker PA\n", __func__);
-#if defined(CONFIG_ZFG_USE_AMP_AW87316)
+#if defined(CONFIG_ZTE_USE_AMP_AW87316)
 		wcd_mbhc_clr_and_turnon_hph_padac(&msm8x16_wcd->mbhc);
 #endif
 		if (msm8x16_wcd->codec_spk_ext_pa_cb)
@@ -4964,7 +4964,7 @@ static int msm8x16_wcd_codec_enable_spk_ext_pa(struct snd_soc_dapm_widget *w,
 			"%s: enable external speaker PA\n", __func__);
 		if (msm8x16_wcd->codec_spk_ext_pa_cb)
 			msm8x16_wcd->codec_spk_ext_pa_cb(codec, 0);
-#if defined(CONFIG_ZFG_USE_AMP_AW87316)
+#if defined(CONFIG_ZTE_USE_AMP_AW87316)
 	if ((&msm8x16_wcd->mbhc)->current_plug == MBHC_PLUG_TYPE_NONE) {
 		wcd_mbhc_set_and_turnoff_hph_padac(&msm8x16_wcd->mbhc);
 	}

@@ -1,7 +1,7 @@
 #
 # Synaptics DSX touchscreen driver configuration
 #
-menuconfig TOUCHSCREEN_ZFG_SYNAPTICS_DSX_v26
+menuconfig TOUCHSCREEN_ZTE_SYNAPTICS_DSX_v26
 	bool "Synaptics DSX touchscreen"
 	default n
 	help
@@ -10,7 +10,7 @@ menuconfig TOUCHSCREEN_ZFG_SYNAPTICS_DSX_v26
 
 	  If unsure, say N.
 
-if TOUCHSCREEN_ZFG_SYNAPTICS_DSX_v26
+if TOUCHSCREEN_ZTE_SYNAPTICS_DSX_v26
 
 choice
 	default TOUCHSCREEN_SYNAPTICS_DSX_I2C

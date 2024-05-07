@@ -38,13 +38,13 @@
  * define your own fw_app, the sample one to be replaced is invalid
  * NOTE: if FTS_GET_VENDOR_ID_NUM >= 1, it's the fw corresponding with FTS_VENDOR_1_ID
  */
-#define FTS_UPGRADE_FW_APP                      "ZFG_A7Vita_HLT_app.i"
+#define FTS_UPGRADE_FW_APP                      "ZTE_A7Vita_HLT_app.i"
 
 /*
  * if FTS_GET_VENDOR_ID_NUM >= 2, fw corrsponding with FTS_VENDOR_2_ID
  * define your own fw_app, the sample one is invalid
  */
-#define FTS_UPGRADE_FW2_APP                     "ZFG_A7Vita_Truely_app.i"
+#define FTS_UPGRADE_FW2_APP                     "ZTE_A7Vita_Truely_app.i"
 
 /*
  * if FTS_GET_VENDOR_ID_NUM == 3, fw corrsponding with FTS_VENDOR_3_ID

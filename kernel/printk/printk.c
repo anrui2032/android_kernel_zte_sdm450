@@ -58,8 +58,8 @@
 
 #include <linux/rtc.h>
 
-#ifndef CONFIG_TIME_FORMAT_ZFGLOG
-#define CONFIG_TIME_FORMAT_ZFGLOG 1
+#ifndef CONFIG_TIME_FORMAT_ZTELOG
+#define CONFIG_TIME_FORMAT_ZTELOG 1
 #endif
 
 
@@ -239,7 +239,7 @@ struct printk_log {
 	u32 magic;		/* handle for ramdump analysis tools */
 #endif
 	
-	#if defined(CONFIG_TIME_FORMAT_ZFGLOG)
+	#if defined(CONFIG_TIME_FORMAT_ZTELOG)
 	unsigned int process_id;
 	pid_t pid;
 	char comm[TASK_COMM_LEN];
@@ -285,7 +285,7 @@ static u64 clear_seq;
 static u32 clear_idx;
 
 
-#if defined(CONFIG_TIME_FORMAT_ZFGLOG)
+#if defined(CONFIG_TIME_FORMAT_ZTELOG)
 #define PREFIX_MAX			128
 #define LOG_LINE_MAX		(2048 - PREFIX_MAX)
 #else
@@ -496,7 +496,7 @@ static int log_store(int facility, int level,
 		msg->ts_nsec = local_clock();
 
 	
-	#if defined(CONFIG_TIME_FORMAT_ZFGLOG)
+	#if defined(CONFIG_TIME_FORMAT_ZTELOG)
 	msg->ts = current_kernel_time();
 	msg->process_id = smp_processor_id();
 	msg->pid = current->pid;
@@ -1048,7 +1048,7 @@ static bool printk_time = IS_ENABLED(CONFIG_PRINTK_TIME);
 module_param_named(time, printk_time, bool, S_IRUGO | S_IWUSR);
 
 
-#if defined(CONFIG_TIME_FORMAT_ZFGLOG)
+#if defined(CONFIG_TIME_FORMAT_ZTELOG)
 static char tmpbuf[1024];
 static size_t print_time(struct timespec ts, char *buf,
 	unsigned int process_id, pid_t pid, const char *comm)
@@ -1113,7 +1113,7 @@ static size_t print_prefix(const struct printk_log *msg, bool syslog, char *buf)
 	}
 
 	
-	#if defined(CONFIG_TIME_FORMAT_ZFGLOG)
+	#if defined(CONFIG_TIME_FORMAT_ZTELOG)
 	len += print_time(msg->ts, buf ? buf + len : NULL, msg->process_id, msg->pid, msg->comm);
 	#else
 	len += print_time(msg->ts_nsec, buf ? buf + len : NULL);
@@ -1598,7 +1598,7 @@ static inline void printk_delay(void)
 static struct cont {
 
 	
-	#if defined(CONFIG_TIME_FORMAT_ZFGLOG)
+	#if defined(CONFIG_TIME_FORMAT_ZTELOG)
 	unsigned int process_id;
 	pid_t pid;
 	char comm[TASK_COMM_LEN];
@@ -1664,7 +1664,7 @@ static bool cont_add(int facility, int level, const char *text, size_t len)
 		cont.cons = 0;
 		cont.flushed = false;
 		
-		#if defined(CONFIG_TIME_FORMAT_ZFGLOG)
+		#if defined(CONFIG_TIME_FORMAT_ZTELOG)
 		cont.ts = current_kernel_time();
 		cont.process_id = smp_processor_id();
 		cont.pid = current->pid;
@@ -1690,7 +1690,7 @@ static size_t cont_print_text(char *text, size_t size)
 	if (cont.cons == 0 && (console_prev & LOG_NEWLINE)) {
 
 		
-		#if defined(CONFIG_TIME_FORMAT_ZFGLOG)
+		#if defined(CONFIG_TIME_FORMAT_ZTELOG)
 		textlen += print_time(cont.ts, text,  cont.process_id, cont.pid, cont.comm);
 		#else
 		textlen += print_time(cont.ts_nsec, text);
@@ -2119,7 +2119,7 @@ int update_console_cmdline(char *name, int idx, char *name_new, int idx_new, cha
 }
 
 
-#if defined(CONFIG_TIME_FORMAT_ZFGLOG)
+#if defined(CONFIG_TIME_FORMAT_ZTELOG)
 bool console_suspend_enabled = false;
 #else
 bool console_suspend_enabled = true;
@@ -2753,7 +2753,7 @@ static int __init printk_late_init(void)
 	}
 	hotcpu_notifier(console_cpu_notify, 0);
 	
-	pr_info("zfg log address __log_buf: 0x%p\n", __log_buf);
+	pr_info("zte log address __log_buf: 0x%p\n", __log_buf);
 	return 0;
 }
 late_initcall(printk_late_init);

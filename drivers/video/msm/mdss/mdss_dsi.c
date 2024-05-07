@@ -35,13 +35,13 @@
 #include "mdss_dba_utils.h"
 
 
-#ifdef CONFIG_ZFG_LCD_COMMON_FUNCTION
-#include "zfg_lcd_common.h"
+#ifdef CONFIG_ZTE_LCD_COMMON_FUNCTION
+#include "zte_lcd_common.h"
 
-extern struct mdss_dsi_ctrl_pdata *g_zfg_ctrl_pdata;
+extern struct mdss_dsi_ctrl_pdata *g_zte_ctrl_pdata;
 extern bool tp_enable_wakeup_gesture_state; /*add by yujianhua for tp gesture*/
 extern bool lcd_tp_rst_vdd_sleep_keephigh_for_hx83112a; /*tp reset low for hx83112 ic in sleep mode*/
-extern int zfg_mdss_dsi_panel_resume_ctrl_reset(struct mdss_panel_data *pdata);
+extern int zte_mdss_dsi_panel_resume_ctrl_reset(struct mdss_panel_data *pdata);
 #endif
 
 
@@ -305,10 +305,10 @@ static int mdss_dsi_panel_power_off(struct mdss_panel_data *pdata)
 
 	if (mdss_dsi_pinctrl_set_state(ctrl_pdata, false))
 		pr_debug("reset disable: pinctrl not enabled\n");
-	#if defined(CONFIG_ZFG_LCD_COMMON_FUNCTION) && defined(CONFIG_ZFG_LCD_GPIO_CTRL_POWER)
+	#if defined(CONFIG_ZTE_LCD_COMMON_FUNCTION) && defined(CONFIG_ZTE_LCD_GPIO_CTRL_POWER)
 	/*add by yujianhua for tp gesture,don't shutdown vsp vsn power*/
 		if (tp_enable_wakeup_gesture_state == false) {
-			g_zfg_ctrl_pdata->zfg_lcd_ctrl->gpio_enable_lcd_power(pdata, 0);
+			g_zte_ctrl_pdata->zte_lcd_ctrl->gpio_enable_lcd_power(pdata, 0);
 		}
 	#endif
 	ret = msm_dss_enable_vreg(
@@ -336,9 +336,9 @@ static int mdss_dsi_panel_power_on(struct mdss_panel_data *pdata)
 	ctrl_pdata = container_of(pdata, struct mdss_dsi_ctrl_pdata,
 				panel_data);
 
-#ifdef CONFIG_ZFG_LCD_COMMON_FUNCTION
+#ifdef CONFIG_ZTE_LCD_COMMON_FUNCTION
 	if (lcd_tp_rst_vdd_sleep_keephigh_for_hx83112a) {
-		zfg_mdss_dsi_panel_resume_ctrl_reset(pdata);
+		zte_mdss_dsi_panel_resume_ctrl_reset(pdata);
 	}
 #endif
 
@@ -351,8 +351,8 @@ static int mdss_dsi_panel_power_on(struct mdss_panel_data *pdata)
 		return ret;
 	}
 
-#if defined(CONFIG_ZFG_LCD_COMMON_FUNCTION) && defined(CONFIG_ZFG_LCD_GPIO_CTRL_POWER)
-	g_zfg_ctrl_pdata->zfg_lcd_ctrl->gpio_enable_lcd_power(pdata, 1);
+#if defined(CONFIG_ZTE_LCD_COMMON_FUNCTION) && defined(CONFIG_ZTE_LCD_GPIO_CTRL_POWER)
+	g_zte_ctrl_pdata->zte_lcd_ctrl->gpio_enable_lcd_power(pdata, 1);
 #endif
 
 	/*
@@ -4102,8 +4102,8 @@ static int mdss_dsi_parse_gpio_params(struct platform_device *ctrl_pdev,
 	 * If disp_en_gpio has been set previously (disp_en_gpio > 0)
 	 *  while parsing the panel node, then do not override it
 	 */
-#ifdef CONFIG_ZFG_LCD_GPIO_CTRL_POWER
-	zfg_gpio_ctrl_lcd_power_init(ctrl_pdev, ctrl_pdata);
+#ifdef CONFIG_ZTE_LCD_GPIO_CTRL_POWER
+	zte_gpio_ctrl_lcd_power_init(ctrl_pdev, ctrl_pdata);
 #endif
 	if (ctrl_pdata->disp_en_gpio <= 0) {
 		ctrl_pdata->disp_en_gpio = of_get_named_gpio(

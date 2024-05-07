@@ -38,7 +38,7 @@
 #include <linux/delay.h>
 #include <linux/input.h>
 #include <linux/platform_device.h>
-#include <linux/input/zfg_synaptics_dsx.h>
+#include <linux/input/zte_synaptics_dsx.h>
 #include "synaptics_dsx_core.h"
 
 #define GESTURE_PHYS_NAME "synaptics_dsx/gesture"

@@ -1,5 +1,5 @@
 /*
- * device tree for zfg guldan board
+ * device tree for zte guldan board
  */
 &soc {
 	tlmm: pinctrl@1000000 {
@@ -92,8 +92,8 @@
 		// goodix pinctrl end
 	};
 
-	zfg_vibrator {
-		compatible = "zfg-vibrator";
+	zte_vibrator {
+		compatible = "zte-vibrator";
 		vibrator_pm_en{
 			vibrator_pm_gpio = <&pm8937_gpios 1 0x0>;
 			label = "vibrator_pm_gpio";
@@ -139,8 +139,8 @@
 		interrupt-names = "goodix_wake_up";
 	};
 
-	zfg-gpio-leds {
-		compatible = "zfg-gpio-leds";
+	zte-gpio-leds {
+		compatible = "zte-gpio-leds";
 		charger-red-led {
 			red = <&pm8937_gpios 7 0x0>;
 			label = "red";
@@ -159,12 +159,12 @@
 			qcom,use-blink;
 			pwms = <&pm8937_pwm 0 0>;
 			qcom,pwm-names = "red-led";
-			zfg,is-operator-sprint = "no";
+			zte,is-operator-sprint = "no";
 		};
 	};
 
-	zfg-gpio-leds {
-		compatible = "zfg-gpio-leds";
+	zte-gpio-leds {
+		compatible = "zte-gpio-leds";
 		charger-green-led {
 			green = <&pm8937_gpios 8 0x0>;
 			label = "green";
@@ -183,14 +183,14 @@
 			qcom,use-blink;
 			pwms = <&pm8937_pwm 0 0>;
 			qcom,pwm-names = "green-led";
-			zfg,is-operator-sprint = "no";
+			zte,is-operator-sprint = "no";
 		};
 	};
 };
 
 &i2c_2 {
 	ti2419x_otg_supply: ti2419x-chg@6B {
-		compatible = "zfg,ti2419x-chg";
+		compatible = "zte,ti2419x-chg";
 		reg = <0x6B>;
 		interrupt-parent = <&tlmm>;
 		interrupts = <61 2>;
@@ -198,29 +198,29 @@
 		pinctrl-0 = <&smb_int_default>;
 		regulator-name = "ti2419x_otg_vreg";
 
-		zfg,float-voltage-mv = <4350>;
-		zfg,iterm-ma = <150>;
+		zte,float-voltage-mv = <4350>;
+		zte,iterm-ma = <150>;
 		
 		
-		zfg,recharge-thresh-mv = <100>;
-		zfg,warm_recharge-thresh-mv = <50>;
-		zfg,vbatdet-max-err-mv = <20>;
-		zfg,charging-timeout = <10>;
-		zfg,input_voltage_mv = <4520>;
-		zfg,max_usb_current = <3000>;
-		zfg,max_battery_current = <3000>;
-		zfg,thermal-mitigation = <2200 1500 900 500 0>;
-		zfg,warm_bat_mv = <4208>;
-		zfg,cool_bat_mv = <4208>;
-		zfg,warm-bat-decidegc = <440>;
-		zfg,cool-bat-decidegc = <100>;
-		zfg,hot-bat-decidegc = <500>;
-		zfg,cold-bat-decidegc = <20>;
-		zfg,warm_bat_chg_ma = <512>;
-		zfg,cool_bat_chg_ma = <512>;
+		zte,recharge-thresh-mv = <100>;
+		zte,warm_recharge-thresh-mv = <50>;
+		zte,vbatdet-max-err-mv = <20>;
+		zte,charging-timeout = <10>;
+		zte,input_voltage_mv = <4520>;
+		zte,max_usb_current = <3000>;
+		zte,max_battery_current = <3000>;
+		zte,thermal-mitigation = <2200 1500 900 500 0>;
+		zte,warm_bat_mv = <4208>;
+		zte,cool_bat_mv = <4208>;
+		zte,warm-bat-decidegc = <440>;
+		zte,cool-bat-decidegc = <100>;
+		zte,hot-bat-decidegc = <500>;
+		zte,cold-bat-decidegc = <20>;
+		zte,warm_bat_chg_ma = <512>;
+		zte,cool_bat_chg_ma = <512>;
 		qcom,tichg-vadc = <&pm8937_vadc>;
-		zfg,batt-hot-percentage = <20>; /*Only for k81:-5~49*/
-		zfg,batt-cold-percentage= <75>; /*Only for k81:-5~49*/
+		zte,batt-hot-percentage = <20>; /*Only for k81:-5~49*/
+		zte,batt-cold-percentage= <75>; /*Only for k81:-5~49*/
 	};
 
 	bq27426@55 {
@@ -235,9 +235,9 @@
 &spmi_bus {
 	qcom,pm8937@0 {
 		spmi_lite {
-			compatible = "zfg,spmi-lite";
-			zfg,led_red_gpio = <7>;
-			zfg,led_green_gpio = <8>;
+			compatible = "zte,spmi-lite";
+			zte,led_red_gpio = <7>;
+			zte,led_green_gpio = <8>;
 		};
 
 		pm8937_gpios: gpios {

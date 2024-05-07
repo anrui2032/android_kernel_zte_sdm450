@@ -13,8 +13,8 @@ bool ti65132b_probe = false;
 
 #define LCM_VSP_VSN_55V  0x0F
 #define LCM_VSP_VSN_50V  0x0a
-#define ZFG_LCD_VPOS_ADDRESS		0x00
-#define ZFG_LCD_VNEG_ADDRESS		0x01
+#define ZTE_LCD_VPOS_ADDRESS		0x00
+#define ZTE_LCD_VNEG_ADDRESS		0x01
 
 int tps65132b_read_reg(struct i2c_client *client, u8 *buf, u8 *data)
 {

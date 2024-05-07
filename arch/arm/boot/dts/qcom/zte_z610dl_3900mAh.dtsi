@@ -1,11 +1,11 @@
 
-qcom,zfg_z610dl_3900mAh {
+qcom,zte_z610dl_3900mAh {
 	
 	qcom,max-voltage-uv = <4400000>;
 	qcom,nom-batt-capacity-mah = <3900>;
 	qcom,batt-id-kohm = <20>;
 	qcom,battery-beta = <4050>;
-	qcom,battery-type = "ZFG_BATTERY_DATA_ID_1";
+	qcom,battery-type = "ZTE_BATTERY_DATA_ID_1";
 	qcom,chg-rslow-comp-c1 = <3634438>;
 	qcom,chg-rslow-comp-c2 = <6024067>;
 	qcom,chg-rs-to-rslow = <638563>;

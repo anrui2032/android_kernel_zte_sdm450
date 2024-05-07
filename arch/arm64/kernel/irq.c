@@ -34,41 +34,41 @@
 unsigned long irq_err_count;
 
 
-int zfg_smd_wakeup = 0;
-int zfg_smd_qmi_wakeup = 0;
+int zte_smd_wakeup = 0;
+int zte_smd_qmi_wakeup = 0;
 static void qmi_wakeup_clear_timer_func(unsigned long dummy);
 static DEFINE_TIMER(qmi_wakeup_clear, qmi_wakeup_clear_timer_func, 0, 0);
 
 static void qmi_wakeup_clear_timer_func(unsigned long dummy)
 {
-	zfg_smd_qmi_wakeup = 0;
+	zte_smd_qmi_wakeup = 0;
 }
 
 void print_irq_info(int i)
 {
 	struct irqaction *action;
-	struct irq_desc *zfg_irq_desc;
+	struct irq_desc *zte_irq_desc;
 	unsigned long flags;
 
-	zfg_irq_desc = irq_to_desc(i);
-	if (!zfg_irq_desc) {
+	zte_irq_desc = irq_to_desc(i);
+	if (!zte_irq_desc) {
 		pr_err("[IRQ] error in dump irq info for irq %d\n", i);
 		return;
 	}
-	raw_spin_lock_irqsave(&zfg_irq_desc->lock, flags);
-	action = zfg_irq_desc->action;
+	raw_spin_lock_irqsave(&zte_irq_desc->lock, flags);
+	action = zte_irq_desc->action;
 	if (!action)
 		goto unlock;
 
 	pr_err("[IRQ] IRQ-NUM=%d\n", i);
-	pr_err("	chip->name=%10s\n", zfg_irq_desc->irq_data.chip->name ? : "-");
+	pr_err("	chip->name=%10s\n", zte_irq_desc->irq_data.chip->name ? : "-");
 	pr_err("	action->name=%s\n", action->name);
 
 	/*notes:adb shell cat /proc/interrupts | grep smd*/
 	
 		if (!strcmp(action->name, "qcom,smd-modem")) {
-			zfg_smd_wakeup = 1;
-			zfg_smd_qmi_wakeup = 1;
+			zte_smd_wakeup = 1;
+			zte_smd_qmi_wakeup = 1;
 			mod_timer(&qmi_wakeup_clear, jiffies + msecs_to_jiffies(50));
 		}
 
@@ -76,7 +76,7 @@ void print_irq_info(int i)
 		pr_err("	action->name=%s\n", action->name);
 
 unlock:
-	raw_spin_unlock_irqrestore(&zfg_irq_desc->lock, flags);
+	raw_spin_unlock_irqrestore(&zte_irq_desc->lock, flags);
 }
 
 

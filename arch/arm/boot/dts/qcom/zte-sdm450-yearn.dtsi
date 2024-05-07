@@ -11,9 +11,9 @@
  * GNU General Public License for more details.
  */
 
-#include "sdm450-camera-sensor-zfg-blaze.dtsi"
+#include "sdm450-camera-sensor-zte-blaze.dtsi"
 
-#include "dsi-panel-zfg-tianma-ft8719-6p2-1080p-video.dtsi"
+#include "dsi-panel-zte-tianma-ft8719-6p2-1080p-video.dtsi"
 
 #include "touch-key-backlight-yearn.dtsi"
 
@@ -196,8 +196,8 @@
 	qcom,dsi-pref-prim-pan = <&dsi_tianma_ft8719_1080p_video>;
 	pinctrl-0 = <&mdss_dsi_active &mdss_te_active &lcd_ids_active>;
 	qcom,platform-bklight-en-gpio = <&tlmm 41 0>;
-	zfg,disp_vsp_en_gpio = <&tlmm 44 0>;
-	zfg,disp_vsn_en_gpio = <&tlmm 45 0>;
+	zte,disp_vsp_en_gpio = <&tlmm 44 0>;
+	zte,disp_vsn_en_gpio = <&tlmm 45 0>;
 	/delete-property/lab-supply;
 	/delete-property/ibb-supply;
 };
@@ -324,9 +324,9 @@
 		interrupts = <0 98 0>;
 	};
 
-	zfg_vibrator {
-		compatible = "zfg_vibrator";
-		zfg,motor_en_gpio = <&tlmm 60 0x0>;
+	zte_vibrator {
+		compatible = "zte_vibrator";
+		zte,motor_en_gpio = <&tlmm 60 0x0>;
 		linux,output-type = <0>;
 	};
 

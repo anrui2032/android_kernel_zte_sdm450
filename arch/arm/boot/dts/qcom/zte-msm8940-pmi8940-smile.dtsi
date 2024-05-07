@@ -12,10 +12,10 @@
  */
 
 //#include "dsi-panel-hx8399c-lead-1080p-video.dtsi" /*add by yujianhua for V8*/
-#include "zfg-smile-dsi-panel-skyworth-ili9881c-720p-video.dtsi"
-#include "zfg-smile-dsi-panel-lead-hx8394f-720p-video.dtsi"
-#include "zfg-smile-dsi-panel-xinli-otm1290a-5p45-720p-video.dtsi"
-#include "zfg-smile-dsi-panel-helitech-st7703-720p-video.dtsi"
+#include "zte-smile-dsi-panel-skyworth-ili9881c-720p-video.dtsi"
+#include "zte-smile-dsi-panel-lead-hx8394f-720p-video.dtsi"
+#include "zte-smile-dsi-panel-xinli-otm1290a-5p45-720p-video.dtsi"
+#include "zte-smile-dsi-panel-helitech-st7703-720p-video.dtsi"
 
 &i2c_2 {
 	bq24297-charger@6b {
@@ -195,8 +195,8 @@
 		goodix,gpio_pwr = <&tlmm 95 0>;
 		interrupt-names = "goodix_wake_up";
 	};
-	zfg_misc {
-		compatible = "zfg-misc";
+	zte_misc {
+		compatible = "zte-misc";
 	};
 	
 
@@ -250,9 +250,9 @@
 		/delete-property/ debounce-interval;
 		};
 	};
-	zfg_vibrator {
-		compatible = "zfg_vibrator";
-		zfg,motor_en_gpio = <&tlmm 47 0x0>;
+	zte_vibrator {
+		compatible = "zte_vibrator";
+		zte,motor_en_gpio = <&tlmm 47 0x0>;
 		linux,output-type = <0>;
 	};
 };
@@ -378,7 +378,7 @@
 		qcom,msm-mbhc-hphl-swh = <1>;
 		qcom,msm-mbhc-gnd-swh = <1>;
 		qcom,msm-hs-micbias-type = "internal";
-		zfg,speaker-mode-switch-gpios = <&tlmm 68 0x0>;
+		zte,speaker-mode-switch-gpios = <&tlmm 68 0x0>;
 		qcom,audio-routing =
 			"RX_BIAS", "MCLK",
 			"SPK_RX_BIAS", "MCLK",

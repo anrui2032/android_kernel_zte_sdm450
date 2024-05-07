@@ -421,10 +421,10 @@ static long smd_pkt_ioctl(struct file *file, unsigned int cmd,
 }
 
 
-extern int zfg_qmi_data_wakeup;
-extern int zfg_qmi_state_change_wakeup;
+extern int zte_qmi_data_wakeup;
+extern int zte_qmi_state_change_wakeup;
 unsigned char is_qmi_channel(char *channel_name);
-extern int zfg_smd_wakeup;
+extern int zte_smd_wakeup;
 
 
 ssize_t smd_pkt_read(struct file *file,
@@ -565,10 +565,10 @@ wait_for_packet:
 	} while (pkt_size != bytes_read);
 
 	
-	if (zfg_smd_wakeup) {
+	if (zte_smd_wakeup) {
 		pr_info("SMD ch %u  data event ", smd_pkt_devp->ch->n);
 		pr_info("SMD ch %s data event ", &smd_pkt_devp->ch->name[0]);
-		zfg_smd_wakeup = 0;
+		zte_smd_wakeup = 0;
 	}
 	
 
@@ -590,7 +590,7 @@ wait_for_packet:
 	printk("channel n=%d name=%s add=0x%p\n",smd_pkt_devp->ch->n,smd_pkt_devp->ch->name,buf);
 	 */
 
-	if (zfg_qmi_data_wakeup && is_qmi_channel(smd_pkt_devp->ch->name)) {
+	if (zte_qmi_data_wakeup && is_qmi_channel(smd_pkt_devp->ch->name)) {
 		if (bytes_read	> 15 && (buf != NULL)) {
 			char *buf_debug = (char *)buf;
 
@@ -601,12 +601,12 @@ wait_for_packet:
 			ctrl_type = *(buf_debug + 6);
 			traction_id = (*(buf_debug + 7) << 8) + *(buf_debug + 8);
 			message_id = (*(buf_debug + 10) << 8) + *(buf_debug + 9);
-			pr_info("ZFG_PM QMI recev: channel %s, I/F type:0x%x,service_id:0x%x, client_id: 0x%x\n",
+			pr_info("ZTE_PM QMI recev: channel %s, I/F type:0x%x,service_id:0x%x, client_id: 0x%x\n",
 					smd_pkt_devp->ch->name, i_f_type, service_id, client_id);
-			pr_info("ZFG_PM QMI recev: ctrl_type:0x%x, traction_id:0x%x, message_id:0x%x\n",
+			pr_info("ZTE_PM QMI recev: ctrl_type:0x%x, traction_id:0x%x, message_id:0x%x\n",
 					ctrl_type, traction_id, message_id);
 		}
-		zfg_qmi_data_wakeup = 0;
+		zte_qmi_data_wakeup = 0;
 	}
 	
 

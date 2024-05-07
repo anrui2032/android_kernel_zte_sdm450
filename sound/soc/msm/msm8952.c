@@ -82,7 +82,7 @@ static int msm8952_wsa_switch_event(struct snd_soc_dapm_widget *w,
 			      struct snd_kcontrol *kcontrol, int event);
 
 
-#if defined(CONFIG_ZFG_USE_AMP_AW87316)
+#if defined(CONFIG_ZTE_USE_AMP_AW87316)
 static int spk_mode_gpio = -1;
 static int spk_mode = 0;
 
@@ -284,7 +284,7 @@ int is_ext_spk_gpio_support(struct platform_device *pdev,
 
 
 
-#if defined(CONFIG_ZFG_USE_AMP_AW87316)
+#if defined(CONFIG_ZTE_USE_AMP_AW87316)
 static int enable_spk_ext_pa(struct snd_soc_codec *codec, int enable)
 {
 	if (enable == 1) {
@@ -851,7 +851,7 @@ static int mi2s_rx_bit_format_put(struct snd_kcontrol *kcontrol,
 }
 
 
-#if defined(CONFIG_ZFG_USE_AMP_AW87316)
+#if defined(CONFIG_ZTE_USE_AMP_AW87316)
 static const char * const msm8x16_wcd_spk_mode_ctrl_text[] = {
 		 "ZERO", "MODE1", "MODE2", "MODE3", "MODE4",};
 static const struct soc_enum msm8x16_wcd_spk_mode_ctl_enum[] = {
@@ -1177,7 +1177,7 @@ static const struct soc_enum msm_snd_enum[] = {
 
 static const struct snd_kcontrol_new msm_snd_controls[] = {
 
-#ifdef CONFIG_ZFG_USE_AMP_AW87316
+#ifdef CONFIG_ZTE_USE_AMP_AW87316
 	SOC_ENUM_EXT("Speaker mode", msm8x16_wcd_spk_mode_ctl_enum[0],
 		msm8x16_wcd_speaker_mode_get, msm8x16_wcd_speaker_mode_put),
 #endif
@@ -2267,7 +2267,7 @@ static struct snd_soc_dai_link msm8952_dai[] = {
 		.be_id = MSM_FRONTEND_DAI_MULTIMEDIA7,
 	},
 
-#ifdef CONFIG_ZFG_FEATURE_NXP9897_SMART_PA
+#ifdef CONFIG_ZTE_FEATURE_NXP9897_SMART_PA
 	{ /* hw:x,25 */
 		.name = "QUIN_MI2S Hostless",
 		.stream_name = "QUIN_MI2S Hostless",
@@ -2285,7 +2285,7 @@ static struct snd_soc_dai_link msm8952_dai[] = {
 		.codec_dai_name = "tfa98xx-aif-2-34",
 		.codec_name = "tfa98xx.2-0034",
 	},
-#elif defined CONFIG_ZFG_FEATURE_NXP9896_SMART_PA
+#elif defined CONFIG_ZTE_FEATURE_NXP9896_SMART_PA
 	{ /* hw:x,25 */
 		.name = "QUIN_MI2S Hostless",
 		.stream_name = "QUIN_MI2S Hostless",
@@ -2300,7 +2300,7 @@ static struct snd_soc_dai_link msm8952_dai[] = {
 		/* this dainlink has playback support */
 		.be_id = MSM_BACKEND_DAI_QUINARY_MI2S_RX,
 		.ignore_pmdown_time = 1,
-		#ifdef CONFIG_ZFG_FEATURE_NXP98XX_SMART_PA_I2C8
+		#ifdef CONFIG_ZTE_FEATURE_NXP98XX_SMART_PA_I2C8
 		.codec_dai_name = "tfa98xx-aif-8-34",
 		.codec_name = "tfa98xx.8-0034",
 		#else
@@ -2308,7 +2308,7 @@ static struct snd_soc_dai_link msm8952_dai[] = {
 		.codec_name = "tfa98xx.2-0034",
 		#endif
 	},
-#elif defined CONFIG_ZFG_FEATURE_NXP9888_SMART_PA
+#elif defined CONFIG_ZTE_FEATURE_NXP9888_SMART_PA
 	{ /* hw:x,25 */
 		.name = "QUAT_MI2S Hostless",
 		.stream_name = "QUAT_MI2S Hostless",
@@ -2325,7 +2325,7 @@ static struct snd_soc_dai_link msm8952_dai[] = {
 		.codec_dai_name = "tfa98xx-aif-8-34",
 		.codec_name = "tfa9888.8-0034",
 	},
-#elif defined CONFIG_ZFG_FEATURE_NXP9890_SMART_PA
+#elif defined CONFIG_ZTE_FEATURE_NXP9890_SMART_PA
 	{ /* hw:x,25 */
 		.name = "QUAT_MI2S Hostless",
 		.stream_name = "QUAT_MI2S Hostless",
@@ -2686,10 +2686,10 @@ static struct snd_soc_dai_link msm8952_dai[] = {
 		.stream_name = "Quaternary MI2S Playback",
 		.cpu_dai_name = "msm-dai-q6-mi2s.3",
 		.platform_name = "msm-pcm-routing",
-#ifdef CONFIG_ZFG_FEATURE_NXP9888_SMART_PA
+#ifdef CONFIG_ZTE_FEATURE_NXP9888_SMART_PA
 		.codec_dai_name = "tfa98xx-aif-8-34",
 		.codec_name = "tfa9888.8-0034",
-#elif defined CONFIG_ZFG_FEATURE_NXP9890_SMART_PA
+#elif defined CONFIG_ZTE_FEATURE_NXP9890_SMART_PA
 		.codec_dai_name = "tfa98xx-aif-5-34",
 		.codec_name = "tfa98xx.5-0034",
 #else
@@ -2929,11 +2929,11 @@ static struct snd_soc_dai_link msm8952_quin_dai_link[] = {
 		.cpu_dai_name = "msm-dai-q6-mi2s.5",
 		.platform_name = "msm-pcm-routing",
 
-	#ifdef CONFIG_ZFG_FEATURE_NXP9897_SMART_PA
+	#ifdef CONFIG_ZTE_FEATURE_NXP9897_SMART_PA
 		.codec_dai_name = "tfa98xx-aif-2-34",
 		.codec_name = "tfa98xx.2-0034",
-	#elif defined CONFIG_ZFG_FEATURE_NXP9896_SMART_PA
-		#ifdef CONFIG_ZFG_FEATURE_NXP98XX_SMART_PA_I2C8
+	#elif defined CONFIG_ZTE_FEATURE_NXP9896_SMART_PA
+		#ifdef CONFIG_ZTE_FEATURE_NXP98XX_SMART_PA_I2C8
 		.codec_dai_name = "tfa98xx-aif-8-34",
 		.codec_name = "tfa98xx.8-0034",
 		#else
@@ -3565,7 +3565,7 @@ parse_mclk_freq:
 	atomic_set(&quin_mi2s_clk_ref, 0);
 	atomic_set(&auxpcm_mi2s_clk_ref, 0);
 
-#ifdef CONFIG_ZFG_USE_AMP_AW87316
+#ifdef CONFIG_ZTE_USE_AMP_AW87316
 	mutex_init(&cdc_spk_mutex);
 #endif
 
@@ -3587,18 +3587,18 @@ parse_mclk_freq:
 		goto err;
 	}
 
-#ifdef CONFIG_ZFG_USE_AMP_AW87316
+#ifdef CONFIG_ZTE_USE_AMP_AW87316
 if (spk_mode_gpio < 0) {
 	spk_mode_gpio = of_get_named_gpio(pdev->dev.of_node,
-			"zfg,speaker-mode-switch-gpios", 0);
+			"zte,speaker-mode-switch-gpios", 0);
 	if (spk_mode_gpio < 0) {
 		dev_err(&pdev->dev,
 			"Looking up %s property in node %s failed %d\n",
-			"zfg,speaker-mode-switch-gpios",
+			"zte,speaker-mode-switch-gpios",
 			pdev->dev.of_node->full_name, spk_mode_gpio);
 	} else {
 		ret = gpio_request(spk_mode_gpio,
-				"ZFG_SPEAKER_MODE");
+				"ZTE_SPEAKER_MODE");
 		if (ret) {
 			/* GPIO to enable speaker mode exists, but failed request */
 			dev_err(&pdev->dev,
@@ -3619,11 +3619,11 @@ if (spk_mode_gpio < 0) {
 
 
 		
-	dev_err(&pdev->dev, "zfg add register card sound success\n");
+	dev_err(&pdev->dev, "zte add register card sound success\n");
 		
 	return 0;
 
-#ifdef CONFIG_ZFG_USE_AMP_AW87316
+#ifdef CONFIG_ZTE_USE_AMP_AW87316
 err_spkr_mode:
 	if (spk_mode_gpio >= 0) {
 		gpio_free(spk_mode_gpio);

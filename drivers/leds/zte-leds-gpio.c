@@ -31,7 +31,7 @@
 #define LED_GPIO_MODE_SINK		(0x06 << 4)
 #define PWM_MODE 0
 
-struct zfg_pwm_config_data {
+struct zte_pwm_config_data {
 	struct pwm_device	*pwm_dev;
 	u32			pwm_period_us;
 	struct pwm_duty_cycles	*duty_cycles;
@@ -43,8 +43,8 @@ struct zfg_pwm_config_data {
 	bool blinking;
 };
 
-struct zfg_gpio_config_data {
-	struct zfg_pwm_config_data	*pwm_cfg;
+struct zte_gpio_config_data {
+	struct zte_pwm_config_data	*pwm_cfg;
 	u8	current_setting;
 	u8	source_sel;
 	u8	mode_ctrl;
@@ -54,9 +54,9 @@ struct zfg_gpio_config_data {
 	bool	enable;
 };
 
-struct zfg_gpio_led_data {
+struct zte_gpio_led_data {
 	struct led_classdev cdev;
-	struct zfg_gpio_config_data *gpio_cfg;
+	struct zte_gpio_config_data *gpio_cfg;
 	unsigned gpio;
 	struct work_struct work;
 	struct mutex lock;
@@ -69,12 +69,12 @@ struct zfg_gpio_led_data {
 	bool	is_operator_sprint;
 };
 
-extern void zfg_led_spmi_write(bool red_on, bool green_on, int blink);
+extern void zte_led_spmi_write(bool red_on, bool green_on, int blink);
 
 static bool red_led_on	= false;
 static bool green_led_on = false;
 
-static void update_led_state(struct zfg_gpio_led_data *led)
+static void update_led_state(struct zte_gpio_led_data *led)
 {
 	if (!strcmp(led->cdev.name, "red")) {
 		if (led->cdev.brightness)
@@ -95,8 +95,8 @@ static void update_led_state(struct zfg_gpio_led_data *led)
 
 static void gpio_led_work(struct work_struct *work)
 {
-	struct zfg_gpio_led_data *led_dat =
-		container_of(work, struct zfg_gpio_led_data, work);
+	struct zte_gpio_led_data *led_dat =
+		container_of(work, struct zte_gpio_led_data, work);
 
 	if (led_dat->blinking) {
 		led_dat->platform_gpio_blink_set(led_dat->gpio,
@@ -110,8 +110,8 @@ static void gpio_led_work(struct work_struct *work)
 static void gpio_led_set(struct led_classdev *led_cdev,
 	enum led_brightness value)
 {
-	struct zfg_gpio_led_data *led_dat =
-		container_of(led_cdev, struct zfg_gpio_led_data, cdev);
+	struct zte_gpio_led_data *led_dat =
+		container_of(led_cdev, struct zte_gpio_led_data, cdev);
 	int level;
 	int rc;
 
@@ -161,7 +161,7 @@ static void gpio_led_set(struct led_classdev *led_cdev,
 					pr_info("LEDLOG: set %s, br=%d, blink=%d\n", led_dat->cdev.name,
 						led_dat->cdev.brightness, led_dat->gpio_cfg->pwm_cfg->blinking);
 				}
-				zfg_led_spmi_write(red_led_on, green_led_on, led_dat->gpio_cfg->pwm_cfg->blinking);
+				zte_led_spmi_write(red_led_on, green_led_on, led_dat->gpio_cfg->pwm_cfg->blinking);
 			}
 		}
 	}
@@ -170,8 +170,8 @@ static void gpio_led_set(struct led_classdev *led_cdev,
 static int gpio_blink_set(struct led_classdev *led_cdev,
 	unsigned long *delay_on, unsigned long *delay_off)
 {
-	struct zfg_gpio_led_data *led_dat =
-		container_of(led_cdev, struct zfg_gpio_led_data, cdev);
+	struct zte_gpio_led_data *led_dat =
+		container_of(led_cdev, struct zte_gpio_led_data, cdev);
 
 	led_dat->blinking = 1;
 	return led_dat->platform_gpio_blink_set(led_dat->gpio, GPIO_LED_BLINK,
@@ -179,7 +179,7 @@ static int gpio_blink_set(struct led_classdev *led_cdev,
 }
 
 static int create_gpio_led(const struct gpio_led *template,
-	struct zfg_gpio_led_data *led_dat, struct device *parent,
+	struct zte_gpio_led_data *led_dat, struct device *parent,
 	int (*blink_set)(unsigned, int, unsigned long *, unsigned long *))
 {
 	int ret, state;
@@ -225,7 +225,7 @@ static int create_gpio_led(const struct gpio_led *template,
 	return 0;
 }
 
-static void delete_gpio_led(struct zfg_gpio_led_data *led)
+static void delete_gpio_led(struct zte_gpio_led_data *led)
 {
 	if (!gpio_is_valid(led->gpio))
 		return;
@@ -234,8 +234,8 @@ static void delete_gpio_led(struct zfg_gpio_led_data *led)
 }
 
 
-static void led_blink(struct zfg_gpio_led_data *led,
-			struct zfg_pwm_config_data *pwm_cfg)
+static void led_blink(struct zte_gpio_led_data *led,
+			struct zte_pwm_config_data *pwm_cfg)
 {
 	flush_work(&led->work);
 	mutex_lock(&led->lock);
@@ -259,10 +259,10 @@ static void led_blink(struct zfg_gpio_led_data *led,
 
 static ssize_t blink_show(struct device *dev, struct device_attribute *attr, char *buf)
 {
-	struct zfg_gpio_led_data *led;
+	struct zte_gpio_led_data *led;
 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
 
-	led = container_of(led_cdev, struct zfg_gpio_led_data, cdev);
+	led = container_of(led_cdev, struct zte_gpio_led_data, cdev);
 	return snprintf(buf, 10, "%d\n", led->cdev.blink_value);
 }
 
@@ -270,7 +270,7 @@ static ssize_t blink_store(struct device *dev,
 	struct device_attribute *attr,
 	const char *buf, size_t count)
 {
-	struct zfg_gpio_led_data *led;
+	struct zte_gpio_led_data *led;
 	unsigned long blinking;
 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
 	ssize_t ret = -EINVAL;
@@ -278,7 +278,7 @@ static ssize_t blink_store(struct device *dev,
 	ret = kstrtoul(buf, 10, &blinking);
 	if (ret)
 		return ret;
-	led = container_of(led_cdev, struct zfg_gpio_led_data, cdev);
+	led = container_of(led_cdev, struct zte_gpio_led_data, cdev);
 	led->cdev.brightness = blinking ? led->cdev.max_brightness : 0;
 	if (led->gpio_cfg && led->gpio_cfg->pwm_cfg)
 		led_blink(led, led->gpio_cfg->pwm_cfg);
@@ -299,7 +299,7 @@ static const struct attribute_group blink_attr_group = {
 	.attrs = blink_attrs,
 };
 
-static int qpnp_get_config_pwm(struct zfg_pwm_config_data *pwm_cfg,
+static int qpnp_get_config_pwm(struct zte_pwm_config_data *pwm_cfg,
 				struct platform_device *pdev,
 				struct device_node *node)
 {
@@ -327,7 +327,7 @@ static int qpnp_get_config_pwm(struct zfg_pwm_config_data *pwm_cfg,
 	return 0;
 }
 
-static int qpnp_get_config_gpio(struct zfg_gpio_led_data *led,
+static int qpnp_get_config_gpio(struct zte_gpio_led_data *led,
 	struct platform_device *pdev, struct device_node *node)
 {
 	int rc;
@@ -338,7 +338,7 @@ static int qpnp_get_config_gpio(struct zfg_gpio_led_data *led,
 
 	pr_info("qpnp_get_config_gpio++++++\n");
 	led->gpio_cfg = devm_kzalloc(&pdev->dev,
-			sizeof(struct zfg_gpio_config_data), GFP_KERNEL);
+			sizeof(struct zte_gpio_config_data), GFP_KERNEL);
 	if (!led->gpio_cfg) {
 		dev_err(&pdev->dev, "Unable to allocate memory gpio struct\n");
 		return -ENOMEM;
@@ -377,7 +377,7 @@ static int qpnp_get_config_gpio(struct zfg_gpio_led_data *led,
 		led_mode = PWM_MODE;
 		led->gpio_cfg->pwm_mode = led_mode;
 		led->gpio_cfg->pwm_cfg = devm_kzalloc(&pdev->dev,
-					sizeof(struct zfg_pwm_config_data),
+					sizeof(struct zte_pwm_config_data),
 					GFP_KERNEL);
 		if (!led->gpio_cfg->pwm_cfg) {
 			dev_err(&pdev->dev,
@@ -391,7 +391,7 @@ static int qpnp_get_config_gpio(struct zfg_gpio_led_data *led,
 		goto err_config_gpio;
 
 	led->is_operator_sprint = false;
-	rc = of_property_read_string(node, "zfg,is-operator-sprint",
+	rc = of_property_read_string(node, "zte,is-operator-sprint",
 		&temp_string);
 	if (!rc) {
 		if (strncmp(temp_string, "yes", sizeof("yes")) == 0)
@@ -421,23 +421,23 @@ err_config_gpio:
 	return rc;
 }
 
-struct zfg_gpio_leds_priv {
+struct zte_gpio_leds_priv {
 	int num_leds;
-	struct zfg_gpio_led_data leds[];
+	struct zte_gpio_led_data leds[];
 };
 
-static inline int sizeof_zfg_gpio_leds_priv(int num_leds)
+static inline int sizeof_zte_gpio_leds_priv(int num_leds)
 {
-	return sizeof(struct zfg_gpio_leds_priv) +
-		(sizeof(struct zfg_gpio_led_data) * num_leds);
+	return sizeof(struct zte_gpio_leds_priv) +
+		(sizeof(struct zte_gpio_led_data) * num_leds);
 }
 
 /* Code to create from OpenFirmware platform devices */
 #ifdef CONFIG_OF_GPIO
-static struct zfg_gpio_leds_priv *gpio_leds_create_of(struct platform_device *pdev)
+static struct zte_gpio_leds_priv *gpio_leds_create_of(struct platform_device *pdev)
 {
 	struct device_node *np = pdev->dev.of_node, *child;
-	struct zfg_gpio_leds_priv *priv;
+	struct zte_gpio_leds_priv *priv;
 	int count, ret;
 
 	/* count LEDs in this device, so we know how much to allocate */
@@ -449,7 +449,7 @@ static struct zfg_gpio_leds_priv *gpio_leds_create_of(struct platform_device *pd
 		if (of_get_gpio(child, 0) == -EPROBE_DEFER)
 			return ERR_PTR(-EPROBE_DEFER);
 
-	priv = devm_kzalloc(&pdev->dev, sizeof_zfg_gpio_leds_priv(count),
+	priv = devm_kzalloc(&pdev->dev, sizeof_zte_gpio_leds_priv(count),
 			GFP_KERNEL);
 	if (!priv)
 		return ERR_PTR(-ENOMEM);
@@ -504,13 +504,13 @@ err:
 }
 
 static const struct of_device_id of_gpio_leds_match[] = {
-	{ .compatible = "zfg-gpio-leds", },
+	{ .compatible = "zte-gpio-leds", },
 	{},
 };
 
 MODULE_DEVICE_TABLE(of, of_gpio_leds_match);
 #else /* CONFIG_OF_GPIO */
-static struct zfg_gpio_leds_priv *gpio_leds_create_of(struct platform_device *pdev)
+static struct zte_gpio_leds_priv *gpio_leds_create_of(struct platform_device *pdev)
 {
 	return ERR_PTR(-ENODEV);
 }
@@ -519,12 +519,12 @@ static struct zfg_gpio_leds_priv *gpio_leds_create_of(struct platform_device *pd
 static int gpio_led_probe(struct platform_device *pdev)
 {
 	struct gpio_led_platform_data *pdata = dev_get_platdata(&pdev->dev);
-	struct zfg_gpio_leds_priv *priv;
+	struct zte_gpio_leds_priv *priv;
 	int i, ret = 0;
 
 	if (pdata && pdata->num_leds) {
 		priv = devm_kzalloc(&pdev->dev,
-				sizeof_zfg_gpio_leds_priv(pdata->num_leds),
+				sizeof_zte_gpio_leds_priv(pdata->num_leds),
 					GFP_KERNEL);
 		if (!priv)
 			return -ENOMEM;
@@ -555,7 +555,7 @@ static int gpio_led_probe(struct platform_device *pdev)
 
 static int gpio_led_remove(struct platform_device *pdev)
 {
-	struct zfg_gpio_leds_priv *priv = platform_get_drvdata(pdev);
+	struct zte_gpio_leds_priv *priv = platform_get_drvdata(pdev);
 	int i;
 
 	for (i = 0; i < priv->num_leds; i++)
@@ -568,7 +568,7 @@ static struct platform_driver gpio_led_driver = {
 	.probe		= gpio_led_probe,
 	.remove		= gpio_led_remove,
 	.driver		= {
-		.name	= "zfg-leds-gpio",
+		.name	= "zte-leds-gpio",
 		.owner	= THIS_MODULE,
 		.of_match_table = of_match_ptr(of_gpio_leds_match),
 	},
@@ -577,6 +577,6 @@ static struct platform_driver gpio_led_driver = {
 module_platform_driver(gpio_led_driver);
 
 MODULE_AUTHOR("Raphael Assenat <raph@8d.com>, Trent Piepho <tpiepho@freescale.com>");
-MODULE_DESCRIPTION("ZFG GPIO LED driver");
+MODULE_DESCRIPTION("ZTE GPIO LED driver");
 MODULE_LICENSE("GPL");
 MODULE_ALIAS("platform:leds-gpio");

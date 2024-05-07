@@ -252,7 +252,7 @@ static int f2fs_create(struct inode *dir, struct dentry *dentry, umode_t mode,
 		set_cold_files(sbi, inode, dentry->d_name.name);
 
 	/*
-	* ZFG_MODIFI start, determine whether the file can allocate blocks from reserved segments
+	* ZTE_MODIFI start, determine whether the file can allocate blocks from reserved segments
 	* according to its postfix
 	*/
 	set_reserved_block_files(sbi, inode, dentry->d_name.name);

@@ -10,7 +10,7 @@
  * GNU General Public License for more details.
  */
 
-#define pr_fmt(fmt)	"ZFGCHG:FG: %s: " fmt, __func__
+#define pr_fmt(fmt)	"ZTECHG:FG: %s: " fmt, __func__
 
 #include <linux/atomic.h>
 #include <linux/delay.h>
@@ -2242,8 +2242,8 @@ static int get_monotonic_soc_raw(struct fg_chip *chip)
 	return cap[0];
 }
 
-static int profile_loaded_zfg = 0;
-module_param(profile_loaded_zfg, int, 0644);
+static int profile_loaded_zte = 0;
+module_param(profile_loaded_zte, int, 0644);
 
 #define EMPTY_CAPACITY		0
 #define DEFAULT_CAPACITY	50
@@ -6385,7 +6385,7 @@ fail:
 }
 
 #define REDO_BATID_DURING_FIRST_EST	BIT(4)
-static void zfg_fg_rerun_battery_id(struct fg_chip *chip)
+static void zte_fg_rerun_battery_id(struct fg_chip *chip)
 {
 	u8 reg = 0x80;
 	int res_ms = 1000;
@@ -6465,7 +6465,7 @@ wait:
 							fg_batt_type);
 	if (profile_node == NULL) {
 		pr_err("profile_node is null, rerun battery id.\n");
-		zfg_fg_rerun_battery_id(chip);
+		zte_fg_rerun_battery_id(chip);
 		profile_node = of_batterydata_get_best_profile(batt_node, "bms",
 							fg_batt_type);
 	}
@@ -6687,7 +6687,7 @@ done:
 
 	chip->first_profile_loaded = true;
 	chip->profile_loaded = true;
-	profile_loaded_zfg = true;
+	profile_loaded_zte = true;
 	chip->soc_reporting_ready = true;
 	chip->battery_missing = is_battery_missing(chip);
 	update_chg_iterm(chip);

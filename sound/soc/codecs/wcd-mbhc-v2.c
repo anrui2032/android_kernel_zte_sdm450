@@ -38,12 +38,12 @@
 #include <asm/uaccess.h>
 #include <linux/proc_fs.h>
 
-#if defined(CONFIG_ZFG_USE_AMP_AW87316)
+#if defined(CONFIG_ZTE_USE_AMP_AW87316)
 extern int	aw_speaker_ampify_rtc_mode_get(void);
 #endif
 
 static int hs_type;
-#if defined(CONFIG_ZFG_USE_AMP_AW87316)
+#if defined(CONFIG_ZTE_USE_AMP_AW87316)
 #define WCD_MBHC_JACK_MASK (SND_JACK_HEADSET | SND_JACK_OC_HPHL | \
 			   SND_JACK_OC_HPHR | \
 			   SND_JACK_MECHANICAL | SND_JACK_MICROPHONE2 | \
@@ -89,7 +89,7 @@ enum wcd_mbhc_cs_mb_en_flag {
 };
 
 /*add by yujianhua for headsetkey begin*/
-#ifdef CONFIG_ZFG_HEADSET_BUTTONKEY_CAL
+#ifdef CONFIG_ZTE_HEADSET_BUTTONKEY_CAL
 struct headsetkey_head headset_button;
 struct wcd_mbhc *mbhc_extern;
 extern int headsetkey_init_info_node(void);
@@ -165,7 +165,7 @@ static void wcd_program_btn_threshold(const struct wcd_mbhc *mbhc, bool micbias)
 	struct snd_soc_codec *codec = mbhc->codec;
 	struct snd_soc_card *card = codec->component.card;
 	s16 *btn_low, *btn_high;
-#ifdef CONFIG_ZFG_HEADSET_BUTTONKEY_CAL
+#ifdef CONFIG_ZTE_HEADSET_BUTTONKEY_CAL
 	int i = 0;/*add by yujianhua for headsetkey*/
 #endif
 
@@ -180,7 +180,7 @@ static void wcd_program_btn_threshold(const struct wcd_mbhc *mbhc, bool micbias)
 			(sizeof(btn_det->_v_btn_low[0]) * btn_det->num_btn);
 
 /*add by yujianhua for headsetkey begin*/
-#ifdef CONFIG_ZFG_HEADSET_BUTTONKEY_CAL
+#ifdef CONFIG_ZTE_HEADSET_BUTTONKEY_CAL
 	if (headset_button.use_keycalpara) {
 		for (i = 0; i < 5; i++) {
 			btn_low[i] = headset_button.btn_callow[i];
@@ -200,7 +200,7 @@ static void wcd_program_btn_threshold(const struct wcd_mbhc *mbhc, bool micbias)
 }
 
 /*add by yujianhua for headsetkey begin*/
-#ifdef CONFIG_ZFG_HEADSET_BUTTONKEY_CAL
+#ifdef CONFIG_ZTE_HEADSET_BUTTONKEY_CAL
 void headsetkey_set_btn_calpara(struct wcd_mbhc *mbhc, u16 btn_calkey_val)
 {
 	struct wcd_mbhc_btn_detect_cfg *btn_det;
@@ -555,7 +555,7 @@ static void wcd_cancel_hs_detect_plug(struct wcd_mbhc *mbhc,
 	WCD_MBHC_RSC_LOCK(mbhc);
 }
 
-#if defined(CONFIG_ZFG_USE_AMP_AW87316)
+#if defined(CONFIG_ZTE_USE_AMP_AW87316)
 void wcd_mbhc_clr_and_turnon_hph_padac(struct wcd_mbhc *mbhc)
 #else
 static void wcd_mbhc_clr_and_turnon_hph_padac(struct wcd_mbhc *mbhc)
@@ -600,7 +600,7 @@ static bool wcd_mbhc_is_hph_pa_on(struct wcd_mbhc *mbhc)
 	return (hph_pa_on) ? true : false;
 }
 
-#if defined(CONFIG_ZFG_USE_AMP_AW87316)
+#if defined(CONFIG_ZTE_USE_AMP_AW87316)
 void wcd_mbhc_set_and_turnoff_hph_padac(struct wcd_mbhc *mbhc)
 {
 	u8 wg_time;
@@ -2138,7 +2138,7 @@ static irqreturn_t wcd_mbhc_btn_press_handler(int irq, void *data)
 	mbhc->buttons_pressed |= mask;
 
 	/*add by yujianhua for headsetkey begin*/
-#ifdef CONFIG_ZFG_HEADSET_BUTTONKEY_CAL
+#ifdef CONFIG_ZTE_HEADSET_BUTTONKEY_CAL
 	pr_info("%s: cal_presskey true cal_begin=%d\n", __func__, headset_button.cal_begin);
 	if (headset_button.cal_begin == true) {
 		headset_button.cal_presskeyok = true;
@@ -2191,7 +2191,7 @@ static irqreturn_t wcd_mbhc_release_handler(int irq, void *data)
 	if (mbhc->buttons_pressed & WCD_MBHC_JACK_BUTTON_MASK) {
 		ret = wcd_cancel_btn_work(mbhc);
 		/*add by yujianhua for headsetkey begin*/
-	#ifdef CONFIG_ZFG_HEADSET_BUTTONKEY_CAL
+	#ifdef CONFIG_ZTE_HEADSET_BUTTONKEY_CAL
 		pr_info("%s: cal_releasekey true cal_begin=%d\n", __func__, headset_button.cal_begin);
 		if (headset_button.cal_begin == true) {
 			headset_button.cal_presskeyok = false;
@@ -2335,7 +2335,7 @@ static int wcd_mbhc_initialise(struct wcd_mbhc *mbhc)
 {
 	int ret = 0;
 	struct snd_soc_codec *codec = mbhc->codec;
-#ifdef CONFIG_ZFG_HEADSET_BUTTONKEY_CAL
+#ifdef CONFIG_ZTE_HEADSET_BUTTONKEY_CAL
 	mbhc_extern = mbhc;/*add by yujianhua for headsetkey*/
 #endif
 
@@ -2786,7 +2786,7 @@ int wcd_mbhc_init(struct wcd_mbhc *mbhc, struct snd_soc_codec *codec,
 	else
 		pr_info("%s: hs register success\n", __func__);
 
-#ifdef CONFIG_ZFG_HEADSET_BUTTONKEY_CAL
+#ifdef CONFIG_ZTE_HEADSET_BUTTONKEY_CAL
 	headsetkey_init_info_node();/*add by yujianhua for headsetkey*/
 #endif
 

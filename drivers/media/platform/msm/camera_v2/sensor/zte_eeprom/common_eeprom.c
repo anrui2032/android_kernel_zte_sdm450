@@ -5,9 +5,9 @@
 #include <linux/crc32.h>
 #include "msm_sd.h"
 #include "msm_cci.h"
-#include "zfg_eeprom.h"
+#include "zte_eeprom.h"
 
-static struct zfg_eeprom_fn_t common_eeprom_func_tbl = {
+static struct zte_eeprom_fn_t common_eeprom_func_tbl = {
 	.eeprom_parse_map = common_eeprom_parse_memory_map,
 	.kernel_read_eeprom_memory = common_kernel_read_eeprom_memory,
 	.user_read_eeprom_memory = common_user_read_eeprom_memory,
@@ -18,7 +18,7 @@ static struct zfg_eeprom_fn_t common_eeprom_func_tbl = {
 };
 
 static const struct of_device_id common_eeprom_dt_match[] = {
-	{ .compatible = "zfg,common-eeprom", .data = (void *)(&common_eeprom_func_tbl)},
+	{ .compatible = "zte,common-eeprom", .data = (void *)(&common_eeprom_func_tbl)},
 	{}
 };
 MODULE_DEVICE_TABLE(of, common_eeprom_dt_match);
@@ -31,7 +31,7 @@ static int common_eeprom_platform_probe(struct platform_device *pdev)
 	pr_info("%s:%d E", __func__, __LINE__);
 	match = of_match_device(common_eeprom_dt_match, &pdev->dev);
 	if (match)
-		rc = zfg_eeprom_platform_probe_user(pdev, match->data);
+		rc = zte_eeprom_platform_probe_user(pdev, match->data);
 	else {
 		pr_err("%s:%d match is null\n", __func__, __LINE__);
 		rc = -EINVAL;
@@ -49,7 +49,7 @@ static int common_eeprom_platform_remove(struct platform_device *pdev)
 	pr_info("%s:%d E", __func__, __LINE__);
 	match = of_match_device(common_eeprom_dt_match, &pdev->dev);
 	if (match)
-		rc = zfg_eeprom_platform_remove(pdev);
+		rc = zte_eeprom_platform_remove(pdev);
 	else {
 		pr_err("%s:%d match is null\n", __func__, __LINE__);
 		rc = -EINVAL;
@@ -60,7 +60,7 @@ static int common_eeprom_platform_remove(struct platform_device *pdev)
 
 static struct platform_driver common_eeprom_platform_driver = {
 	.driver = {
-		.name = "zfg,common-eeprom",
+		.name = "zte,common-eeprom",
 		.owner = THIS_MODULE,
 		.of_match_table = common_eeprom_dt_match,
 	},
@@ -86,6 +86,6 @@ static void __exit common_eeprom_exit_module(void)
 
 module_init(common_eeprom_init_module);
 module_exit(common_eeprom_exit_module);
-MODULE_DESCRIPTION("ZFG EEPROM driver");
+MODULE_DESCRIPTION("ZTE EEPROM driver");
 MODULE_LICENSE("GPL v2");
 

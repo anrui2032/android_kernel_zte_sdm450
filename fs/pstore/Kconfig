@@ -52,7 +52,7 @@ config PSTORE_RAM
 	select REED_SOLOMON
 	select REED_SOLOMON_ENC8
 	select REED_SOLOMON_DEC8
-	select ZFG_RAM_CONSOLE
+	select ZTE_RAM_CONSOLE
 	help
 	  This enables panic and oops messages to be logged to a circular
 	  buffer in RAM where it can be read back at some later point.
@@ -64,10 +64,10 @@ config PSTORE_RAM
 
 
 #
-# Add support for RAM console by ZFG_BOOT
+# Add support for RAM console by ZTE_BOOT
 #
-config ZFG_RAM_CONSOLE
-	bool "ZFG RAM buffer console"
+config ZTE_RAM_CONSOLE
+	bool "ZTE RAM buffer console"
 	depends on PSTORE
 	depends on PSTORE_RAM
 	default n

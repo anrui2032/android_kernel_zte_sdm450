@@ -449,7 +449,7 @@ static int ramoops_init_prz(struct device *dev, struct ramoops_context *cxt,
 		return err;
 	}
 
-#ifndef CONFIG_ZFG_RAM_CONSOLE
+#ifndef CONFIG_ZTE_RAM_CONSOLE
 	persistent_ram_zap(*prz);
 #endif
 

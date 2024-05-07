@@ -25,18 +25,18 @@
 #include "timed_output.h"
 #include "timed_gpio.h"
 
-#define ZFG_VIBRATOR_GPIO 25
-#define ZFG_VIBRATOR_TIMEOUT_MS_MAX 15000
+#define ZTE_VIBRATOR_GPIO 25
+#define ZTE_VIBRATOR_TIMEOUT_MS_MAX 15000
 
 #define MAX_SUPPORT_GPIOS 2
-#define ZFG_PM_GPIO_NUM 1
+#define ZTE_PM_GPIO_NUM 1
 
 struct vibrator_gpio_info {
 	int sys_num;
 	const char *name;
 };
 
-struct zfg_timed_gpio_data {
+struct zte_timed_gpio_data {
 	struct timed_output_dev dev;
 	struct hrtimer timer;
 	spinlock_t lock;    /* spinlock for vibrator */
@@ -45,14 +45,14 @@ struct zfg_timed_gpio_data {
 	u8 active_low;
 };
 
-static struct vibrator_gpio_info zfg_gpios[MAX_SUPPORT_GPIOS];
+static struct vibrator_gpio_info zte_gpios[MAX_SUPPORT_GPIOS];
 static int vibrator_pm_gpio = -1;
-extern void zfg_vibrator_spmi_write(int gpio);
+extern void zte_vibrator_spmi_write(int gpio);
 
 static enum hrtimer_restart gpio_timer_func(struct hrtimer *timer)
 {
-	struct zfg_timed_gpio_data *data =
-		container_of(timer, struct zfg_timed_gpio_data, timer);
+	struct zte_timed_gpio_data *data =
+		container_of(timer, struct zte_timed_gpio_data, timer);
 
 	gpio_direction_output(data->gpio, data->active_low ? 1 : 0);
 	gpio_direction_output(vibrator_pm_gpio, 0);
@@ -61,10 +61,10 @@ static enum hrtimer_restart gpio_timer_func(struct hrtimer *timer)
 
 static int gpio_get_time(struct timed_output_dev *dev)
 {
-	struct zfg_timed_gpio_data *data;
+	struct zte_timed_gpio_data *data;
 	struct timeval t;
 
-	data = container_of(dev, struct zfg_timed_gpio_data, dev);
+	data = container_of(dev, struct zte_timed_gpio_data, dev);
 
 	if (!hrtimer_active(&data->timer))
 		return 0;
@@ -76,8 +76,8 @@ static int gpio_get_time(struct timed_output_dev *dev)
 
 static void gpio_enable(struct timed_output_dev *dev, int value)
 {
-	struct zfg_timed_gpio_data	*data =
-		container_of(dev, struct zfg_timed_gpio_data, dev);
+	struct zte_timed_gpio_data	*data =
+		container_of(dev, struct zte_timed_gpio_data, dev);
 	unsigned long	flags;
 
 	spin_lock_irqsave(&data->lock, flags);
@@ -86,7 +86,7 @@ static void gpio_enable(struct timed_output_dev *dev, int value)
 	hrtimer_cancel(&data->timer);
 	gpio_direction_output(vibrator_pm_gpio, 1);
 	gpio_direction_output(data->gpio, data->active_low ? !value : !!value);
-	zfg_vibrator_spmi_write(ZFG_PM_GPIO_NUM);
+	zte_vibrator_spmi_write(ZTE_PM_GPIO_NUM);
 
 	if (value > 0) {
 		if (value > data->max_timeout)
@@ -105,9 +105,9 @@ static int get_sysnumber_byname(char *name)
 	int i;
 
 	for (i = 0; i < MAX_SUPPORT_GPIOS; i++) {
-		if (zfg_gpios[i].name) {
-			if (!strcmp(zfg_gpios[i].name, name))
-				return zfg_gpios[i].sys_num;
+		if (zte_gpios[i].name) {
+			if (!strcmp(zte_gpios[i].name, name))
+				return zte_gpios[i].sys_num;
 		}
 	}
 	return 0;
@@ -118,7 +118,7 @@ static int get_devtree_pdata(struct device *dev)
 	struct device_node *node, *pp;
 	int count = -1;
 
-	pr_info("zfg_vibrator: translate hardware pin to system pin\n");
+	pr_info("zte_vibrator: translate hardware pin to system pin\n");
 	node = dev->of_node;
 	if (!node)
 		return -ENODEV;
@@ -130,23 +130,23 @@ static int get_devtree_pdata(struct device *dev)
 			continue;
 		}
 		count++;
-		zfg_gpios[count].name = kstrdup(of_get_property(pp, "label", NULL),
+		zte_gpios[count].name = kstrdup(of_get_property(pp, "label", NULL),
 								GFP_KERNEL);
-		zfg_gpios[count].sys_num = of_get_named_gpio(pp, zfg_gpios[count].name, 0);
-		pr_info("zfg_vibrator: sys_number=%d name=%s\n", zfg_gpios[count].sys_num, zfg_gpios[count].name);
+		zte_gpios[count].sys_num = of_get_named_gpio(pp, zte_gpios[count].name, 0);
+		pr_info("zte_vibrator: sys_number=%d name=%s\n", zte_gpios[count].sys_num, zte_gpios[count].name);
 	}
 	return 0;
 }
 
-static int zfg_vibrator_probe(struct platform_device *pdev)
+static int zte_vibrator_probe(struct platform_device *pdev)
 {
 	struct timed_gpio *cur_gpio;
-	struct zfg_timed_gpio_data *gpio_data, *gpio_dat;
+	struct zte_timed_gpio_data *gpio_data, *gpio_dat;
 	int i, ret;
 	struct timed_gpio gpio = {
 		.name = "vibrator",
-		.gpio = ZFG_VIBRATOR_GPIO,
-		.max_timeout = ZFG_VIBRATOR_TIMEOUT_MS_MAX,
+		.gpio = ZTE_VIBRATOR_GPIO,
+		.max_timeout = ZTE_VIBRATOR_TIMEOUT_MS_MAX,
 		.active_low = 0,
 	};
 	struct timed_gpio_platform_data pdata = {
@@ -155,7 +155,7 @@ static int zfg_vibrator_probe(struct platform_device *pdev)
 	};
 	struct device *dev = &pdev->dev;
 
-	pr_info("zfg_vibrator_probe\n");
+	pr_info("zte_vibrator_probe\n");
 	ret = get_devtree_pdata(dev);
 	if (ret)
 		return ret;
@@ -163,7 +163,7 @@ static int zfg_vibrator_probe(struct platform_device *pdev)
 	vibrator_pm_gpio = get_sysnumber_byname("vibrator_pm_gpio");
 
 	gpio_data = devm_kzalloc(&pdev->dev,
-			sizeof(struct zfg_timed_gpio_data) * pdata.num_gpios,
+			sizeof(struct zte_timed_gpio_data) * pdata.num_gpios,
 			GFP_KERNEL);
 	if (!gpio_data)
 		return -ENOMEM;
@@ -197,7 +197,7 @@ static int zfg_vibrator_probe(struct platform_device *pdev)
 	}
 
 	platform_set_drvdata(pdev, gpio_data);
-	pr_info("zfg_vibrator_probe success\n");
+	pr_info("zte_vibrator_probe success\n");
 
 	return 0;
 
@@ -211,39 +211,39 @@ err_out:
 	return ret;
 }
 
-static int zfg_vibrator_remove(struct platform_device *pdev)
+static int zte_vibrator_remove(struct platform_device *pdev)
 {
 	return 0;
 }
 
-static const struct of_device_id zfg_vibrator_of_match[] = {
-	{ .compatible = "zfg-vibrator", },
+static const struct of_device_id zte_vibrator_of_match[] = {
+	{ .compatible = "zte-vibrator", },
 	{ },
 };
 
-static struct platform_driver zfg_vibrator_device_driver = {
-	.probe		= zfg_vibrator_probe,
-	.remove		= zfg_vibrator_remove,
+static struct platform_driver zte_vibrator_device_driver = {
+	.probe		= zte_vibrator_probe,
+	.remove		= zte_vibrator_remove,
 	.driver		= {
-		.name	= "zfg-vibrator",
+		.name	= "zte-vibrator",
 		.owner	= THIS_MODULE,
-		.of_match_table = zfg_vibrator_of_match,
+		.of_match_table = zte_vibrator_of_match,
 	}
 };
 
-int __init zfg_vibrator_init(void)
+int __init zte_vibrator_init(void)
 {
-	return platform_driver_register(&zfg_vibrator_device_driver);
+	return platform_driver_register(&zte_vibrator_device_driver);
 }
 
-static void __exit zfg_vibrator_exit(void)
+static void __exit zte_vibrator_exit(void)
 {
-	platform_driver_unregister(&zfg_vibrator_device_driver);
+	platform_driver_unregister(&zte_vibrator_device_driver);
 }
 
-fs_initcall(zfg_vibrator_init);
-module_exit(zfg_vibrator_exit);
+fs_initcall(zte_vibrator_init);
+module_exit(zte_vibrator_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("driver for zfg vibator");
-MODULE_ALIAS("platform:zfg-vibrator");
+MODULE_DESCRIPTION("driver for zte vibator");
+MODULE_ALIAS("platform:zte-vibrator");

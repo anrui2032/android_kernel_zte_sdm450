@@ -77,16 +77,16 @@
 					05 01 00 00 78 00 02 10 00];
 		qcom,mdss-dsi-on-command-state = "dsi_lp_mode";
 		qcom,mdss-dsi-off-command-state = "dsi_hs_mode";
-		zfg,mdss-dsi-cabc-default-value = <0x02>;
-		zfg,mdss-dsi-cabc-off-command = [39 01 00 00 00 00 02 55 00
+		zte,mdss-dsi-cabc-default-value = <0x02>;
+		zte,mdss-dsi-cabc-off-command = [39 01 00 00 00 00 02 55 00
 		];
-		zfg,mdss-dsi-cabc-low-command = [39 01 00 00 00 00 02 55 01
+		zte,mdss-dsi-cabc-low-command = [39 01 00 00 00 00 02 55 01
 		];
-		zfg,mdss-dsi-cabc-medium-command = [39 01 00 00 00 00 02 55 02
+		zte,mdss-dsi-cabc-medium-command = [39 01 00 00 00 00 02 55 02
 		];
-		zfg,mdss-dsi-cabc-high-command = [39 01 00 00 00 00 02 55 03
+		zte,mdss-dsi-cabc-high-command = [39 01 00 00 00 00 02 55 03
 		];
-		zfg,mdss-dsi-cabc-command-state = "dsi_lp_mode";
+		zte,mdss-dsi-cabc-command-state = "dsi_lp_mode";
 		qcom,mdss-dsi-lp11-init;
 		qcom,mdss-dsi-h-sync-pulse = <1>;
 		qcom,mdss-dsi-traffic-mode = "burst_mode";
@@ -108,7 +108,7 @@
 		qcom,mdss-dsi-reset-sequence = <1 20>, <0 2>, <1 20>;
 		qcom,mdss-pan-physical-width-dimension = <62>;
 		qcom,mdss-pan-physical-height-dimension = <124>;
-		zfg,lcm_backlight_curve_mode = "lcd_brightness_max_350_lux";
+		zte,lcm_backlight_curve_mode = "lcd_brightness_max_350_lux";
 		qcom,mdss-dsi-tx-eot-append;
 		qcom,esd-check-enabled;
 		qcom,mdss-dsi-panel-status-command=[14 01 00 01 05 00 01 09

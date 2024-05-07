@@ -29,10 +29,10 @@
 #include "mdss_dba_utils.h"
 #endif
 
-#ifdef CONFIG_ZFG_LCD_COMMON_FUNCTION
-#include "zfg_lcd_common.h"
+#ifdef CONFIG_ZTE_LCD_COMMON_FUNCTION
+#include "zte_lcd_common.h"
 
-extern struct mdss_dsi_ctrl_pdata *g_zfg_ctrl_pdata;
+extern struct mdss_dsi_ctrl_pdata *g_zte_ctrl_pdata;
 extern bool tp_enable_wakeup_gesture_state;/*add by yujianhua for tp gesture*/
 extern bool lcd_tp_rst_vdd_sleep_keephigh_for_hx83112a;
 #endif
@@ -229,7 +229,7 @@ static struct dsi_cmd_desc backlight_cmd_dcsl = {
 	{DTYPE_DCS_LWRITE, 1, 0, 0, 1, sizeof(led_dcs1)},
 	led_dcs1
 };
-#ifdef CONFIG_ZFG_LCD_DCSBL_CABC_GRADIENT
+#ifdef CONFIG_ZTE_LCD_DCSBL_CABC_GRADIENT
 static char led_cabc53[2] = {0x53, 0x24};
 static struct dsi_cmd_desc backlight_cmd_cabc53 = {
 	{DTYPE_DCS_WRITE1, 1, 0, 0, 1, sizeof(led_cabc53)},
@@ -241,7 +241,7 @@ static void mdss_dsi_panel_bklt_dcs(struct mdss_dsi_ctrl_pdata *ctrl, int level)
 {
 	struct dcs_cmd_req cmdreq;
 	struct mdss_panel_info *pinfo;
-#ifdef CONFIG_ZFG_LCD_DCSBL_CABC_GRADIENT
+#ifdef CONFIG_ZTE_LCD_DCSBL_CABC_GRADIENT
 	static u32 bldcs_level_last = 0x0;
 #endif
 
@@ -252,7 +252,7 @@ static void mdss_dsi_panel_bklt_dcs(struct mdss_dsi_ctrl_pdata *ctrl, int level)
 	}
 
 /*add by yujianhua for cabc 53=2c after exit sleep set lcd brightness start*/
-#ifdef CONFIG_ZFG_LCD_DCSBL_CABC_GRADIENT
+#ifdef CONFIG_ZTE_LCD_DCSBL_CABC_GRADIENT
 	if (led_cabc53[1] == 0x2C) {
 		if (level != 0) {
 			memset(&cmdreq, 0, sizeof(cmdreq));
@@ -277,7 +277,7 @@ static void mdss_dsi_panel_bklt_dcs(struct mdss_dsi_ctrl_pdata *ctrl, int level)
 
 	memset(&cmdreq, 0, sizeof(cmdreq));
 	if (ctrl->panel_data.panel_info.bl_max > 1023) {
-		if (pinfo->mipi.zfg_12bit_51reg_inverse_enabled) {
+		if (pinfo->mipi.zte_12bit_51reg_inverse_enabled) {
 			led_dcs1[1] = (unsigned char)(level >> 4) & 0xff;
 			led_dcs1[2] = (unsigned char)level & 0x0f;
 		} else {
@@ -544,10 +544,10 @@ int mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 			gpio_set_value((ctrl_pdata->disp_en_gpio), 0);
 			gpio_free(ctrl_pdata->disp_en_gpio);
 		}
-		#ifdef CONFIG_ZFG_LCD_COMMON_FUNCTION
+		#ifdef CONFIG_ZTE_LCD_COMMON_FUNCTION
 		if (tp_enable_wakeup_gesture_state == false) {/*add by yujianhua for tp gesture*/
 			if (lcd_tp_rst_vdd_sleep_keephigh_for_hx83112a == false) {/* for hx83112 tp*/
-				if (!ctrl_pdata->zfg_lcd_ctrl->lcd_reset_high_sleeping) {
+				if (!ctrl_pdata->zte_lcd_ctrl->lcd_reset_high_sleeping) {
 					pr_info("%s: ctrl_pdata->rst_gpio=%d pull down\n",
 						__func__, ctrl_pdata->rst_gpio);
 					gpio_set_value((ctrl_pdata->rst_gpio), 0);
@@ -870,8 +870,8 @@ static void mdss_dsi_panel_bl_ctrl(struct mdss_panel_data *pdata,
 
 	bl_preset = bl_level;
 
-#if defined(CONFIG_ZFG_LCD_COMMON_FUNCTION) && defined(CONFIG_ZFG_LCD_BACKLIGHT_LEVEL_CURVE)
-	bl_level = g_zfg_ctrl_pdata->zfg_lcd_ctrl->zfg_convert_brightness(bl_level,
+#if defined(CONFIG_ZTE_LCD_COMMON_FUNCTION) && defined(CONFIG_ZTE_LCD_BACKLIGHT_LEVEL_CURVE)
+	bl_level = g_zte_ctrl_pdata->zte_lcd_ctrl->zte_convert_brightness(bl_level,
 					ctrl_pdata->panel_data.panel_info.bl_max);
 	if ((bl_level > pdata->panel_info.bl_max) && (bl_level != 0))
 		bl_level = pdata->panel_info.bl_max;
@@ -977,10 +977,10 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 		mdss_dsi_panel_cmds_send(ctrl, on_cmds, CMD_REQ_COMMIT);
 
 	pr_info("[MSM_LCD]%s: on_cmds_cnt=%d\n", __func__, ctrl->on_cmds.cmd_cnt);
-	#if defined(CONFIG_ZFG_LCD_COMMON_FUNCTION) && defined(CONFIG_ZFG_LCD_CABC3_EXTREME_POWER_SAVE)
-	mutex_lock(&g_zfg_ctrl_pdata->zfg_lcd_ctrl->panel_sys_lock);
-	g_zfg_ctrl_pdata->zfg_lcd_ctrl->zfg_set_cabc_mode(g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_value);
-	mutex_unlock(&g_zfg_ctrl_pdata->zfg_lcd_ctrl->panel_sys_lock);
+	#if defined(CONFIG_ZTE_LCD_COMMON_FUNCTION) && defined(CONFIG_ZTE_LCD_CABC3_EXTREME_POWER_SAVE)
+	mutex_lock(&g_zte_ctrl_pdata->zte_lcd_ctrl->panel_sys_lock);
+	g_zte_ctrl_pdata->zte_lcd_ctrl->zte_set_cabc_mode(g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_value);
+	mutex_unlock(&g_zte_ctrl_pdata->zte_lcd_ctrl->panel_sys_lock);
 	#endif
 
 	if (pinfo->compression_mode == COMPRESSION_DSC)
@@ -2758,7 +2758,7 @@ static int mdss_panel_parse_dt(struct device_node *np,
 	pinfo->bl_min = (!rc ? tmp : 0);
 	rc = of_property_read_u32(np, "qcom,mdss-dsi-bl-max-level", &tmp);
 	pinfo->bl_max = (!rc ? tmp : 255);
-#if defined(CONFIG_ZFG_LCD_COMMON_FUNCTION) && defined(CONFIG_ZFG_LCD_BACKLIGHT_LEVEL_CURVE)
+#if defined(CONFIG_ZTE_LCD_COMMON_FUNCTION) && defined(CONFIG_ZTE_LCD_BACKLIGHT_LEVEL_CURVE)
 	if (pinfo->bl_max > 1023) {
 		pinfo->bl_max = 4095;
 	} else {
@@ -2894,8 +2894,8 @@ static int mdss_panel_parse_dt(struct device_node *np,
 	rc = of_property_read_u32(np, "qcom,mdss-dsi-post-init-delay", &tmp);
 	pinfo->mipi.post_init_delay = (!rc ? tmp : 0);
 
-	pinfo->mipi.zfg_12bit_51reg_inverse_enabled = of_property_read_bool(np,
-		"qcom,zfg-12bit-51reg-inverse-enabled");
+	pinfo->mipi.zte_12bit_51reg_inverse_enabled = of_property_read_bool(np,
+		"qcom,zte-12bit-51reg-inverse-enabled");
 	mdss_dsi_parse_trigger(np, &(pinfo->mipi.mdp_trigger),
 		"qcom,mdss-dsi-mdp-trigger");
 
@@ -2991,8 +2991,8 @@ int mdss_dsi_panel_init(struct device_node *node,
 			mdss_dsi_panel_apply_display_setting;
 	ctrl_pdata->switch_mode = mdss_dsi_panel_switch_mode;
 	ctrl_pdata->panel_data.get_idle = mdss_dsi_panel_get_idle_mode;
-#ifdef CONFIG_ZFG_LCD_COMMON_FUNCTION
-	zfg_lcd_common_func(ctrl_pdata, node);
+#ifdef CONFIG_ZTE_LCD_COMMON_FUNCTION
+	zte_lcd_common_func(ctrl_pdata, node);
 #endif
 	pr_info("%s: %d  end\n", __func__, __LINE__);
 

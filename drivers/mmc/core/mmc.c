@@ -954,7 +954,7 @@ void deinit_ddr_id_proc(void);
  * error on failure.  @buf is always zero terminated.
  *
  */
-static int zfg_string_get_size(u64 size, const enum string_size_units units,
+static int zte_string_get_size(u64 size, const enum string_size_units units,
 		    char *buf, int len)
 {
 	static const char *const units_10[] = {
@@ -1018,7 +1018,7 @@ static int emmc_id_proc_show(struct seq_file *m, void *v)
 		}
 	}
 
-	zfg_string_get_size((u64)(card->ext_csd.sectors) * 512, STRING_UNITS_10, cap_str, sizeof(cap_str));
+	zte_string_get_size((u64)(card->ext_csd.sectors) * 512, STRING_UNITS_10, cap_str, sizeof(cap_str));
 
 	seq_printf(m, "%s-%s-%02d/%04d-%s-NA\n",
 					manfname,

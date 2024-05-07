@@ -268,7 +268,7 @@ int msm_dss_enable_vreg(struct dss_vreg *in_vreg, int num_vreg, int enable)
 	if (enable) {
 		for (i = 0; i < num_vreg; i++) {
 			/*add by yujianhua for tp gesture begin*/
-			#ifdef CONFIG_ZFG_LCD_COMMON_FUNCTION
+			#ifdef CONFIG_ZTE_LCD_COMMON_FUNCTION
 			if ((!strcmp(in_vreg[i].vreg_name, "ibb")) ||
 				(!strcmp(in_vreg[i].vreg_name, "lab")) ||
 				(!strcmp(in_vreg[i].vreg_name, "vddio"))) {
@@ -312,7 +312,7 @@ int msm_dss_enable_vreg(struct dss_vreg *in_vreg, int num_vreg, int enable)
 	} else {
 		for (i = num_vreg-1; i >= 0; i--) {
 			/*add by yujianhua for tp gesture begin*/
-			#ifdef CONFIG_ZFG_LCD_COMMON_FUNCTION
+			#ifdef CONFIG_ZTE_LCD_COMMON_FUNCTION
 			if ((!strcmp(in_vreg[i].vreg_name, "ibb")) ||
 				(!strcmp(in_vreg[i].vreg_name, "lab")) ||
 				(!strcmp(in_vreg[i].vreg_name, "vddio"))) {

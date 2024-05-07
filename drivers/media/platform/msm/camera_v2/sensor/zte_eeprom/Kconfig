@@ -1,5 +1,5 @@
 config IMX351_EEPROM
-	bool "ZFG IMX351 Calibration support"
+	bool "ZTE IMX351 Calibration support"
 	depends on MSMB_CAMERA
 	help
 	  Enable support for ROM Interface for Calibration
@@ -8,7 +8,7 @@ config IMX351_EEPROM
 	  Currently supports CCI  protocol
 
 config OV8856_EEPROM
-	bool "ZFG OV8856 Calibration support"
+	bool "ZTE OV8856 Calibration support"
 	depends on MSMB_CAMERA
 	help
 	  Enable support for ROM Interface for Calibration
@@ -17,7 +17,7 @@ config OV8856_EEPROM
 	  Currently supports CCI  protocol
 
 config HI846_EEPROM
-	bool "ZFG HI846 Calibration support"
+	bool "ZTE HI846 Calibration support"
 	depends on MSMB_CAMERA
 	help
 	  Enable support for ROM Interface for Calibration
@@ -26,7 +26,7 @@ config HI846_EEPROM
 	  Currently supports CCI  protocol
 
 config OV16B10_031_EEPROM
-	bool "ZFG OV16B10_031 Calibration support"
+	bool "ZTE OV16B10_031 Calibration support"
 	depends on MSMB_CAMERA
 	help
 	  Enable support for ROM Interface for Calibration
@@ -35,7 +35,7 @@ config OV16B10_031_EEPROM
 	  Currently supports CCI  protocol
 
 config S5K4H7_127_EEPROM
-	bool "ZFG S5K4H7_127 Calibration support"
+	bool "ZTE S5K4H7_127 Calibration support"
 	depends on MSMB_CAMERA
 	help
 	  Enable support for ROM Interface for Calibration
@@ -44,7 +44,7 @@ config S5K4H7_127_EEPROM
 	  Currently supports CCI  protocol
 
 config IMX351_033_EEPROM
-	bool "ZFG IMX351_033 Calibration support"
+	bool "ZTE IMX351_033 Calibration support"
 	depends on MSMB_CAMERA
 	help
 	  Enable support for ROM Interface for Calibration
@@ -53,7 +53,7 @@ config IMX351_033_EEPROM
 	  Currently supports CCI  protocol
 
 config IMX351_032_EEPROM
-	bool "ZFG IMX351_032 Calibration support"
+	bool "ZTE IMX351_032 Calibration support"
 	depends on MSMB_CAMERA
 	help
 	  Enable support for ROM Interface for Calibration
@@ -62,7 +62,7 @@ config IMX351_032_EEPROM
 	  Currently supports CCI  protocol
 
 config S5K4H7_Z610CA_127_EEPROM
-	bool "ZFG S5K4H7_Z610CA_127 Calibration support"
+	bool "ZTE S5K4H7_Z610CA_127 Calibration support"
 	depends on MSMB_CAMERA
 	help
 	  Enable support for ROM Interface for Calibration
@@ -72,7 +72,7 @@ config S5K4H7_Z610CA_127_EEPROM
 
 
 config S5K3L6_035_EEPROM
-	bool "ZFG S5K3L6_035 Calibration support"
+	bool "ZTE S5K3L6_035 Calibration support"
 	depends on MSMB_CAMERA
 	default n
 	help
@@ -82,7 +82,7 @@ config S5K3L6_035_EEPROM
 	  Currently supports CCI  protocol
 
 config OV13855_035_EEPROM
-	bool "ZFG OV13855_035 Calibration support"
+	bool "ZTE OV13855_035 Calibration support"
 	depends on MSMB_CAMERA
 	default n
 	help
@@ -92,7 +92,7 @@ config OV13855_035_EEPROM
 	  Currently supports CCI  protocol
 
 config OV16885_4C_039_EEPROM
-	bool "ZFG OV16885_4C_039 Calibration support"
+	bool "ZTE OV16885_4C_039 Calibration support"
 	depends on MSMB_CAMERA
 	help
 	  Enable support for ROM Interface for Calibration

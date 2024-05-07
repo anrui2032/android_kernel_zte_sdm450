@@ -31,7 +31,7 @@
 #include <soc/qcom/socinfo.h>
 #include <linux/qpnp/qpnp-adc.h>
 #include <linux/alarmtimer.h>
-#include "zfg_misc.h"
+#include "zte_misc.h"
 #include <soc/qcom/socinfo.h>
 
 #ifdef CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_I2C
@@ -411,14 +411,14 @@ static int ti25601_ichg_current_limit[] = {
 	3000, 3000,
 };
 
-#ifdef ZFG_CHARGER_TYPE_OEM
+#ifdef ZTE_CHARGER_TYPE_OEM
 extern enum charger_types_oem charge_type_oem;
 #endif
 
 static void
 offcharge_poweroff_work(struct work_struct *work)
 {
-	pr_info("%s,ZFG shutdown for charger remove at offcharging mode\n", __func__);
+	pr_info("%s,ZTE shutdown for charger remove at offcharging mode\n", __func__);
 
 	kernel_power_off();   
 	/* kernel_restart(NULL); */
@@ -985,7 +985,7 @@ int smooth_capacity(struct ti2419x_chip *chip, int capacity)
 		return 100;
 	}
 
-	/* Note by zfg JZN 20160301:
+	/* Note by zte JZN 20160301:
 	* 1)if battery voltage continuously lower than SHUTDOWN_VOLTAGE for 5 times,
 	*	 force capacity=0,to avoid over discharging of the battery
 	* 2) it's especially useful in low temperature situation
@@ -1017,7 +1017,7 @@ int smooth_capacity(struct ti2419x_chip *chip, int capacity)
 
 #if FEATURE_SOFT_CC
 		/*
-		* ZFG:when charger in and the soc=0,we need to do a 60s check for this situation.
+		* ZTE:when charger in and the soc=0,we need to do a 60s check for this situation.
 		* If after 60s monitor, the soft_cc_toal is still positive, that means the charger
 		* can't change in anymore, report zero to uplayer.
 		*/
@@ -1811,7 +1811,7 @@ static int power_good_handler(struct ti2419x_chip *chip, u8 rt_stat)
 	if (chip->usb_present && !usb_present) {
 		/* USB removed */
 		chip->usb_present = usb_present;
-		#ifdef ZFG_CHARGER_TYPE_OEM
+		#ifdef ZTE_CHARGER_TYPE_OEM
 		charge_type_oem = CHARGER_TYPE_DEFAULT;
 		#endif
 		power_supply_set_present(chip->usb_psy, usb_present);
@@ -1830,7 +1830,7 @@ static int power_good_handler(struct ti2419x_chip *chip, u8 rt_stat)
 	if (!chip->usb_present && usb_present) {
 		/* USB inserted */
 			wake_lock(&chip->charger_valid_lock);
-			#ifdef ZFG_CHARGER_TYPE_OEM
+			#ifdef ZTE_CHARGER_TYPE_OEM
 			charge_type_oem = CHARGER_TYPE_DEFAULT;
 			#endif
 			chip->usb_present = usb_present;
@@ -2627,10 +2627,10 @@ static int ti2419x_hw_init(struct ti2419x_chip *chip)
 	return rc;
 }
 
-#define	ZFG_HOT_TEMP_DEFAULT		500
-#define	ZFG_COLD_TEMP_DEFAULT		0
-#define	ZFG_WARM_TEMP_DEFAULT		450
-#define	ZFG_COOL_TEMP_DEFAULT		100
+#define	ZTE_HOT_TEMP_DEFAULT		500
+#define	ZTE_COLD_TEMP_DEFAULT		0
+#define	ZTE_WARM_TEMP_DEFAULT		450
+#define	ZTE_COOL_TEMP_DEFAULT		100
 #define	HYSTERISIS_DECIDEGC		20
 #define	MAX_TEMP		800
 #define	MIN_TEMP		-300
@@ -2641,13 +2641,13 @@ enum {
 };
 
 #if defined(LED_GPIO_CONTROL)
-extern void zfg_misc_red_led_control(bool value);
-extern void zfg_misc_green_led_control(bool value);
+extern void zte_misc_red_led_control(bool value);
+extern void zte_misc_green_led_control(bool value);
 static void ti2419x_led_disable(void)
 {
 	pr_info("Turn off green&red led in hot/cold mode.");
-	zfg_misc_red_led_control(false);
-	zfg_misc_green_led_control(false);
+	zte_misc_red_led_control(false);
+	zte_misc_green_led_control(false);
 }
 #endif
 /*
@@ -2659,7 +2659,7 @@ static void ti2419x_led_disable(void)
  * determine resume of charging.
  */
 
-/* NOTE(by ZFG JZN):
+/* NOTE(by ZTE JZN):
 *  if vbatt>warm_bat_mv and charging is enabled, battery will discharging and iusb=0 ;
 *  if vbatt>warm_bat_mv and charging is disabled, iusb will be the currnt source and ibat=0 .
 *  so, there is a bug in the below codes:if vbatt>warm_bat_mv,battery will discharging and iusb=0
@@ -2956,10 +2956,10 @@ static void force_power_off_check(int capacity)
 
 #define LOW_SOC_HEARTBEAT_MS  20000
 #define HEARTBEAT_MS		  60000
-#ifdef ZFG_CHARGER_TYPE_OEM
+#ifdef ZTE_CHARGER_TYPE_OEM
 #define HEARTBEAT_CHARGER_TYPE_OEM_MS 10000
 #define BATTERY_CURRENT 500
-#define ZFG_CONSECUTIVE_COUNT 3
+#define ZTE_CONSECUTIVE_COUNT 3
 #define NBC1P2_IDEV_CHG_MID 1001
 #define SLOW_CHG_CAP_THRES 75
 
@@ -2981,7 +2981,7 @@ void ti22419x_detect_dcp_charger_oem_type(struct ti2419x_chip *chip,
 		&& chip->therm_lvl_sel == 0)
 		&& charge_type_oem != CHARGER_TYPE_DCP_SLOW) {
 		*period = HEARTBEAT_CHARGER_TYPE_OEM_MS;
-		if (count == ZFG_CONSECUTIVE_COUNT) {
+		if (count == ZTE_CONSECUTIVE_COUNT) {
 			if ((-1*battery_current) < BATTERY_CURRENT && capacity <= SLOW_CHG_CAP_THRES) {
 				charge_type_oem = CHARGER_TYPE_DCP_SLOW;
 				count = 0;
@@ -3023,7 +3023,7 @@ void ti22419x_detect_sdp_charger_oem_type(struct ti2419x_chip *chip,
 			&& !chip->bat_is_warm && !chip->bat_is_hot
 			&& chip->therm_lvl_sel == 0) {
 			*period = HEARTBEAT_CHARGER_TYPE_OEM_MS;
-			if (count == ZFG_CONSECUTIVE_COUNT) {
+			if (count == ZTE_CONSECUTIVE_COUNT) {
 				if ((-1*battery_current) < BATTERY_CURRENT && capacity <= SLOW_CHG_CAP_THRES) {
 					charge_type_oem = CHARGER_TYPE_SDP_NBC1P2_SLOW;
 					count = 0;
@@ -3134,20 +3134,20 @@ static void update_heartbeat(struct work_struct *work)
 
 #if defined(LED_GPIO_CONTROL)
 	if (status == 1) {
-		zfg_misc_red_led_control(true);
-		zfg_misc_green_led_control(false);
+		zte_misc_red_led_control(true);
+		zte_misc_green_led_control(false);
 	} else if (status == 4) {
 		if (usb_present == 1) {
-			zfg_misc_red_led_control(false);
-			zfg_misc_green_led_control(true);
+			zte_misc_red_led_control(false);
+			zte_misc_green_led_control(true);
 		} else {
-			zfg_misc_red_led_control(false);
-			zfg_misc_green_led_control(false);
+			zte_misc_red_led_control(false);
+			zte_misc_green_led_control(false);
 		}
 	} else {
 		pr_info("The status = %d\n", status);
-		zfg_misc_red_led_control(false);
-		zfg_misc_green_led_control(false);
+		zte_misc_red_led_control(false);
+		zte_misc_green_led_control(false);
 	}
 #endif
 
@@ -3193,7 +3193,7 @@ static void update_heartbeat(struct work_struct *work)
 		else
 			period = HEARTBEAT_MS;
 	}
-	#ifdef ZFG_CHARGER_TYPE_OEM
+	#ifdef ZTE_CHARGER_TYPE_OEM
 	ti22419x_detect_charger_oem_type(chip, chg_current, cap, &period, status);
 	#endif
 	schedule_delayed_work(&chip->update_heartbeat_work,
@@ -3683,12 +3683,12 @@ static int ti2419x_parse_dt(struct ti2419x_chip *chip)
 		return -EINVAL;
 	}
 
-	rc = of_property_read_u32(node, "zfg,float-voltage-mv",
+	rc = of_property_read_u32(node, "zte,float-voltage-mv",
 						&chip->vfloat_mv);
 	if (rc < 0)
 		chip->vfloat_mv = -EINVAL;
 
-	rc = of_property_read_u32(node, "zfg,charging-timeout",
+	rc = of_property_read_u32(node, "zte,charging-timeout",
 						&chip->safety_time);
 	if (rc < 0)
 		chip->safety_time = -EINVAL;
@@ -3710,114 +3710,114 @@ static int ti2419x_parse_dt(struct ti2419x_chip *chip)
 		break;
 	}
 
-	rc = of_property_read_u32(node, "zfg,recharge-thresh-mv",
+	rc = of_property_read_u32(node, "zte,recharge-thresh-mv",
 						&chip->resume_delta_mv);
 	if (rc < 0)
 		chip->resume_delta_mv = -EINVAL;
-	rc = of_property_read_u32(node, "zfg,warm_recharge-thresh-mv",
+	rc = of_property_read_u32(node, "zte,warm_recharge-thresh-mv",
 						&chip->warm_resume_delta_mv);
 	if (rc < 0)
 		chip->resume_delta_mv = -EINVAL;
 
 
-	rc = of_property_read_u32(node, "zfg,vbatdet-max-err-mv",
+	rc = of_property_read_u32(node, "zte,vbatdet-max-err-mv",
 						&chip->vbatdet_max_err_mv);
 	if (rc < 0)
 		chip->vbatdet_max_err_mv = -EINVAL;
 
-	rc = of_property_read_u32(node, "zfg,iterm-ma", &chip->iterm_ma);
+	rc = of_property_read_u32(node, "zte,iterm-ma", &chip->iterm_ma);
 	if (rc < 0)
 		chip->iterm_ma = -EINVAL;
 
 	chip->hw_iterm_disabled = of_property_read_bool(node,
-						"zfg,hw-iterm-disabled");
+						"zte,hw-iterm-disabled");
 
 	chip->charging_disabled = of_property_read_bool(node,
-						"zfg,charging-disabled");
+						"zte,charging-disabled");
 	pr_info("hw-iterm-disabled: %d charging-disabled: %d\n",
 		chip->hw_iterm_disabled,
 		chip->charging_disabled);
 
 	/* iusb */
 	rc = of_property_read_u32(node,
-						"zfg,max_usb_current", &chip->max_iusb);
+						"zte,max_usb_current", &chip->max_iusb);
 	if (rc < 0)
 		chip->max_iusb = -EINVAL;
-	pr_info("zfg,max usb input current: %d\n", chip->max_iusb);
+	pr_info("zte,max usb input current: %d\n", chip->max_iusb);
 
 	/* ibat */
 	rc = of_property_read_u32(node,
-						"zfg,max_battery_current", &chip->max_ibat);
+						"zte,max_battery_current", &chip->max_ibat);
 	if (rc < 0)
 		chip->max_ibat = -EINVAL;
-	pr_info("zfg,max battery charge current: %d\n", chip->max_ibat);
+	pr_info("zte,max battery charge current: %d\n", chip->max_ibat);
 
 	/* input voltage */
 	rc = of_property_read_u32(node,
-						"zfg,input_voltage_mv", &chip->max_input_voltage);
+						"zte,input_voltage_mv", &chip->max_input_voltage);
 	if (rc < 0)
 		chip->max_input_voltage = -EINVAL;
-	pr_info("zfg,input voltage: %d\n", chip->max_input_voltage);
+	pr_info("zte,input voltage: %d\n", chip->max_input_voltage);
 
-	rc = of_property_read_u32(node, "zfg,warm_bat_mv", &chip->warm_bat_mv);
+	rc = of_property_read_u32(node, "zte,warm_bat_mv", &chip->warm_bat_mv);
 	if (rc < 0)
 		chip->warm_bat_mv = -EINVAL;
 	pr_info("warm_bat_mv: %d\n", chip->warm_bat_mv);
 
-	rc = of_property_read_u32(node, "zfg,cool_bat_mv", &chip->cool_bat_mv);
+	rc = of_property_read_u32(node, "zte,cool_bat_mv", &chip->cool_bat_mv);
 	if (rc < 0)
 		chip->cool_bat_mv = -EINVAL;
 	pr_info("cool_bat_mv: %d\n", chip->cool_bat_mv);
 
 	/* move from qpnp-charger.c */
-	rc = of_property_read_u32(node, "zfg,warm-bat-decidegc", &chip->warm_bat_decidegc);
+	rc = of_property_read_u32(node, "zte,warm-bat-decidegc", &chip->warm_bat_decidegc);
 	if (rc < 0)
-		chip->warm_bat_decidegc = ZFG_WARM_TEMP_DEFAULT; /* default 45 deg C */
+		chip->warm_bat_decidegc = ZTE_WARM_TEMP_DEFAULT; /* default 45 deg C */
 	pr_info("warm_bat_decidegc: %d\n", chip->warm_bat_decidegc);
 
-	rc = of_property_read_u32(node, "zfg,cool-bat-decidegc", &chip->cool_bat_decidegc);
+	rc = of_property_read_u32(node, "zte,cool-bat-decidegc", &chip->cool_bat_decidegc);
 	if (rc < 0)
-		chip->cool_bat_decidegc = ZFG_COOL_TEMP_DEFAULT; /* default 10 deg C */
+		chip->cool_bat_decidegc = ZTE_COOL_TEMP_DEFAULT; /* default 10 deg C */
 	pr_info("cool_bat_decidegc: %d\n", chip->cool_bat_decidegc);
 
-	rc = of_property_read_u32(node, "zfg,hot-bat-decidegc", &chip->hot_bat_decidegc);
+	rc = of_property_read_u32(node, "zte,hot-bat-decidegc", &chip->hot_bat_decidegc);
 	if (rc < 0)
-		chip->hot_bat_decidegc = ZFG_HOT_TEMP_DEFAULT;	/* default 50 deg C */
+		chip->hot_bat_decidegc = ZTE_HOT_TEMP_DEFAULT;	/* default 50 deg C */
 	pr_info("hot_bat_decidegc: %d\n", chip->hot_bat_decidegc);
 
-	rc = of_property_read_u32(node, "zfg,cold-bat-decidegc", &chip->cold_bat_decidegc);
+	rc = of_property_read_u32(node, "zte,cold-bat-decidegc", &chip->cold_bat_decidegc);
 	if (rc < 0)
-		chip->cold_bat_decidegc = ZFG_COLD_TEMP_DEFAULT;  /* default 0 deg C */
+		chip->cold_bat_decidegc = ZTE_COLD_TEMP_DEFAULT;  /* default 0 deg C */
 	pr_info("cold_bat_decidegc: %d\n", chip->cold_bat_decidegc);
 
-	rc = of_property_read_u32(node, "zfg,batt-hot-percentage", &chip->hot_batt_p);
+	rc = of_property_read_u32(node, "zte,batt-hot-percentage", &chip->hot_batt_p);
 	if (rc < 0)
 		chip->hot_batt_p = -EINVAL;
 	pr_info("hot_batt_p: %d\n", chip->hot_batt_p);
 
-	rc = of_property_read_u32(node, "zfg,batt-cold-percentage", &chip->cold_batt_p);
+	rc = of_property_read_u32(node, "zte,batt-cold-percentage", &chip->cold_batt_p);
 	if (rc < 0)
 		chip->cold_batt_p = -EINVAL;
 	pr_info("cold_batt_p: %d\n", chip->cold_batt_p);
 
 	/* end move from qpnp-charger.c */
 
-	rc = of_property_read_u32(node, "zfg,warm_bat_chg_ma", &chip->warm_bat_chg_ma);
+	rc = of_property_read_u32(node, "zte,warm_bat_chg_ma", &chip->warm_bat_chg_ma);
 	if (rc < 0)
 		chip->warm_bat_chg_ma = -EINVAL;
 	pr_info("warm_bat_chg_ma: %d\n", chip->warm_bat_chg_ma);
 
-	rc = of_property_read_u32(node, "zfg,cool_bat_chg_ma", &chip->cool_bat_chg_ma);
+	rc = of_property_read_u32(node, "zte,cool_bat_chg_ma", &chip->cool_bat_chg_ma);
 	if (rc < 0)
 		chip->cool_bat_chg_ma = -EINVAL;
 	pr_info("cool_bat_chg_ma: %d\n", chip->cool_bat_chg_ma);
 
-	rc = of_property_read_u32(node, "zfg,float-voltage-mv", &chip->cfg_max_voltage_mv);
+	rc = of_property_read_u32(node, "zte,float-voltage-mv", &chip->cfg_max_voltage_mv);
 	if (rc < 0)
 		chip->cfg_max_voltage_mv = -EINVAL;
 	pr_info("cfg_max_voltage_mv: %d\n", chip->cfg_max_voltage_mv);
 
-	if (of_find_property(node, "zfg,thermal-mitigation",
+	if (of_find_property(node, "zte,thermal-mitigation",
 					&chip->thermal_levels)) {
 		chip->thermal_mitigation = devm_kzalloc(chip->dev,
 					chip->thermal_levels,
@@ -3830,7 +3830,7 @@ static int ti2419x_parse_dt(struct ti2419x_chip *chip)
 
 		chip->thermal_levels /= sizeof(int);
 		rc = of_property_read_u32_array(node,
-				"zfg,thermal-mitigation",
+				"zte,thermal-mitigation",
 				chip->thermal_mitigation, chip->thermal_levels);
 		if (rc) {
 			pr_err("Couldn't read threm limits rc = %d\n", rc);
@@ -4000,8 +4000,8 @@ static int ti2419x_probe(struct i2c_client *client,
 	pr_debug("default_i2c_addr=%x\n", chip->default_i2c_addr);
 
 	INIT_WORK(&chip->poweroff_work, offcharge_poweroff_work);
-	wake_lock_init(&chip->charger_wake_lock, WAKE_LOCK_SUSPEND, "zfg_chg_event");
-	wake_lock_init(&chip->charger_valid_lock, WAKE_LOCK_SUSPEND, "zfg_chg_valid");
+	wake_lock_init(&chip->charger_wake_lock, WAKE_LOCK_SUSPEND, "zte_chg_event");
+	wake_lock_init(&chip->charger_valid_lock, WAKE_LOCK_SUSPEND, "zte_chg_valid");
 	INIT_DELAYED_WORK(&chip->update_heartbeat_work, update_heartbeat);
 	INIT_DELAYED_WORK(&chip->charger_eoc_work, charger_eoc);
 	INIT_DELAYED_WORK(&chip->temp_control_work, ti_temp_control_func);
@@ -4053,7 +4053,7 @@ static int ti2419x_probe(struct i2c_client *client,
 		goto fail_hw_init;
 	}
 
-	/* NOTE(by zfg jzn 20150714):
+	/* NOTE(by zte jzn 20150714):
 	*  Here set_batt_hot_cold_threshold() is used for correcting different batteries' NTC therm;
 	*  it is defined in qpnp-adc-common.c
 	*/
@@ -4067,7 +4067,7 @@ static int ti2419x_probe(struct i2c_client *client,
 			pr_err("%s ,vadc property missing\n", __func__);
 		else
 			pr_err("%s ,vadc property fail\n", __func__);
-		pr_info("ZFG !!!!error rc=%d\n", rc);
+		pr_info("ZTE !!!!error rc=%d\n", rc);
 		/* goto fail_chg_enable; */
 	}
 	/* STAT irq configuration */
@@ -4160,7 +4160,7 @@ static int ti2419x_probe(struct i2c_client *client,
 	the_ti2419x_chip	=	chip;
 	alarm_init(&chip->charging_expired_alarm, ALARM_BOOTTIME, ti2419x_charging_expired_alarm_cb);
 	charging_policy_init(chip);
-	zfg_misc_register_charging_policy_ops(&chip->battery_charging_policy_ops);
+	zte_misc_register_charging_policy_ops(&chip->battery_charging_policy_ops);
 	return 0;
 
 unregister_batt_psy:
@@ -4248,7 +4248,7 @@ static int ti2419x_resume(struct device *dev)
 		dev_err(chip->dev, "Couldn't reset watch dog\n");
 	set_charge_wdog(chip, TI2419X_WDOG_160S);
 
-	/* NOTE(by zfg JZN)--20150720
+	/* NOTE(by zte JZN)--20150720
 	* 1)delay updateheart workqueue to 5s later.
 	* 2)If the system be awake less than 5s, it's not need to run update_heartbeat_work.
 	* 3)In ti2419x_suspend, the below workqueues will be canceled
@@ -4268,7 +4268,7 @@ static const struct dev_pm_ops ti2419x_pm_ops = {
 };
 
 static const struct of_device_id ti2419x_match_table[] = {
-	{ .compatible = "zfg,ti2419x-chg",},
+	{ .compatible = "zte,ti2419x-chg",},
 	{ },
 };
 

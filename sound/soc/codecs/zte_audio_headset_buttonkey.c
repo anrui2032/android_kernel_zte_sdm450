@@ -1,4 +1,4 @@
-#ifdef CONFIG_ZFG_HEADSET_BUTTONKEY_CAL
+#ifdef CONFIG_ZTE_HEADSET_BUTTONKEY_CAL
 #include <linux/kernel.h>
 #include <linux/init.h>
 #include <linux/module.h>

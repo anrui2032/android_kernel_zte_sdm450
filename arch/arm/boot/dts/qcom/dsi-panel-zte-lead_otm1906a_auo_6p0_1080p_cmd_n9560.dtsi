@@ -12,7 +12,7 @@
 
 &mdss_mdp {
 	dsi_lead_otm1906a_auo_6p0_1080P_video_vid: qcom,mdss_dsi_lead_otm1906a_auo_6p0_1080p_video {
-		qcom,mdss-dsi-panel-name = "zfgLEAD_OTM1906A_AUO_1080_1920_6P0Inch";
+		qcom,mdss-dsi-panel-name = "zteLEAD_OTM1906A_AUO_1080_1920_6P0Inch";
 		qcom,mdss-dsi-panel-type = "dsi_video_mode";
 		qcom,cont-splash-enabled;
 		qcom,mdss-dsi-panel-status-read-length = <1>;

@@ -6,7 +6,7 @@
 #include <linux/crc32.h>
 #include "msm_sd.h"
 #include "msm_cci.h"
-#include "zfg_eeprom.h"
+#include "zte_eeprom.h"
 
 #define S5K4H7_127_SENSOR_INFO_MODULE_ID_SUNNY		0x01
 #define S5K4H7_127_SENSOR_INFO_MODULE_ID_TRULY		0x02
@@ -260,7 +260,7 @@ int s5k4h7_127_user_read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl,
 	return rc;
 }
 
-static struct zfg_eeprom_fn_t s5k4h7_127_eeprom_func_tbl = {
+static struct zte_eeprom_fn_t s5k4h7_127_eeprom_func_tbl = {
 	.eeprom_parse_map = NULL,
 	.kernel_read_eeprom_memory = NULL,
 	.user_read_eeprom_memory = s5k4h7_127_user_read_eeprom_memory,
@@ -271,7 +271,7 @@ static struct zfg_eeprom_fn_t s5k4h7_127_eeprom_func_tbl = {
 };
 
 static const struct of_device_id s5k4h7_127_eeprom_dt_match[] = {
-	{ .compatible = "zfg,s5k4h7_z610ca_127-eeprom", .data = &s5k4h7_127_eeprom_func_tbl},
+	{ .compatible = "zte,s5k4h7_z610ca_127-eeprom", .data = &s5k4h7_127_eeprom_func_tbl},
 };
 MODULE_DEVICE_TABLE(of, common_eeprom_dt_match);
 
@@ -283,7 +283,7 @@ static int s5k4h7_127_eeprom_platform_probe(struct platform_device *pdev)
 	pr_info("%s:%d E", __func__, __LINE__);
 	match = of_match_device(s5k4h7_127_eeprom_dt_match, &pdev->dev);
 	if (match)
-		rc = zfg_eeprom_platform_probe_user(pdev, match);
+		rc = zte_eeprom_platform_probe_user(pdev, match);
 	else {
 		pr_err("%s:%d match is null\n", __func__, __LINE__);
 		rc = -EINVAL;
@@ -300,7 +300,7 @@ static int s5k4h7_127_eeprom_platform_remove(struct platform_device *pdev)
 	pr_info("%s:%d E", __func__, __LINE__);
 	match = of_match_device(s5k4h7_127_eeprom_dt_match, &pdev->dev);
 	if (match)
-		rc = zfg_eeprom_platform_remove(pdev);
+		rc = zte_eeprom_platform_remove(pdev);
 	else {
 		pr_err("%s:%d match is null\n", __func__, __LINE__);
 		rc = -EINVAL;
@@ -311,7 +311,7 @@ static int s5k4h7_127_eeprom_platform_remove(struct platform_device *pdev)
 
 static struct platform_driver s5k4h7_127_eeprom_platform_driver = {
 	.driver = {
-		.name = "zfg,s5k4h7_z610ca_127-eeprom",
+		.name = "zte,s5k4h7_z610ca_127-eeprom",
 		.owner = THIS_MODULE,
 		.of_match_table = s5k4h7_127_eeprom_dt_match,
 	},
@@ -337,6 +337,6 @@ static void __exit s5k4h7_127_eeprom_exit_module(void)
 
 module_init(s5k4h7_127_eeprom_init_module);
 module_exit(s5k4h7_127_eeprom_exit_module);
-MODULE_DESCRIPTION("ZFG EEPROM driver");
+MODULE_DESCRIPTION("ZTE EEPROM driver");
 MODULE_LICENSE("GPL v2");
 

@@ -11,11 +11,11 @@
  * GNU General Public License for more details.
  */
 
-#include "sdm450-camera-sensor-zfg-success.dtsi"
+#include "sdm450-camera-sensor-zte-success.dtsi"
 
-#include "dsi-panel-zfg-lead-hx83112-dj-6p0-1080p-video.dtsi"
-#include "dsi-panel-zfg-hx83112-lead-6p0-1080p-video.dtsi"
-#include "zfg-sdm450-ti-bq24297-bq27426.dtsi"
+#include "dsi-panel-zte-lead-hx83112-dj-6p0-1080p-video.dtsi"
+#include "dsi-panel-zte-hx83112-lead-6p0-1080p-video.dtsi"
+#include "zte-sdm450-ti-bq24297-bq27426.dtsi"
 
 &i2c_3 { /* BLSP1 QUP3 */
 	status = "okay";
@@ -103,8 +103,8 @@
 	qcom,dsi-pref-prim-pan = <&dsi_lead_hx83112_dj_1080p_video>;
 	pinctrl-0 = <&mdss_dsi_active &mdss_te_active &lcd_ids_active>;
 	qcom,platform-bklight-en-gpio = <&tlmm 41 0>;
-	zfg,disp_vsp_en_gpio = <&tlmm 44 0>;
-	zfg,disp_vsn_en_gpio = <&tlmm 45 0>;
+	zte,disp_vsp_en_gpio = <&tlmm 44 0>;
+	zte,disp_vsn_en_gpio = <&tlmm 45 0>;
 	/delete-property/lab-supply;
 	/delete-property/ibb-supply;
 };
@@ -237,9 +237,9 @@
 		interrupts = <0 98 0>;
 	};
 
-	zfg_vibrator {
-		compatible = "zfg_vibrator";
-		zfg,motor_en_gpio = <&tlmm 60 0x0>;
+	zte_vibrator {
+		compatible = "zte_vibrator";
+		zte,motor_en_gpio = <&tlmm 60 0x0>;
 		linux,output-type = <0>;
 	};
 

@@ -8,4 +8,4 @@ snd-soc-tfa9890-objs += tfa9890_init.o
 snd-soc-tfa9890-objs += tfa9887B_init.o
 snd-soc-tfa9890-objs += tfa9887_init.o
 
-obj-$(CONFIG_ZFG_FEATURE_NXP9890_SMART_PA)	+= snd-soc-tfa9890.o
+obj-$(CONFIG_ZTE_FEATURE_NXP9890_SMART_PA)	+= snd-soc-tfa9890.o

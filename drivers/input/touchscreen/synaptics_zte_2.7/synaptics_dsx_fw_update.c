@@ -148,7 +148,7 @@ extern int socinfo_get_ftm_flag(void);
 extern int socinfo_get_charger_flag(void);
 
 #ifdef CONFIG_BOARD_COCONUT
-extern const char *zfg_get_lcd_panel_name(void);
+extern const char *zte_get_lcd_panel_name(void);
 #endif
 
 static ssize_t fwu_sysfs_show_image(struct file *data_file,
@@ -2823,14 +2823,14 @@ static enum flash_area fwu_go_nogo(void)
 	pr_notice("%s: ready_fw_version = %d\n", __func__, ready_fw_version);
 
 #ifdef CONFIG_BOARD_COCONUT
-	if (((strcmp(zfg_get_lcd_panel_name(), "zfgTM(NT35695)TM_1080*1920_6P0Inch") == 0) ||
-		(strcmp(zfg_get_lcd_panel_name(), "zfgTM(ILI7807D)TM_1080*1920_6P0Inch") == 0)) &&
+	if (((strcmp(zte_get_lcd_panel_name(), "zteTM(NT35695)TM_1080*1920_6P0Inch") == 0) ||
+		(strcmp(zte_get_lcd_panel_name(), "zteTM(ILI7807D)TM_1080*1920_6P0Inch") == 0)) &&
 		((syna_config_id != 0x30) && (syna_config_id != 0x32))) {
 		pr_notice("%s: (TIANMA)firmware version is error!\n", __func__);
 		flash_area = UI_FIRMWARE;
 		goto exit;
-	} else if (((strcmp(zfg_get_lcd_panel_name(), "zfgLEAD_OTM1906A_AUO_1080_1920_6P0Inch") == 0) ||
-		(strcmp(zfg_get_lcd_panel_name(), "zfgLEAD_OTM1911A_AUO_1080_1920_6P0Inch") == 0)) &&
+	} else if (((strcmp(zte_get_lcd_panel_name(), "zteLEAD_OTM1906A_AUO_1080_1920_6P0Inch") == 0) ||
+		(strcmp(zte_get_lcd_panel_name(), "zteLEAD_OTM1911A_AUO_1080_1920_6P0Inch") == 0)) &&
 		((syna_config_id != 0x35) && (syna_config_id != 0x37))) {
 		pr_notice("%s: (LEAD)firmware version is error!\n", __func__);
 		flash_area = UI_FIRMWARE;

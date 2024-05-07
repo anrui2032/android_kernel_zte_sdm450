@@ -101,7 +101,7 @@ static int gc_thread_func(void *data)
 		if (!mutex_trylock(&sbi->gc_mutex))
 			goto next;
 
-		/*ZFG_MODIFY start, if gc_urgent is true and gc thread is waked up by user,
+		/*ZTE_MODIFY start, if gc_urgent is true and gc thread is waked up by user,
 		  *do gc immediately without checking whether device is idle or not
 		  */
 		if (gc_th->gc_urgent && is_urgent_waked) {

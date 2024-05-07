@@ -698,7 +698,7 @@ static int __init map_entry_trampoline(void)
 	/* Map only the text into the trampoline page table */
 	memset(tramp_pg_dir, 0, PTRS_PER_PGD * sizeof(pgd_t));
 	/* The patch missing the last parameter,
-	added it by zfg as IS_ENABLED(CONFIG_FORCE_PAGES) */
+	added it by zte as IS_ENABLED(CONFIG_FORCE_PAGES) */
 	__create_mapping(NULL, tramp_pg_dir + pgd_index(TRAMP_VALIAS), pa_start,
 			 TRAMP_VALIAS, PAGE_SIZE, prot, pgd_pgtable_alloc, IS_ENABLED(CONFIG_FORCE_PAGES));
 

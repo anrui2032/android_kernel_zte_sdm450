@@ -9,7 +9,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-#define pr_fmt(fmt) "ZFGCHG:SMB135X: %s: " fmt, __func__
+#define pr_fmt(fmt) "ZTECHG:SMB135X: %s: " fmt, __func__
 
 #include <linux/i2c.h>
 #include <linux/debugfs.h>

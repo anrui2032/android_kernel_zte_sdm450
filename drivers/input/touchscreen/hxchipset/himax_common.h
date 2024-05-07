@@ -49,7 +49,7 @@
 #ifdef CONFIG_OF
 #include <linux/of_gpio.h>
 #endif
-#define HIMAX_DRIVER_VER "0.1.95.0_ZFG_V9_01"
+#define HIMAX_DRIVER_VER "0.1.95.0_ZTE_V9_01"
 
 #define FLASH_DUMP_FILE "/sdcard/HX_Flash_Dump.bin"
 

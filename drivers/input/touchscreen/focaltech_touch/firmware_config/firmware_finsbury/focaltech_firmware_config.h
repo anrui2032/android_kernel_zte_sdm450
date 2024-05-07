@@ -38,13 +38,13 @@
  * define your own fw_app, the sample one to be replaced is invalid
  * NOTE: if FTS_GET_VENDOR_ID_NUM >= 1, it's the fw corresponding with FTS_VENDOR_1_ID
  */
-#define FTS_UPGRADE_FW_APP                      "ZFG_Z5250A_Skyworth_FT34x7_V04_D01_20171218_app.i"
+#define FTS_UPGRADE_FW_APP                      "ZTE_Z5250A_Skyworth_FT34x7_V04_D01_20171218_app.i"
 
 /*
  * if FTS_GET_VENDOR_ID_NUM >= 2, fw corrsponding with FTS_VENDOR_2_ID
  * define your own fw_app, the sample one is invalid
  */
-#define FTS_UPGRADE_FW2_APP                     "ZFG_Z5250A_DJN_FT34x7_V02_D01_20171225_app.i"
+#define FTS_UPGRADE_FW2_APP                     "ZTE_Z5250A_DJN_FT34x7_V02_D01_20171225_app.i"
 
 /*
  * if FTS_GET_VENDOR_ID_NUM == 3, fw corrsponding with FTS_VENDOR_3_ID

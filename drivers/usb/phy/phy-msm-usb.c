@@ -2791,7 +2791,7 @@ static void msm_invalid_chg_work(struct work_struct *w)
 		return;
 	}
 	pr_info("usb schedule %s\n", __func__);
-	#ifdef ZFG_CHARGER_TYPE_OEM
+	#ifdef ZTE_CHARGER_TYPE_OEM
 	msm_otg_notify_charger(motg, IDEV_CHG_MID+1); /* >1000mA */
 	#else
 	msm_otg_notify_charger(motg, IDEV_CHG_MIN+1); /* >500mA */

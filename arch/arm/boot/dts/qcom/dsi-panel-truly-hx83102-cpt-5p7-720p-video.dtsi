@@ -13,7 +13,7 @@
 	dsi_hx83102_truly_720p_video: qcom,mdss_dsi_truly_hx83102_cpt_720p_video {
 		qcom,mdss-dsi-panel-name = "truly hx83102 cpt 5p7inch 720p video dsi panel";
 		qcom,cont-splash-enabled;
-		zfg,lcd_bl_vsp_vsn_voltage = <0xf>;
+		zte,lcd_bl_vsp_vsn_voltage = <0xf>;
 		qcom,mdss-dsi-panel-controller = <&mdss_dsi0>;
 		qcom,mdss-dsi-panel-type = "dsi_video_mode";
 		qcom,mdss-dsi-panel-framerate = <60>;
@@ -104,10 +104,10 @@
 		qcom,mdss-dsi-on-command-state = "dsi_lp_mode";
 		qcom,mdss-dsi-off-command-state = "dsi_lp_mode";
 		te,mdss-dsi-cabc-off-command = [39 01 00 00 00 00 02 55 00];
-		zfg,mdss-dsi-cabc-low-command = [39 01 00 00 00 00 02 55 01];
-		zfg,mdss-dsi-cabc-medium-command = [39 01 00 00 00 00 02 55 02];
-		zfg,mdss-dsi-cabc-high-command = [39 01 00 00 00 00 02 55 03];
-		zfg,mdss-dsi-cabc-command-state = "dsi_lp_mode";
+		zte,mdss-dsi-cabc-low-command = [39 01 00 00 00 00 02 55 01];
+		zte,mdss-dsi-cabc-medium-command = [39 01 00 00 00 00 02 55 02];
+		zte,mdss-dsi-cabc-high-command = [39 01 00 00 00 00 02 55 03];
+		zte,mdss-dsi-cabc-command-state = "dsi_lp_mode";
 		qcom,mdss-dsi-lp11-init;
 		qcom,mdss-dsi-h-sync-pulse = <0>;
 		qcom,mdss-dsi-traffic-mode = "burst_mode";
@@ -130,6 +130,6 @@
 		qcom,mdss-pan-physical-height-dimension = <128>;
 		qcom,mdss-dsi-tx-eot-append;
 		qcom,mdss-dsi-post-init-delay = <1>;
-		zfg,lcm_backlight_curve_mode = "lcd_brightness_max_350_lux";
+		zte,lcm_backlight_curve_mode = "lcd_brightness_max_350_lux";
 	};
 };

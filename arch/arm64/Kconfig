@@ -333,7 +333,7 @@ config ARCH_SDM450
 config ARCH_MSM8937
 	bool "Enable Support for Qualcomm Technologies Inc MSM8937"
 	depends on ARCH_MSM
-	select ZFG_BOOT_MODE
+	select ZTE_BOOT_MODE
 	help
 	  This enables support for the MSM8937 chipset. If you don't
 	  know what to do here, say N
@@ -363,61 +363,61 @@ config ARCH_MSM8994_V1_TLBI_WA
 
 endmenu
 
-menu "ZFG Board Selection"
+menu "ZTE Board Selection"
 
 config BOARD_CRINUM
         depends on ARCH_MSM8917
-        bool "ZFG CRINUM"
+        bool "ZTE CRINUM"
         help
-          Support for ZFG MSM8917 CRINUM device.
+          Support for ZTE MSM8917 CRINUM device.
 
 config BOARD_FINSBURY
 	depends on ARCH_MSM8920
-	bool "ZFG FINSBURY"
+	bool "ZTE FINSBURY"
 	help
-	  Support for ZFG MSM8920 FINSBURY device.
+	  Support for ZTE MSM8920 FINSBURY device.
 
 config BOARD_TESLA
         depends on ARCH_MSM8920
-        bool "ZFG TESLA"
+        bool "ZTE TESLA"
         help
-          Support for ZFG MSM8920 TESLA device.
+          Support for ZTE MSM8920 TESLA device.
 
 config BOARD_GULDAN
         depends on ARCH_MSM8920
-        bool "ZFG GULDAN"
+        bool "ZTE GULDAN"
         help
-          Support for ZFG MSM8920 GULDAN device.
+          Support for ZTE MSM8920 GULDAN device.
 
 config BOARD_SPERO
 	depends on ARCH_MSM8940
-	bool "ZFG SPERO"
+	bool "ZTE SPERO"
 	help
-	  Support for ZFG MSM8940 SPERO device.
+	  Support for ZTE MSM8940 SPERO device.
 
 config BOARD_COCONUT
 	depends on ARCH_MSM8940
-	bool "ZFG COCONUT"
+	bool "ZTE COCONUT"
 	help
-	  Support for ZFG MSM8940 COCONUT device.
+	  Support for ZTE MSM8940 COCONUT device.
 
 config BOARD_MAXXL2
         depends on ARCH_MSM8940
-        bool "ZFG MAXXL2"
+        bool "ZTE MAXXL2"
         help
-          Support for ZFG MSM8940 MAXXL2 device.
+          Support for ZTE MSM8940 MAXXL2 device.
 
 config BOARD_DAISY
         depends on ARCH_MSM8940
-        bool "ZFG DAISY"
+        bool "ZTE DAISY"
         help
-          Support for ZFG MSM8940 DAISY device.
+          Support for ZTE MSM8940 DAISY device.
 
 config BOARD_DAPHNE
         depends on ARCH_MSM8940
-        bool "ZFG DAPHNE"
+        bool "ZTE DAPHNE"
         help
-          Support for ZFG MSM8940 DAPHNE device.
+          Support for ZTE MSM8940 DAPHNE device.
 endmenu
 
 menu "Bus support"

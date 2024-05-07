@@ -12,9 +12,9 @@
  */
 
 #include "touch-key-backlight-daisy.dtsi"
-#include "dsi-panel-zfg-truly-nt36672-lg-6p0-1080p-plus-video.dtsi"
-#include "dsi-panel-zfg-boe-td4310-boe-6p0-1080p-plus-video.dtsi"
-#include "msm8940-camera-sensor-zfg-daisy.dtsi"
+#include "dsi-panel-zte-truly-nt36672-lg-6p0-1080p-plus-video.dtsi"
+#include "dsi-panel-zte-boe-td4310-boe-6p0-1080p-plus-video.dtsi"
+#include "msm8940-camera-sensor-zte-daisy.dtsi"
 
 &dsi_truly_nt36672_lg_6p0_1080p_plus_video_vid {
 	qcom,panel-supply-entries = <&dsi_panel_pwr_supply>;
@@ -201,8 +201,8 @@
 };
 
 &tlmm {
-	zfg_hall: zfg_hall {
-		zfg_hall_gpio_active: zfg_hall_gpio_active {
+	zte_hall: zte_hall {
+		zte_hall_gpio_active: zte_hall_gpio_active {
 			mux {
 				pins = "gpio59";
 				function = "gpio";
@@ -222,8 +222,8 @@
 	
 	hall_sensor {
 		compatible = "ah,hall_ic";
-		pinctrl-names = "zfg_hall_gpio_active";
-		pinctrl-0 = <&zfg_hall_gpio_active>;
+		pinctrl-names = "zte_hall_gpio_active";
+		pinctrl-0 = <&zte_hall_gpio_active>;
 		ah,gpio_irq = <&tlmm 59 0x0>;
 		linux,name = "hall_sensor";
 	};
@@ -256,7 +256,7 @@
 				qcom,use-blink;
 				pwms = <&pmi8950_pwm 0 0>;
 				qcom,pwm-names = "red-led";
-				zfg,is-operator-sprint = "no";
+				zte,is-operator-sprint = "no";
 			};
 		};
 
@@ -282,7 +282,7 @@
 				qcom,use-blink;
 				pwms = <&pmi8950_pwm 0 0>;
 				qcom,pwm-names = "green-led";
-				zfg,is-operator-sprint = "no";
+				zte,is-operator-sprint = "no";
 			};
 		};
 	};

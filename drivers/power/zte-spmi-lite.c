@@ -40,11 +40,11 @@ struct spmi_lite {
 
 struct spmi_lite *chip;
 
-void zfg_led_spmi_write(bool red_on, bool green_on, int blink)
+void zte_led_spmi_write(bool red_on, bool green_on, int blink)
 {
 	u8 value = 0;
 
-	pr_info("zfg_led_spmi_write red_on=%d, green_on=%d, blink=%d\n", red_on, green_on, blink);
+	pr_info("zte_led_spmi_write red_on=%d, green_on=%d, blink=%d\n", red_on, green_on, blink);
 	if (chip->spmi) {
 		if (blink) {
 			value = 0x18;    /* enable pm gpio led to DTEST1 */
@@ -81,12 +81,12 @@ void zfg_led_spmi_write(bool red_on, bool green_on, int blink)
 			LED_GPIO_EN_CTRL(PM8937_GPIO_BASE, chip->led_red_gpio), &value, 1);
 		spmi_ext_register_writel(chip->spmi->ctrl, 0,
 			LED_GPIO_EN_CTRL(PM8937_GPIO_BASE, chip->led_green_gpio), &value, 1);
-		pr_info("zfg_led_spmi_write success\n");
+		pr_info("zte_led_spmi_write success\n");
 	}
 }
 
 
-void zfg_vibrator_spmi_write(int gpio)
+void zte_vibrator_spmi_write(int gpio)
 {
 	/* enable pm gpio vibrator, if enable in dts, the vibrator will on in system power on */
 	u8 value = 0x80;
@@ -111,13 +111,13 @@ static int spmi_lite_probe(struct spmi_device *spmi)
 
 	chip->spmi = spmi;
 	np = chip->spmi->dev.of_node;
-	rc = of_property_read_u32(np, "zfg,led_red_gpio", &val);
+	rc = of_property_read_u32(np, "zte,led_red_gpio", &val);
 	if (!rc) {
 		chip->led_red_gpio = val;
 	} else {
 		return -EINVAL;
 	}
-	rc = of_property_read_u32(np, "zfg,led_green_gpio", &val);
+	rc = of_property_read_u32(np, "zte,led_green_gpio", &val);
 	if (!rc) {
 		chip->led_green_gpio = val;
 	} else {
@@ -135,14 +135,14 @@ static int spmi_lite_remove(struct spmi_device *spmi)
 }
 
 static const struct of_device_id spmi_match_table[] = {
-	{	.compatible = "zfg,spmi-lite",
+	{	.compatible = "zte,spmi-lite",
 	},
 	{}
 };
 
 static struct spmi_driver spmi_lite_driver = {
 	.driver		= {
-		.name	= "zfg,spmi-lite",
+		.name	= "zte,spmi-lite",
 		.of_match_table = spmi_match_table,
 	},
 	.probe		= spmi_lite_probe,
@@ -161,5 +161,5 @@ static void __exit spmi_lite_exit(void)
 }
 module_exit(spmi_lite_exit);
 
-MODULE_DESCRIPTION("zfg spmi lite driver");
+MODULE_DESCRIPTION("zte spmi lite driver");
 MODULE_LICENSE("GPL v2");

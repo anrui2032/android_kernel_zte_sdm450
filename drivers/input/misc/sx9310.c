@@ -29,7 +29,7 @@
 #define IDLE 0
 #define ACTIVE 1
 
-#define SX9310_TAG					"==ZFG-SX9310=="
+#define SX9310_TAG					"==ZTE-SX9310=="
 #define SX9310_DBG(fmt, args...)	printk(SX9310_TAG fmt, ##args)
 #define SX9310_DBG2(fmt, args...)
 #define SAR_GPIO_EINT_PIN	63
@@ -1092,7 +1092,7 @@ static const struct dev_pm_ops sx9310_pm_ops = {
 #endif
 
 static struct of_device_id sx9310_match_table[] = {
-	{ .compatible = "zfg, sx9310-input", },
+	{ .compatible = "zte, sx9310-input", },
 	{ },
 };
 

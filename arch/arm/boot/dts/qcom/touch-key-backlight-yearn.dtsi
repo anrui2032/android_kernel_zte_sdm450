@@ -20,18 +20,18 @@
 	};
 
 	gen-vkeys {
-		compatible = "zfg,gen-vkeys";
+		compatible = "zte,gen-vkeys";
 		label = "synaptics_dsx";
-		zfg,disp-maxy_px = <1920>;
-		zfg,disp-maxy_mm = <1335>;//0.1mm
-		zfg,disp-maxx_mm = <740>;//0.1mm
-		zfg,x1=<160>;
-		zfg,x2=<375>;
-		zfg,x3=<580>;
-		zfg,lcd_offset=<25>;//距离LCD至少2mm 这里再放宽0.5mm
-		zfg,y_max_offset=<150>;
-		zfg,dx=<100>;//标准中X范围为5mm+-1mm取中值*2
-		zfg,key-codes = <158 102 187>;
+		zte,disp-maxy_px = <1920>;
+		zte,disp-maxy_mm = <1335>;//0.1mm
+		zte,disp-maxx_mm = <740>;//0.1mm
+		zte,x1=<160>;
+		zte,x2=<375>;
+		zte,x3=<580>;
+		zte,lcd_offset=<25>;//距离LCD至少2mm 这里再放宽0.5mm
+		zte,y_max_offset=<150>;
+		zte,dx=<100>;//标准中X范围为5mm+-1mm取中值*2
+		zte,key-codes = <158 102 187>;
 	};
 
 	gpio_keys {

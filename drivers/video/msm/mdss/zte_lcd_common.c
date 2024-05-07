@@ -1,8 +1,8 @@
-#include "zfg_lcd_common.h"
+#include "zte_lcd_common.h"
 #include "mdss_dsi_cmd.h"
 
-#ifdef CONFIG_ZFG_LCD_REG_DEBUG
-extern void zfg_lcd_reg_debug_func(void);
+#ifdef CONFIG_ZTE_LCD_REG_DEBUG
+extern void zte_lcd_reg_debug_func(void);
 #endif
 
 extern int mdss_dsi_parse_dcs_cmds(struct device_node *np,
@@ -10,86 +10,86 @@ extern int mdss_dsi_parse_dcs_cmds(struct device_node *np,
 extern void mdss_dsi_panel_cmds_send(struct mdss_dsi_ctrl_pdata *ctrl,
 			struct dsi_panel_cmds *pcmds, u32 flags);
 
-#ifdef CONFIG_ZFG_LCDBL_I2C_CTRL_VSP_VSN
+#ifdef CONFIG_ZTE_LCDBL_I2C_CTRL_VSP_VSN
 extern void tps65132b_set_vsp_vsn_level(u8 level);
 #endif
 
-struct mdss_dsi_ctrl_pdata *g_zfg_ctrl_pdata;
-const char *zfg_get_lcd_panel_name(void)
+struct mdss_dsi_ctrl_pdata *g_zte_ctrl_pdata;
+const char *zte_get_lcd_panel_name(void)
 {
-	return g_zfg_ctrl_pdata->zfg_lcd_ctrl->lcd_panel_name;
+	return g_zte_ctrl_pdata->zte_lcd_ctrl->lcd_panel_name;
 }
 
 /********************read lcm hardware info begin****************/
 
 /*file path: proc/driver/lcd_id/ or proc/msm_lcd*/
-static int zfg_lcd_proc_info_show(struct seq_file *m, void *v)
+static int zte_lcd_proc_info_show(struct seq_file *m, void *v)
 {
-	seq_printf(m, "%s\n", g_zfg_ctrl_pdata->zfg_lcd_ctrl->lcd_panel_name);
+	seq_printf(m, "%s\n", g_zte_ctrl_pdata->zte_lcd_ctrl->lcd_panel_name);
 	return 0;
 }
-static int zfg_lcd_proc_info_open(struct inode *inode, struct file *file)
+static int zte_lcd_proc_info_open(struct inode *inode, struct file *file)
 {
-	return single_open(file, zfg_lcd_proc_info_show, NULL);
+	return single_open(file, zte_lcd_proc_info_show, NULL);
 }
-static const struct file_operations zfg_lcd_common_func_proc_fops = {
+static const struct file_operations zte_lcd_common_func_proc_fops = {
 	.owner		= THIS_MODULE,
-	.open		= zfg_lcd_proc_info_open,
+	.open		= zte_lcd_proc_info_open,
 	.read		= seq_read,
 	.llseek		= seq_lseek,
 	.release	= single_release,
 };
-static int zfg_lcd_proc_info_display(struct mdss_dsi_ctrl_pdata *ctrl_pdata, struct device_node *node)
+static int zte_lcd_proc_info_display(struct mdss_dsi_ctrl_pdata *ctrl_pdata, struct device_node *node)
 {
 
-	proc_create_data("driver/lcd_id", 0, NULL, &zfg_lcd_common_func_proc_fops, NULL);
+	proc_create_data("driver/lcd_id", 0, NULL, &zte_lcd_common_func_proc_fops, NULL);
 	
-	g_zfg_ctrl_pdata->zfg_lcd_ctrl->lcd_panel_name = of_get_property(node,
+	g_zte_ctrl_pdata->zte_lcd_ctrl->lcd_panel_name = of_get_property(node,
 	"qcom,mdss-dsi-panel-name", NULL);
 
-	if (!g_zfg_ctrl_pdata->zfg_lcd_ctrl->lcd_panel_name) {
+	if (!g_zte_ctrl_pdata->zte_lcd_ctrl->lcd_panel_name) {
 		pr_info("%s:%d, panel name not found!\n", __func__, __LINE__);
 		return -ENODEV;
 	}
-	pr_info("[MSM_LCD]%s: Panel Name = %s\n", __func__, g_zfg_ctrl_pdata->zfg_lcd_ctrl->lcd_panel_name);
+	pr_info("[MSM_LCD]%s: Panel Name = %s\n", __func__, g_zte_ctrl_pdata->zte_lcd_ctrl->lcd_panel_name);
 
 	return 0;
 }
 /********************read lcm hardware info end***********************/
 
 /********************extreme power save mode cabc begin*****************/
-#ifdef CONFIG_ZFG_LCD_CABC3_EXTREME_POWER_SAVE
+#ifdef CONFIG_ZTE_LCD_CABC3_EXTREME_POWER_SAVE
 static ssize_t lcd_cabc_show(struct device *dev, struct device_attribute *attr, char *buf)
 {	int retval = 0;
-	mutex_lock(&g_zfg_ctrl_pdata->zfg_lcd_ctrl->panel_sys_lock);
-	retval = snprintf(buf, 32, "%d\n", g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_value);
-	pr_info("[MSM_LCD]%s:ZFG_mdss_lcd_cabc: 0x%x\n", __func__, g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_value);
-	mutex_unlock(&g_zfg_ctrl_pdata->zfg_lcd_ctrl->panel_sys_lock);
+	mutex_lock(&g_zte_ctrl_pdata->zte_lcd_ctrl->panel_sys_lock);
+	retval = snprintf(buf, 32, "%d\n", g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_value);
+	pr_info("[MSM_LCD]%s:ZTE_mdss_lcd_cabc: 0x%x\n", __func__, g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_value);
+	mutex_unlock(&g_zte_ctrl_pdata->zte_lcd_ctrl->panel_sys_lock);
 	return retval;
 }
-static int zfg_set_panel_cabc(int cabc_mode)
+static int zte_set_panel_cabc(int cabc_mode)
 {
 	pr_info("[MSM_LCD]%s:cabc_mode= 0x%x\n", __func__, cabc_mode);
 	switch (cabc_mode) {
 	case 0:
-		mdss_dsi_panel_cmds_send(g_zfg_ctrl_pdata,
-			g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_off_cmds, CMD_REQ_COMMIT);
+		mdss_dsi_panel_cmds_send(g_zte_ctrl_pdata,
+			g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_off_cmds, CMD_REQ_COMMIT);
 		break;
 	case 1:
-		mdss_dsi_panel_cmds_send(g_zfg_ctrl_pdata,
-			g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_low_cmds, CMD_REQ_COMMIT);
+		mdss_dsi_panel_cmds_send(g_zte_ctrl_pdata,
+			g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_low_cmds, CMD_REQ_COMMIT);
 		break;
 	case 2:
-		mdss_dsi_panel_cmds_send(g_zfg_ctrl_pdata,
-			g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_medium_cmds, CMD_REQ_COMMIT);
+		mdss_dsi_panel_cmds_send(g_zte_ctrl_pdata,
+			g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_medium_cmds, CMD_REQ_COMMIT);
 		break;
 	case 3:
-		mdss_dsi_panel_cmds_send(g_zfg_ctrl_pdata,
-			g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_high_cmds, CMD_REQ_COMMIT);
+		mdss_dsi_panel_cmds_send(g_zte_ctrl_pdata,
+			g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_high_cmds, CMD_REQ_COMMIT);
 		break;
 	default:
-		mdss_dsi_panel_cmds_send(g_zfg_ctrl_pdata,
-			g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_off_cmds, CMD_REQ_COMMIT);
+		mdss_dsi_panel_cmds_send(g_zte_ctrl_pdata,
+			g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_off_cmds, CMD_REQ_COMMIT);
 		break;
 	}
 	return 0;
@@ -101,10 +101,10 @@ static ssize_t lcd_cabc_store(struct device *dev, struct device_attribute *attr,
 	if (kstrtoint(buf, 16, &input) != 0)
 		return -EINVAL;
 	input = input > 0 ? input : 0;
-	mutex_lock(&g_zfg_ctrl_pdata->zfg_lcd_ctrl->panel_sys_lock);
-	g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_value = input;
-	zfg_set_panel_cabc(input);
-	mutex_unlock(&g_zfg_ctrl_pdata->zfg_lcd_ctrl->panel_sys_lock);
+	mutex_lock(&g_zte_ctrl_pdata->zte_lcd_ctrl->panel_sys_lock);
+	g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_value = input;
+	zte_set_panel_cabc(input);
+	mutex_unlock(&g_zte_ctrl_pdata->zte_lcd_ctrl->panel_sys_lock);
 	return count;
 }
 static DEVICE_ATTR(lcd_cabc, 0664,  lcd_cabc_show, lcd_cabc_store);
@@ -115,12 +115,12 @@ static struct attribute *lcd_cabc_attributes[] = {
 static struct attribute_group lcd_cabc_attribute_group = {
 	.attrs = lcd_cabc_attributes
 };
-int zfg_create_cabc_sys(struct mdss_dsi_ctrl_pdata *pdata)
+int zte_create_cabc_sys(struct mdss_dsi_ctrl_pdata *pdata)
 {
 	int err;
 	struct kobject *lcd_cabc_kobj;
 
-	lcd_cabc_kobj = kobject_create_and_add("cabc", g_zfg_ctrl_pdata->zfg_lcd_ctrl->kobj);
+	lcd_cabc_kobj = kobject_create_and_add("cabc", g_zte_ctrl_pdata->zte_lcd_ctrl->kobj);
 	if (!lcd_cabc_kobj) {
 		err = -EINVAL;
 		pr_info("%s() - ERROR Unable to create lcd_cabc_kobj.\n", __func__);
@@ -139,8 +139,8 @@ int zfg_create_cabc_sys(struct mdss_dsi_ctrl_pdata *pdata)
 /********************extreme power save mode cabc end*****************/
 
 /********************lcd gpio power ctrl***********************/
-#ifdef CONFIG_ZFG_LCD_GPIO_CTRL_POWER
-static int zfg_gpio_ctrl_lcd_power_enable(struct mdss_panel_data *pdata, int enable)
+#ifdef CONFIG_ZTE_LCD_GPIO_CTRL_POWER
+static int zte_gpio_ctrl_lcd_power_enable(struct mdss_panel_data *pdata, int enable)
 {
 	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
 
@@ -153,95 +153,95 @@ static int zfg_gpio_ctrl_lcd_power_enable(struct mdss_panel_data *pdata, int ena
 	pr_info("%s:%s\n", __func__, enable ? "enable":"disable");
 	if (enable) {
 		usleep_range(1000, 1100);
-		if (ctrl_pdata->zfg_lcd_ctrl->disp_avdd_en_gpio > 0) {
-			gpio_set_value(ctrl_pdata->zfg_lcd_ctrl->disp_avdd_en_gpio, 1);
+		if (ctrl_pdata->zte_lcd_ctrl->disp_avdd_en_gpio > 0) {
+			gpio_set_value(ctrl_pdata->zte_lcd_ctrl->disp_avdd_en_gpio, 1);
 			usleep_range(5000, 5100);
 		}
-		if (ctrl_pdata->zfg_lcd_ctrl->disp_iovdd_en_gpio > 0) {
-			gpio_set_value(ctrl_pdata->zfg_lcd_ctrl->disp_iovdd_en_gpio, 1);
+		if (ctrl_pdata->zte_lcd_ctrl->disp_iovdd_en_gpio > 0) {
+			gpio_set_value(ctrl_pdata->zte_lcd_ctrl->disp_iovdd_en_gpio, 1);
 			usleep_range(5000, 5100);
 		}
-		if (ctrl_pdata->zfg_lcd_ctrl->disp_vsp_en_gpio > 0) {
-			gpio_set_value(ctrl_pdata->zfg_lcd_ctrl->disp_vsp_en_gpio, 1);
+		if (ctrl_pdata->zte_lcd_ctrl->disp_vsp_en_gpio > 0) {
+			gpio_set_value(ctrl_pdata->zte_lcd_ctrl->disp_vsp_en_gpio, 1);
 			usleep_range(5000, 5100);
 		}
-		if (ctrl_pdata->zfg_lcd_ctrl->disp_vsn_en_gpio > 0) {
-			gpio_set_value(ctrl_pdata->zfg_lcd_ctrl->disp_vsn_en_gpio, 1);
+		if (ctrl_pdata->zte_lcd_ctrl->disp_vsn_en_gpio > 0) {
+			gpio_set_value(ctrl_pdata->zte_lcd_ctrl->disp_vsn_en_gpio, 1);
 			usleep_range(5000, 5100);
 		}
-		#ifdef CONFIG_ZFG_LCDBL_I2C_CTRL_VSP_VSN
-		if (ctrl_pdata->zfg_lcd_ctrl->lcd_bl_vsp_vsn_voltage != 0x0)
-			tps65132b_set_vsp_vsn_level(ctrl_pdata->zfg_lcd_ctrl->lcd_bl_vsp_vsn_voltage);/*5.5v*/
+		#ifdef CONFIG_ZTE_LCDBL_I2C_CTRL_VSP_VSN
+		if (ctrl_pdata->zte_lcd_ctrl->lcd_bl_vsp_vsn_voltage != 0x0)
+			tps65132b_set_vsp_vsn_level(ctrl_pdata->zte_lcd_ctrl->lcd_bl_vsp_vsn_voltage);/*5.5v*/
 		#endif
 	} else {
 		usleep_range(1000, 1100);
-		if (ctrl_pdata->zfg_lcd_ctrl->disp_vsn_en_gpio > 0) {
-			gpio_set_value(ctrl_pdata->zfg_lcd_ctrl->disp_vsn_en_gpio, 0);
+		if (ctrl_pdata->zte_lcd_ctrl->disp_vsn_en_gpio > 0) {
+			gpio_set_value(ctrl_pdata->zte_lcd_ctrl->disp_vsn_en_gpio, 0);
 			usleep_range(5000, 5100);
 		}
-		if (ctrl_pdata->zfg_lcd_ctrl->disp_vsp_en_gpio > 0) {
-			gpio_set_value(ctrl_pdata->zfg_lcd_ctrl->disp_vsp_en_gpio, 0);
+		if (ctrl_pdata->zte_lcd_ctrl->disp_vsp_en_gpio > 0) {
+			gpio_set_value(ctrl_pdata->zte_lcd_ctrl->disp_vsp_en_gpio, 0);
 			usleep_range(5000, 5100);
 		}
-		if (ctrl_pdata->zfg_lcd_ctrl->disp_iovdd_en_gpio > 0) {
-			gpio_set_value(ctrl_pdata->zfg_lcd_ctrl->disp_iovdd_en_gpio, 0);
+		if (ctrl_pdata->zte_lcd_ctrl->disp_iovdd_en_gpio > 0) {
+			gpio_set_value(ctrl_pdata->zte_lcd_ctrl->disp_iovdd_en_gpio, 0);
 			usleep_range(5000, 5100);
 		}
-		if (ctrl_pdata->zfg_lcd_ctrl->disp_avdd_en_gpio > 0) {
-			gpio_set_value(ctrl_pdata->zfg_lcd_ctrl->disp_avdd_en_gpio, 0);
+		if (ctrl_pdata->zte_lcd_ctrl->disp_avdd_en_gpio > 0) {
+			gpio_set_value(ctrl_pdata->zte_lcd_ctrl->disp_avdd_en_gpio, 0);
 			usleep_range(5000, 5100);
 		}
 	}
 	return 0;
 }
-int zfg_gpio_ctrl_lcd_power_init(struct platform_device *ctrl_pdev, struct mdss_dsi_ctrl_pdata *ctrl_pdata)
+int zte_gpio_ctrl_lcd_power_init(struct platform_device *ctrl_pdev, struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 {
-	ctrl_pdata->zfg_lcd_ctrl->disp_avdd_en_gpio = of_get_named_gpio(ctrl_pdev->dev.of_node,
-		"zfg,disp_avdd_en_gpio", 0);
-	if (!gpio_is_valid(ctrl_pdata->zfg_lcd_ctrl->disp_avdd_en_gpio)) {
-		pr_info("%s:%d, zfg,disp_avdd_en_gpio not specified\n", __func__, __LINE__);
+	ctrl_pdata->zte_lcd_ctrl->disp_avdd_en_gpio = of_get_named_gpio(ctrl_pdev->dev.of_node,
+		"zte,disp_avdd_en_gpio", 0);
+	if (!gpio_is_valid(ctrl_pdata->zte_lcd_ctrl->disp_avdd_en_gpio)) {
+		pr_info("%s:%d, zte,disp_avdd_en_gpio not specified\n", __func__, __LINE__);
 	} else {
-		if (gpio_request(ctrl_pdata->zfg_lcd_ctrl->disp_avdd_en_gpio, "disp_avdd_en_gpio")) {
+		if (gpio_request(ctrl_pdata->zte_lcd_ctrl->disp_avdd_en_gpio, "disp_avdd_en_gpio")) {
 			pr_info("request disp_avdd_en_gpio failed\n");
 		} else {
-			gpio_direction_output(ctrl_pdata->zfg_lcd_ctrl->disp_avdd_en_gpio, 1);
+			gpio_direction_output(ctrl_pdata->zte_lcd_ctrl->disp_avdd_en_gpio, 1);
 			pr_info("%s:request disp_avdd_en_gpio success\n", __func__);
 		}
 	}
-	ctrl_pdata->zfg_lcd_ctrl->disp_iovdd_en_gpio = of_get_named_gpio(ctrl_pdev->dev.of_node,
-		"zfg,disp_iovdd_en_gpio", 0);
-	if (!gpio_is_valid(ctrl_pdata->zfg_lcd_ctrl->disp_iovdd_en_gpio)) {
-		pr_info("%s:%d, zfg,disp_iovdd_en_gpio not specified\n", __func__, __LINE__);
+	ctrl_pdata->zte_lcd_ctrl->disp_iovdd_en_gpio = of_get_named_gpio(ctrl_pdev->dev.of_node,
+		"zte,disp_iovdd_en_gpio", 0);
+	if (!gpio_is_valid(ctrl_pdata->zte_lcd_ctrl->disp_iovdd_en_gpio)) {
+		pr_info("%s:%d, zte,disp_iovdd_en_gpio not specified\n", __func__, __LINE__);
 	} else {
-		if (gpio_request(ctrl_pdata->zfg_lcd_ctrl->disp_iovdd_en_gpio, "disp_iovdd_en_gpio")) {
-			pr_info("request disp_iovdd_en_gpio failed %d\n", ctrl_pdata->zfg_lcd_ctrl->disp_iovdd_en_gpio);
+		if (gpio_request(ctrl_pdata->zte_lcd_ctrl->disp_iovdd_en_gpio, "disp_iovdd_en_gpio")) {
+			pr_info("request disp_iovdd_en_gpio failed %d\n", ctrl_pdata->zte_lcd_ctrl->disp_iovdd_en_gpio);
 		} else {
-			gpio_direction_output(ctrl_pdata->zfg_lcd_ctrl->disp_iovdd_en_gpio, 1);
+			gpio_direction_output(ctrl_pdata->zte_lcd_ctrl->disp_iovdd_en_gpio, 1);
 			pr_info("%s:request disp_iovdd_en_gpio success\n", __func__);
 		}
 	}
 
-	ctrl_pdata->zfg_lcd_ctrl->disp_vsp_en_gpio = of_get_named_gpio(ctrl_pdev->dev.of_node,
-		"zfg,disp_vsp_en_gpio", 0);
-	if (!gpio_is_valid(ctrl_pdata->zfg_lcd_ctrl->disp_vsp_en_gpio)) {
-		pr_info("%s:%d, zfg,disp_vsp_en_gpio not specified\n", __func__, __LINE__);
+	ctrl_pdata->zte_lcd_ctrl->disp_vsp_en_gpio = of_get_named_gpio(ctrl_pdev->dev.of_node,
+		"zte,disp_vsp_en_gpio", 0);
+	if (!gpio_is_valid(ctrl_pdata->zte_lcd_ctrl->disp_vsp_en_gpio)) {
+		pr_info("%s:%d, zte,disp_vsp_en_gpio not specified\n", __func__, __LINE__);
 	} else {
-		if (gpio_request(ctrl_pdata->zfg_lcd_ctrl->disp_vsp_en_gpio, "disp_vsp_en_gpio")) {
+		if (gpio_request(ctrl_pdata->zte_lcd_ctrl->disp_vsp_en_gpio, "disp_vsp_en_gpio")) {
 			pr_info("request disp_vsp_en_gpio failed\n");
 		} else {
-			gpio_direction_output(ctrl_pdata->zfg_lcd_ctrl->disp_vsp_en_gpio, 1);
+			gpio_direction_output(ctrl_pdata->zte_lcd_ctrl->disp_vsp_en_gpio, 1);
 			pr_info("%s:request disp_vsp_en_gpio success\n", __func__);
 		}
 	}
-	ctrl_pdata->zfg_lcd_ctrl->disp_vsn_en_gpio = of_get_named_gpio(ctrl_pdev->dev.of_node,
-		"zfg,disp_vsn_en_gpio", 0);
-	if (!gpio_is_valid(ctrl_pdata->zfg_lcd_ctrl->disp_vsn_en_gpio)) {
-		pr_info("%s:%d, zfg,disp_vsn_en_gpio not specified\n", __func__, __LINE__);
+	ctrl_pdata->zte_lcd_ctrl->disp_vsn_en_gpio = of_get_named_gpio(ctrl_pdev->dev.of_node,
+		"zte,disp_vsn_en_gpio", 0);
+	if (!gpio_is_valid(ctrl_pdata->zte_lcd_ctrl->disp_vsn_en_gpio)) {
+		pr_info("%s:%d, zte,disp_vsn_en_gpio not specified\n", __func__, __LINE__);
 	} else {
-		if (gpio_request(ctrl_pdata->zfg_lcd_ctrl->disp_vsn_en_gpio, "disp_vsn_en_gpio")) {
-			pr_info("request disp_vsn_en_gpio failed %d\n", ctrl_pdata->zfg_lcd_ctrl->disp_vsn_en_gpio);
+		if (gpio_request(ctrl_pdata->zte_lcd_ctrl->disp_vsn_en_gpio, "disp_vsn_en_gpio")) {
+			pr_info("request disp_vsn_en_gpio failed %d\n", ctrl_pdata->zte_lcd_ctrl->disp_vsn_en_gpio);
 		} else {
-			gpio_direction_output(ctrl_pdata->zfg_lcd_ctrl->disp_vsn_en_gpio, 1);
+			gpio_direction_output(ctrl_pdata->zte_lcd_ctrl->disp_vsn_en_gpio, 1);
 			pr_info("%s:request disp_vsn_en_gpio success\n", __func__);
 		}
 	}
@@ -251,14 +251,14 @@ int zfg_gpio_ctrl_lcd_power_init(struct platform_device *ctrl_pdev, struct mdss_
 #endif
 
 /********************lcd backlight level curve begin*****************/
-#ifdef CONFIG_ZFG_LCD_BACKLIGHT_LEVEL_CURVE
+#ifdef CONFIG_ZTE_LCD_BACKLIGHT_LEVEL_CURVE
 enum {	/* lcd curve mode */
 	CURVE_MATRIX_MAX_350_LUX = 1,
 	CURVE_MATRIX_MAX_400_LUX,
 	CURVE_MATRIX_MAX_450_LUX,
 };
 
-int zfg_backlight_curve_matrix_max_350_lux[256] = {
+int zte_backlight_curve_matrix_max_350_lux[256] = {
 0, 1, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9,
 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 16, 16, 17, 17, 18,
 18, 19, 19, 20, 21, 21, 22, 22, 23, 23, 24, 25, 25, 26, 26, 27,
@@ -277,7 +277,7 @@ int zfg_backlight_curve_matrix_max_350_lux[256] = {
 225, 227, 229, 231, 233, 235, 237, 239, 241, 243, 245, 248, 250, 252, 254, 255
 };
 
-int zfg_backlight_curve_matrix_max_400_lux[256] = {
+int zte_backlight_curve_matrix_max_400_lux[256] = {
 0, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 6, 7, 7, 8,
 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 15, 16,
 16, 17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 23, 23, 24,
@@ -296,7 +296,7 @@ int zfg_backlight_curve_matrix_max_400_lux[256] = {
 219, 221, 223, 226, 228, 231, 233, 236, 238, 241, 243, 246, 249, 252, 254, 255
 };
 
-int zfg_backlight_curve_matrix_max_450_lux[256] = {
+int zte_backlight_curve_matrix_max_450_lux[256] = {
 0, 1, 2, 2, 3, 3, 4, 4, 4, 5, 5, 6, 6, 6, 7, 7,
 8, 8, 8, 9, 9, 10, 10, 10, 11, 11, 12, 12, 13, 13, 13, 14,
 14, 15, 15, 16, 16, 17, 17, 17, 18, 18, 19, 19, 20, 20, 21, 21,
@@ -314,7 +314,7 @@ int zfg_backlight_curve_matrix_max_450_lux[256] = {
 171, 173, 176, 178, 180, 183, 185, 187, 190, 192, 194, 197, 199, 202, 205, 207,
 210, 213, 215, 218, 221, 224, 226, 229, 232, 235, 238, 241, 244, 248, 251, 255
 };
-static int zfg_convert_backlevel_function(int level, u32 bl_max)
+static int zte_convert_backlevel_function(int level, u32 bl_max)
 {
 	int bl, convert_level;
 
@@ -330,18 +330,18 @@ static int zfg_convert_backlevel_function(int level, u32 bl_max)
 	if (!bl && level)
 		bl = 1;/*ensure greater than 0 and less than 16 equal to 1*/
 
-	switch (g_zfg_ctrl_pdata->zfg_lcd_ctrl->lcd_bl_curve_mode) {
+	switch (g_zte_ctrl_pdata->zte_lcd_ctrl->lcd_bl_curve_mode) {
 	case CURVE_MATRIX_MAX_350_LUX:
-		convert_level = zfg_backlight_curve_matrix_max_350_lux[bl];
+		convert_level = zte_backlight_curve_matrix_max_350_lux[bl];
 		break;
 	case CURVE_MATRIX_MAX_400_LUX:
-		convert_level = zfg_backlight_curve_matrix_max_400_lux[bl];
+		convert_level = zte_backlight_curve_matrix_max_400_lux[bl];
 		break;
 	case CURVE_MATRIX_MAX_450_LUX:
-		convert_level = zfg_backlight_curve_matrix_max_450_lux[bl];
+		convert_level = zte_backlight_curve_matrix_max_450_lux[bl];
 		break;
 	default:
-		convert_level = zfg_backlight_curve_matrix_max_450_lux[bl];
+		convert_level = zte_backlight_curve_matrix_max_450_lux[bl];
 		break;
 	}
 	if (bl_max > 1023) {
@@ -354,61 +354,61 @@ static int zfg_convert_backlevel_function(int level, u32 bl_max)
 /********************lcd backlight level curve end*****************/
 
 /********************lcd common function start*****************/
-static void zfg_lcd_panel_parse_dt(struct mdss_dsi_ctrl_pdata *ctrl_pdata, struct device_node *node)
+static void zte_lcd_panel_parse_dt(struct mdss_dsi_ctrl_pdata *ctrl_pdata, struct device_node *node)
 {
-#ifdef CONFIG_ZFG_LCD_BACKLIGHT_LEVEL_CURVE
+#ifdef CONFIG_ZTE_LCD_BACKLIGHT_LEVEL_CURVE
 	const char *data;
 #endif
-#ifdef CONFIG_ZFG_LCD_CABC3_EXTREME_POWER_SAVE
+#ifdef CONFIG_ZTE_LCD_CABC3_EXTREME_POWER_SAVE
 	u32 tmp;
 	int rc;
 #endif
 
-#ifdef CONFIG_ZFG_LCD_BACKLIGHT_LEVEL_CURVE
-	data = of_get_property(node, "zfg,lcm_backlight_curve_mode", NULL);
+#ifdef CONFIG_ZTE_LCD_BACKLIGHT_LEVEL_CURVE
+	data = of_get_property(node, "zte,lcm_backlight_curve_mode", NULL);
 	if (data) {
 		if (!strcmp(data, "lcd_brightness_max_350_lux"))
-			ctrl_pdata->zfg_lcd_ctrl->lcd_bl_curve_mode = CURVE_MATRIX_MAX_350_LUX;
+			ctrl_pdata->zte_lcd_ctrl->lcd_bl_curve_mode = CURVE_MATRIX_MAX_350_LUX;
 		else if (!strcmp(data, "lcd_brightness_max_400_lux"))
-			ctrl_pdata->zfg_lcd_ctrl->lcd_bl_curve_mode = CURVE_MATRIX_MAX_400_LUX;
+			ctrl_pdata->zte_lcd_ctrl->lcd_bl_curve_mode = CURVE_MATRIX_MAX_400_LUX;
 		else if (!strcmp(data, "lcd_brightness_max_450_lux"))
-			ctrl_pdata->zfg_lcd_ctrl->lcd_bl_curve_mode = CURVE_MATRIX_MAX_450_LUX;
+			ctrl_pdata->zte_lcd_ctrl->lcd_bl_curve_mode = CURVE_MATRIX_MAX_450_LUX;
 		else
-			ctrl_pdata->zfg_lcd_ctrl->lcd_bl_curve_mode = CURVE_MATRIX_MAX_450_LUX;
+			ctrl_pdata->zte_lcd_ctrl->lcd_bl_curve_mode = CURVE_MATRIX_MAX_450_LUX;
 	} else
-		ctrl_pdata->zfg_lcd_ctrl->lcd_bl_curve_mode = CURVE_MATRIX_MAX_450_LUX;
+		ctrl_pdata->zte_lcd_ctrl->lcd_bl_curve_mode = CURVE_MATRIX_MAX_450_LUX;
 
 	pr_info("[MSM_LCD]%s:dtsi_mode=%s matrix_mode=%d\n", __func__, data,
-			ctrl_pdata->zfg_lcd_ctrl->lcd_bl_curve_mode);
+			ctrl_pdata->zte_lcd_ctrl->lcd_bl_curve_mode);
 #endif
-#ifdef CONFIG_ZFG_LCDBL_I2C_CTRL_VSP_VSN
-	of_property_read_u32(node, "zfg,lcd_bl_vsp_vsn_voltage", &ctrl_pdata->zfg_lcd_ctrl->lcd_bl_vsp_vsn_voltage);
-	pr_info("lcd vsp_vsn=%x\n", ctrl_pdata->zfg_lcd_ctrl->lcd_bl_vsp_vsn_voltage);
+#ifdef CONFIG_ZTE_LCDBL_I2C_CTRL_VSP_VSN
+	of_property_read_u32(node, "zte,lcd_bl_vsp_vsn_voltage", &ctrl_pdata->zte_lcd_ctrl->lcd_bl_vsp_vsn_voltage);
+	pr_info("lcd vsp_vsn=%x\n", ctrl_pdata->zte_lcd_ctrl->lcd_bl_vsp_vsn_voltage);
 #endif
-	ctrl_pdata->zfg_lcd_ctrl->lcd_tp_binding_resetpin = of_property_read_bool(node,
-															"zfg,lcm_tp_incell_binding_reset_pin");
-	ctrl_pdata->zfg_lcd_ctrl->lcd_reset_high_sleeping = of_property_read_bool(node,
-															"zfg,lcm_reset_pin_keep_high_sleeping");
+	ctrl_pdata->zte_lcd_ctrl->lcd_tp_binding_resetpin = of_property_read_bool(node,
+															"zte,lcm_tp_incell_binding_reset_pin");
+	ctrl_pdata->zte_lcd_ctrl->lcd_reset_high_sleeping = of_property_read_bool(node,
+															"zte,lcm_reset_pin_keep_high_sleeping");
 
-#ifdef CONFIG_ZFG_LCD_CABC3_EXTREME_POWER_SAVE
-	rc = of_property_read_u32(node, "zfg,mdss-dsi-cabc-default-value", &tmp);
-	g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_value = (!rc ? tmp : 0x01);
-	pr_info("[MSM_LCD]%s:cabc_value =%d\n", __func__, g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_value);
+#ifdef CONFIG_ZTE_LCD_CABC3_EXTREME_POWER_SAVE
+	rc = of_property_read_u32(node, "zte,mdss-dsi-cabc-default-value", &tmp);
+	g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_value = (!rc ? tmp : 0x01);
+	pr_info("[MSM_LCD]%s:cabc_value =%d\n", __func__, g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_value);
 
-	mdss_dsi_parse_dcs_cmds(node, g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_off_cmds,
-		"zfg,mdss-dsi-cabc-off-command", "zfg,mdss-dsi-cabc-command-state");
-	mdss_dsi_parse_dcs_cmds(node, g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_low_cmds,
-		"zfg,mdss-dsi-cabc-low-command", "zfg,mdss-dsi-cabc-command-state");
-	mdss_dsi_parse_dcs_cmds(node, g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_medium_cmds,
-		"zfg,mdss-dsi-cabc-medium-command", "zfg,mdss-dsi-cabc-command-state");
-	mdss_dsi_parse_dcs_cmds(node, g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_high_cmds,
-		"zfg,mdss-dsi-cabc-high-command", "zfg,mdss-dsi-cabc-command-state");
+	mdss_dsi_parse_dcs_cmds(node, g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_off_cmds,
+		"zte,mdss-dsi-cabc-off-command", "zte,mdss-dsi-cabc-command-state");
+	mdss_dsi_parse_dcs_cmds(node, g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_low_cmds,
+		"zte,mdss-dsi-cabc-low-command", "zte,mdss-dsi-cabc-command-state");
+	mdss_dsi_parse_dcs_cmds(node, g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_medium_cmds,
+		"zte,mdss-dsi-cabc-medium-command", "zte,mdss-dsi-cabc-command-state");
+	mdss_dsi_parse_dcs_cmds(node, g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_high_cmds,
+		"zte,mdss-dsi-cabc-high-command", "zte,mdss-dsi-cabc-command-state");
 #endif
 
 }
 
 
-int zfg_mdss_dsi_panel_resume_ctrl_reset(struct mdss_panel_data *pdata)
+int zte_mdss_dsi_panel_resume_ctrl_reset(struct mdss_panel_data *pdata)
 {
 	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
 	struct mdss_panel_info *pinfo = NULL;
@@ -449,11 +449,11 @@ int zfg_mdss_dsi_panel_resume_ctrl_reset(struct mdss_panel_data *pdata)
 	return rc;
 }
 
-static ssize_t zfg_show_esd_num(struct device *d, struct device_attribute *attr, char *buf)
+static ssize_t zte_show_esd_num(struct device *d, struct device_attribute *attr, char *buf)
 {
-	return snprintf(buf, 80, "esd num:0x%x\n", g_zfg_ctrl_pdata->zfg_lcd_ctrl->lcd_esd_num);
+	return snprintf(buf, 80, "esd num:0x%x\n", g_zte_ctrl_pdata->zte_lcd_ctrl->lcd_esd_num);
 }
-static DEVICE_ATTR(esd_num, 0660, zfg_show_esd_num, NULL);
+static DEVICE_ATTR(esd_num, 0660, zte_show_esd_num, NULL);
 static struct attribute *esd_num_attrs[] = {
 	&dev_attr_esd_num.attr,
 	NULL,
@@ -462,77 +462,77 @@ static struct attribute_group esd_num_attr_group = {
 	.attrs = esd_num_attrs,
 };
 
-static void zfg_lcd_common_init(struct mdss_dsi_ctrl_pdata *ctrl_pdata, struct device_node *node)
+static void zte_lcd_common_init(struct mdss_dsi_ctrl_pdata *ctrl_pdata, struct device_node *node)
 {
 	int ret = 0;
 
-	ctrl_pdata->zfg_lcd_ctrl = kzalloc(sizeof(struct zfg_lcd_ctrl_data), GFP_KERNEL);
-	if (!ctrl_pdata->zfg_lcd_ctrl) {
-		pr_err("[MSM_LCD] no mem to save zfg_lcd_ctrl_data info: kzalloc fail\n");
+	ctrl_pdata->zte_lcd_ctrl = kzalloc(sizeof(struct zte_lcd_ctrl_data), GFP_KERNEL);
+	if (!ctrl_pdata->zte_lcd_ctrl) {
+		pr_err("[MSM_LCD] no mem to save zte_lcd_ctrl_data info: kzalloc fail\n");
 		return;
 	}
 
-	pr_info("[MSM_LCD] %s:alloc zfg_lcd_ctrl_data success!\n", __func__);
+	pr_info("[MSM_LCD] %s:alloc zte_lcd_ctrl_data success!\n", __func__);
 
 	/*create /sys/lcd_sys/ path to add other lcd ctrl point*/
-	g_zfg_ctrl_pdata->zfg_lcd_ctrl->kobj = kobject_create_and_add("lcd_sys", NULL);
-	if (!g_zfg_ctrl_pdata->zfg_lcd_ctrl->kobj) {
+	g_zte_ctrl_pdata->zte_lcd_ctrl->kobj = kobject_create_and_add("lcd_sys", NULL);
+	if (!g_zte_ctrl_pdata->zte_lcd_ctrl->kobj) {
 		pr_info("%s: unable to create lcd_sys\n", __func__);
 	}
 
 	/*add /sys/lcd_sys/esd_num point*/
-	if (ctrl_pdata->panel_data.panel_info.esd_check_enabled && g_zfg_ctrl_pdata->zfg_lcd_ctrl->kobj) {
-		ret = sysfs_create_group(g_zfg_ctrl_pdata->zfg_lcd_ctrl->kobj, &esd_num_attr_group);
+	if (ctrl_pdata->panel_data.panel_info.esd_check_enabled && g_zte_ctrl_pdata->zte_lcd_ctrl->kobj) {
+		ret = sysfs_create_group(g_zte_ctrl_pdata->zte_lcd_ctrl->kobj, &esd_num_attr_group);
 		if (ret) {
 			pr_err("%s:failed to create esd_num_attr_group attributes\n", __func__);
 		}
 	} else
 		pr_info("[MSM_LCD] esd_check_enabled is %d\n", ctrl_pdata->panel_data.panel_info.esd_check_enabled);
 
-#ifdef CONFIG_ZFG_LCD_CABC3_EXTREME_POWER_SAVE
-	g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_off_cmds = kzalloc(sizeof(struct dsi_panel_cmds), GFP_KERNEL);
-	if (!g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_off_cmds) {
+#ifdef CONFIG_ZTE_LCD_CABC3_EXTREME_POWER_SAVE
+	g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_off_cmds = kzalloc(sizeof(struct dsi_panel_cmds), GFP_KERNEL);
+	if (!g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_off_cmds) {
 		pr_err("[MSM_LCD] %s: cabc_off_cmds kzalloc fail\n", __func__);
 	}
 
-	g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_low_cmds = kzalloc(sizeof(struct dsi_panel_cmds), GFP_KERNEL);
-	if (!g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_low_cmds) {
+	g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_low_cmds = kzalloc(sizeof(struct dsi_panel_cmds), GFP_KERNEL);
+	if (!g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_low_cmds) {
 		pr_err("[MSM_LCD] %s: cabc_low_cmds kzalloc fail\n", __func__);
 	}
 
-	g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_medium_cmds = kzalloc(sizeof(struct dsi_panel_cmds), GFP_KERNEL);
-	if (!g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_medium_cmds) {
+	g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_medium_cmds = kzalloc(sizeof(struct dsi_panel_cmds), GFP_KERNEL);
+	if (!g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_medium_cmds) {
 		pr_err("[MSM_LCD] %s: cabc_medium_cmds kzalloc fail\n", __func__);
 	}
 
-	g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_high_cmds = kzalloc(sizeof(struct dsi_panel_cmds), GFP_KERNEL);
-	if (!g_zfg_ctrl_pdata->zfg_lcd_ctrl->cabc_high_cmds) {
+	g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_high_cmds = kzalloc(sizeof(struct dsi_panel_cmds), GFP_KERNEL);
+	if (!g_zte_ctrl_pdata->zte_lcd_ctrl->cabc_high_cmds) {
 		pr_err("[MSM_LCD] %s: cabc_high_cmds kzalloc fail\n", __func__);
 	}
 #endif
 
 }
-void zfg_lcd_common_func(struct mdss_dsi_ctrl_pdata *ctrl_pdata, struct device_node *node)
+void zte_lcd_common_func(struct mdss_dsi_ctrl_pdata *ctrl_pdata, struct device_node *node)
 {
-	g_zfg_ctrl_pdata = ctrl_pdata;
+	g_zte_ctrl_pdata = ctrl_pdata;
 
-	zfg_lcd_common_init(ctrl_pdata, node);
-	zfg_lcd_panel_parse_dt(ctrl_pdata, node);
-#ifdef CONFIG_ZFG_LCD_GPIO_CTRL_POWER
-	g_zfg_ctrl_pdata->zfg_lcd_ctrl->gpio_enable_lcd_power = zfg_gpio_ctrl_lcd_power_enable;
+	zte_lcd_common_init(ctrl_pdata, node);
+	zte_lcd_panel_parse_dt(ctrl_pdata, node);
+#ifdef CONFIG_ZTE_LCD_GPIO_CTRL_POWER
+	g_zte_ctrl_pdata->zte_lcd_ctrl->gpio_enable_lcd_power = zte_gpio_ctrl_lcd_power_enable;
 #endif
-	zfg_lcd_proc_info_display(ctrl_pdata, node);
-#ifdef CONFIG_ZFG_LCD_REG_DEBUG
-	zfg_lcd_reg_debug_func();
+	zte_lcd_proc_info_display(ctrl_pdata, node);
+#ifdef CONFIG_ZTE_LCD_REG_DEBUG
+	zte_lcd_reg_debug_func();
 #endif
-#ifdef CONFIG_ZFG_LCD_BACKLIGHT_LEVEL_CURVE
-	g_zfg_ctrl_pdata->zfg_lcd_ctrl->zfg_convert_brightness = zfg_convert_backlevel_function;
+#ifdef CONFIG_ZTE_LCD_BACKLIGHT_LEVEL_CURVE
+	g_zte_ctrl_pdata->zte_lcd_ctrl->zte_convert_brightness = zte_convert_backlevel_function;
 #endif
 
-#ifdef CONFIG_ZFG_LCD_CABC3_EXTREME_POWER_SAVE
-	mutex_init(&ctrl_pdata->zfg_lcd_ctrl->panel_sys_lock);
-	zfg_create_cabc_sys(ctrl_pdata);
-	g_zfg_ctrl_pdata->zfg_lcd_ctrl->zfg_set_cabc_mode = zfg_set_panel_cabc;
+#ifdef CONFIG_ZTE_LCD_CABC3_EXTREME_POWER_SAVE
+	mutex_init(&ctrl_pdata->zte_lcd_ctrl->panel_sys_lock);
+	zte_create_cabc_sys(ctrl_pdata);
+	g_zte_ctrl_pdata->zte_lcd_ctrl->zte_set_cabc_mode = zte_set_panel_cabc;
 #endif
 
 }

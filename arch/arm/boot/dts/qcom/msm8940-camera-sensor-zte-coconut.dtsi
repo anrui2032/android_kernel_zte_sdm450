@@ -144,12 +144,12 @@
 		qcom,cam-vreg-op-mode = <100000>;
 	};
 
-	zfg_eeprom0: zfg,eeprom@0 {
+	zte_eeprom0: zte,eeprom@0 {
 		cell-index = <0>;
-		compatible = "zfg,imx351-eeprom";
+		compatible = "zte,imx351-eeprom";
 		qcom,cci-master = <0>;
 		reg = <0x0>;
-		zfg,eeprom-share = <1>;
+		zte,eeprom-share = <1>;
 		cam_vaf-supply = <&pm8937_l22>;
 		cam_v_custom1-supply = <&pm8937_l23>;
 		qcom,cam-vreg-name ="cam_vaf","cam_v_custom1";
@@ -193,10 +193,10 @@
 	};
 
 
-	zfg_eeprom1: zfg,eeprom@1 {
+	zte_eeprom1: zte,eeprom@1 {
 		cell-index = <1>;
-		compatible = "zfg,ov8856-eeprom";
-		zfg,eeprom-name = "zfg_ov8856";
+		compatible = "zte,ov8856-eeprom";
+		zte,eeprom-name = "zte_ov8856";
 		qcom,cci-master = <0>;
 		reg = <0x1>;
 		cam_vdig-supply = <&pm8937_l23>;
@@ -241,10 +241,10 @@
 		qcom,clock-rates = <24000000 0>;
 	};
 
-	zfg_eeprom2: zfg,eeprom@2 {
+	zte_eeprom2: zte,eeprom@2 {
 		cell-index = <2>;
-		compatible = "zfg,hi846-eeprom";
-		zfg,eeprom-name = "zfg_hi846";
+		compatible = "zte,hi846-eeprom";
+		zte,eeprom-name = "zte_hi846";
 		qcom,cci-master = <0>;
 		reg = <0x2>;
 		cam_vdig-supply = <&pm8937_l23>;
@@ -298,7 +298,7 @@
 		qcom,mount-angle = <270>;
 		qcom,actuator-src = <&actuator0>;
 		qcom,led-flash-src = <&led_flash0>;
-		qcom,eeprom-src = <&zfg_eeprom0>;
+		qcom,eeprom-src = <&zte_eeprom0>;
 		cam_vaf-supply = <&pm8937_l22>;
 		cam_v_custom1-supply = <&pm8937_l23>;
 		qcom,cam-vreg-name ="cam_vaf","cam_v_custom1";
@@ -349,7 +349,7 @@
 		cell-index = <1>;
 		compatible = "qcom,camera";
 		reg = <0x1>;
-		qcom,eeprom-src = <&zfg_eeprom0>;
+		qcom,eeprom-src = <&zte_eeprom0>;
 		qcom,csiphy-sd-index = <1>;
 		qcom,csid-sd-index = <1>;
 		qcom,mount-angle = <90>;
@@ -390,7 +390,7 @@
 		cell-index = <2>;
 		compatible = "qcom,camera";
 		reg = <0x02>;
-		qcom,eeprom-src = <&zfg_eeprom1 &zfg_eeprom2>;
+		qcom,eeprom-src = <&zte_eeprom1 &zte_eeprom2>;
 		qcom,csiphy-sd-index = <1>;
 		qcom,csid-sd-index = <1>;
 		qcom,mount-angle = <270>;

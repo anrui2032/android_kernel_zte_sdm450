@@ -1,5 +1,5 @@
 /*
- * Driver for zfg misc functions
+ * Driver for zte misc functions
  * function1: used for translate hardware GPIO to SYS GPIO number
  * function2: update fingerprint status to kernel from fingerprintd,2016/01/18
  */
@@ -26,24 +26,24 @@
 #include <linux/delay.h>
 #include <linux/power_supply.h>
 #include <soc/qcom/socinfo.h>
-#include "zfg_misc.h"
+#include "zte_misc.h"
 
 int smb1351_is_good = 0;
 module_param(smb1351_is_good, int, 0644);
 
-struct zfg_gpio_info {
+struct zte_gpio_info {
 	int sys_num;
 	const char *name;
 };
 
 #define MAX_SUPPORT_GPIOS 16
-struct zfg_gpio_info zfg_gpios[MAX_SUPPORT_GPIOS];
+struct zte_gpio_info zte_gpios[MAX_SUPPORT_GPIOS];
 
-static const struct of_device_id zfg_misc_of_match[] = {
-	{ .compatible = "zfg-misc", },
+static const struct of_device_id zte_misc_of_match[] = {
+	{ .compatible = "zte-misc", },
 	{ },
 };
-MODULE_DEVICE_TABLE(of, zfg_misc_of_match);
+MODULE_DEVICE_TABLE(of, zte_misc_of_match);
 
 #define CHARGER_BUF_SIZE 0x32
 int get_sysnumber_byname(char *name)
@@ -51,9 +51,9 @@ int get_sysnumber_byname(char *name)
 	int i;
 
 	for (i = 0; i < MAX_SUPPORT_GPIOS; i++) {
-		if (zfg_gpios[i].name) {
-			if (!strcmp(zfg_gpios[i].name, name))
-				return zfg_gpios[i].sys_num;
+		if (zte_gpios[i].name) {
+			if (!strcmp(zte_gpios[i].name, name))
+				return zte_gpios[i].sys_num;
 		}
 	}
 	return 0;
@@ -64,7 +64,7 @@ static int get_devtree_pdata(struct device *dev)
 	struct device_node *node, *pp;
 	int count = -1;
 
-	pr_info("zfg_misc: translate hardware pin to system pin\n");
+	pr_info("zte_misc: translate hardware pin to system pin\n");
 	node = dev->of_node;
 	if (node == NULL)
 		return -ENODEV;
@@ -76,10 +76,10 @@ static int get_devtree_pdata(struct device *dev)
 			continue;
 		}
 		count++;
-		zfg_gpios[count].name = kstrdup(of_get_property(pp, "label", NULL),
+		zte_gpios[count].name = kstrdup(of_get_property(pp, "label", NULL),
 								GFP_KERNEL);
-		zfg_gpios[count].sys_num = of_get_gpio(pp, 0);
-		pr_info("zfg_misc: sys_number=%d name=%s\n", zfg_gpios[count].sys_num, zfg_gpios[count].name);
+		zte_gpios[count].sys_num = of_get_gpio(pp, 0);
+		pr_info("zte_misc: sys_number=%d name=%s\n", zte_gpios[count].sys_num, zte_gpios[count].name);
 	}
 	return 0;
 }
@@ -141,7 +141,7 @@ static int __init fingerprint_id_setup(char *str)
 __setup("fingerprint_id=", fingerprint_id_setup);
 
 
-static int zfg_misc_fingerprint_hw_check(struct device *dev)
+static int zte_misc_fingerprint_hw_check(struct device *dev)
 {
 	char *fingerprint_id_name;
 
@@ -270,8 +270,8 @@ module_param_call(fp_msg_type, fp_msg_type_set, param_get_int,
 			&fp_msg_type, 0644);
 module_param(fp_msg_disable, int, 0644);
 
-static int shipmode_zfg = -1;
-static int zfg_misc_control_shipmode(const char *val, struct kernel_param *kp)
+static int shipmode_zte = -1;
+static int zte_misc_control_shipmode(const char *val, struct kernel_param *kp)
 {
 	struct power_supply	*batt_psy;
 	int rc;
@@ -285,7 +285,7 @@ static int zfg_misc_control_shipmode(const char *val, struct kernel_param *kp)
 
 	batt_psy = power_supply_get_by_name("battery");
 	if (batt_psy) {
-		if (shipmode_zfg == 0) {
+		if (shipmode_zte == 0) {
 			rc = batt_psy->set_property(batt_psy,
 					POWER_SUPPLY_PROP_SHIPMODE, &enable);
 			if (rc) {
@@ -300,7 +300,7 @@ static int zfg_misc_control_shipmode(const char *val, struct kernel_param *kp)
 
 	return 0;
 }
-static int zfg_misc_get_shipmode_node(char *val, struct kernel_param *kp)
+static int zte_misc_get_shipmode_node(char *val, struct kernel_param *kp)
 {
 	struct power_supply	*batt_psy;
 	int rc;
@@ -315,15 +315,15 @@ static int zfg_misc_get_shipmode_node(char *val, struct kernel_param *kp)
 			return snprintf(val, CHARGER_BUF_SIZE, "%d", -1);
 		}
 		pr_info("%s: shipmode status %d\n", __func__, pval.intval);
-		shipmode_zfg = pval.intval;
+		shipmode_zte = pval.intval;
 	} else
 		pr_err("%s: batt_psy is NULL\n", __func__);
 
 	return snprintf(val, CHARGER_BUF_SIZE, "%d", pval.intval);
 }
 
-module_param_call(shipmode_zfg, zfg_misc_control_shipmode, zfg_misc_get_shipmode_node,
-					&shipmode_zfg, 0644);
+module_param_call(shipmode_zte, zte_misc_control_shipmode, zte_misc_get_shipmode_node,
+					&shipmode_zte, 0644);
 
 struct charging_policy_ops *g_charging_policy_ops = NULL;
 
@@ -423,7 +423,7 @@ static int expired_charging_policy_sec_get(char *val, struct kernel_param *kp)
 module_param_call(charging_time_sec, expired_charging_policy_sec_set,
 	expired_charging_policy_sec_get, &charging_time_sec, 0644);
 
-int zfg_misc_register_charging_policy_ops(struct charging_policy_ops *ops)
+int zte_misc_register_charging_policy_ops(struct charging_policy_ops *ops)
 {
 	int ret = 0;
 
@@ -505,7 +505,7 @@ enum charger_types_oem charge_type_oem = CHARGER_TYPE_DEFAULT;
 module_param_named(
 	charge_type_oem, charge_type_oem, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH
 );
-static int zfg_misc_probe(struct platform_device *pdev)
+static int zte_misc_probe(struct platform_device *pdev)
 {
 	struct device *dev = &pdev->dev;
 	int error;
@@ -515,7 +515,7 @@ static int zfg_misc_probe(struct platform_device *pdev)
 	if (error)
 		return error;
 
-	zfg_misc_fingerprint_hw_check(dev);
+	zte_misc_fingerprint_hw_check(dev);
 
     
 
@@ -523,33 +523,33 @@ static int zfg_misc_probe(struct platform_device *pdev)
 	return 0;
 }
 
-static int  zfg_misc_remove(struct platform_device *pdev)
+static int  zte_misc_remove(struct platform_device *pdev)
 {
 	return 0;
 }
 
-static struct platform_driver zfg_misc_device_driver = {
-	.probe		= zfg_misc_probe,
-	.remove		= zfg_misc_remove,
+static struct platform_driver zte_misc_device_driver = {
+	.probe		= zte_misc_probe,
+	.remove		= zte_misc_remove,
 	.driver		= {
-		.name	= "zfg-misc",
+		.name	= "zte-misc",
 		.owner	= THIS_MODULE,
-		.of_match_table = zfg_misc_of_match,
+		.of_match_table = zte_misc_of_match,
 	}
 };
 
-int __init zfg_misc_init(void)
+int __init zte_misc_init(void)
 {
-	return platform_driver_register(&zfg_misc_device_driver);
+	return platform_driver_register(&zte_misc_device_driver);
 }
 
-static void __exit zfg_misc_exit(void)
+static void __exit zte_misc_exit(void)
 {
-	platform_driver_unregister(&zfg_misc_device_driver);
+	platform_driver_unregister(&zte_misc_device_driver);
 }
-fs_initcall(zfg_misc_init);
-module_exit(zfg_misc_exit);
+fs_initcall(zte_misc_init);
+module_exit(zte_misc_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("Misc driver for zfg");
-MODULE_ALIAS("platform:zfg-misc");
+MODULE_DESCRIPTION("Misc driver for zte");
+MODULE_ALIAS("platform:zte-misc");

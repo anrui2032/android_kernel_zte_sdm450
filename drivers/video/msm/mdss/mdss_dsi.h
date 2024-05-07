@@ -26,9 +26,9 @@
 
 
 
-#ifdef CONFIG_ZFG_LCD_COMMON_FUNCTION
+#ifdef CONFIG_ZTE_LCD_COMMON_FUNCTION
 
-struct zfg_lcd_ctrl_data;
+struct zte_lcd_ctrl_data;
 #endif
 
 
@@ -566,8 +566,8 @@ struct mdss_dsi_ctrl_pdata {
 
 	bool phy_power_off;
 
-#ifdef CONFIG_ZFG_LCD_COMMON_FUNCTION
-	struct zfg_lcd_ctrl_data *zfg_lcd_ctrl;
+#ifdef CONFIG_ZTE_LCD_COMMON_FUNCTION
+	struct zte_lcd_ctrl_data *zte_lcd_ctrl;
 #endif
 
 };

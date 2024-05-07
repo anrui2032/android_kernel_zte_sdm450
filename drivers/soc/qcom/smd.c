@@ -1352,9 +1352,9 @@ static void handle_smd_irq_closing_list(void)
 }
 
 
-extern int zfg_smd_wakeup;
-int zfg_qmi_data_wakeup	= 0;
-int zfg_qmi_state_change_wakeup	= 0;
+extern int zte_smd_wakeup;
+int zte_qmi_data_wakeup	= 0;
+int zte_qmi_state_change_wakeup	= 0;
 extern unsigned char is_qmi_channel(char *channel_name);
 int not_rpm_smd	= 0;
 int rpm_smd_logged = 0;
@@ -1396,14 +1396,14 @@ static void handle_smd_irq(struct remote_proc_info *r_info,
 					ch->n, ch->name, ch->last_state, tmp);
 
 			
-			if (zfg_smd_wakeup &&
+			if (zte_smd_wakeup &&
 					(ch->type != SMD_APPS_RPM || (ch->type == SMD_APPS_RPM && !rpm_smd_logged))) {
 				const char *subsys = smd_edge_to_subsystem(ch->type);
 
-				pr_info("zfg_smd_wakeup: %s wakeup app, SMD ch%d\n", subsys, ch->n);
-				pr_info("zfg:'%s' state change %d->%d\n", ch->name, ch->last_state, tmp);
+				pr_info("zte_smd_wakeup: %s wakeup app, SMD ch%d\n", subsys, ch->n);
+				pr_info("zte:'%s' state change %d->%d\n", ch->name, ch->last_state, tmp);
 				if (is_qmi_channel(ch->name))
-					zfg_qmi_state_change_wakeup = 1;
+					zte_qmi_state_change_wakeup = 1;
 
 				if (ch->type != SMD_APPS_RPM)
 					not_rpm_smd = 1;
@@ -1431,13 +1431,13 @@ static void handle_smd_irq(struct remote_proc_info *r_info,
 				);
 
 			
-			if (zfg_smd_wakeup &&
+			if (zte_smd_wakeup &&
 					(ch->type != SMD_APPS_RPM || (ch->type == SMD_APPS_RPM && !rpm_smd_logged))) {
 				const char *subsys = smd_edge_to_subsystem(ch->type);
 
-				pr_info("zfg:%s wakeup app, SMD ch %d '%s' Data event\n", subsys, ch->n, ch->name);
+				pr_info("zte:%s wakeup app, SMD ch %d '%s' Data event\n", subsys, ch->n, ch->name);
 				if (is_qmi_channel(ch->name))
-					zfg_qmi_data_wakeup = 1;
+					zte_qmi_data_wakeup = 1;
 
 				if (ch->type != SMD_APPS_RPM)
 					not_rpm_smd = 1;
@@ -1453,11 +1453,11 @@ static void handle_smd_irq(struct remote_proc_info *r_info,
 					ch->n, ch->name);
 
 			
-			if (zfg_smd_wakeup &&
+			if (zte_smd_wakeup &&
 					(ch->type != SMD_APPS_RPM || (ch->type == SMD_APPS_RPM && !rpm_smd_logged))) {
 				const char *subsys = smd_edge_to_subsystem(ch->type);
 
-				pr_info("zfg:%s wakeup app, SMD ch %d '%s' State update\n", subsys, ch->n, ch->name);
+				pr_info("zte:%s wakeup app, SMD ch %d '%s' State update\n", subsys, ch->n, ch->name);
 				if (ch->type != SMD_APPS_RPM)
 					not_rpm_smd = 1;
 				else
@@ -1471,7 +1471,7 @@ static void handle_smd_irq(struct remote_proc_info *r_info,
 
 	
 	if (not_rpm_smd) {
-		zfg_smd_wakeup = 0;
+		zte_smd_wakeup = 0;
 		rpm_smd_logged = 0;
 	}
 	not_rpm_smd = 0;
@@ -2037,12 +2037,12 @@ int smd_open(const char *name, smd_channel_t **_ch, void *priv, void (*notify)(v
 }
 EXPORT_SYMBOL(smd_open);
 /*
-EXPORT_SYMBOL(smd_named_open_on_edge_zfg);
-int smd_open_zfg(const char *name, smd_channel_t **_ch,
+EXPORT_SYMBOL(smd_named_open_on_edge_zte);
+int smd_open_zte(const char *name, smd_channel_t **_ch,
 		void *priv, void (*notify)(void *, unsigned), const char* func, int line) {
-	return smd_named_open_on_edge_zfg(name, SMD_APPS_MODEM, _ch, priv, notify, func,line);
+	return smd_named_open_on_edge_zte(name, SMD_APPS_MODEM, _ch, priv, notify, func,line);
 }
-EXPORT_SYMBOL(smd_open_zfg);
+EXPORT_SYMBOL(smd_open_zte);
 */
 
 
@@ -2451,10 +2451,10 @@ static int smsm_cb_init(void)
 }
 
 /*
- * set online on non-ffbm mode by ZFG_BOOT
+ * set online on non-ffbm mode by ZTE_BOOT
  */
-#ifdef CONFIG_ZFG_BOOT_MODE
-static void smem_zfg_set_nv_bootmode(int bootmode)
+#ifdef CONFIG_ZTE_BOOT_MODE
+static void smem_zte_set_nv_bootmode(int bootmode)
 {
 	int *smem_bootmode = NULL;
 
@@ -2546,13 +2546,13 @@ static int smsm_init(void)
 		return i;
 
 /*
- * set online on non-ffbm mode by ZFG_BOOT
+ * set online on non-ffbm mode by ZTE_BOOT
  */
-#ifdef CONFIG_ZFG_BOOT_MODE
+#ifdef CONFIG_ZTE_BOOT_MODE
 	if (socinfo_get_ftm_flag() || socinfo_get_ffbm_flag()) {
-		smem_zfg_set_nv_bootmode(MAGIC_NUM_FFBM_MODE);
+		smem_zte_set_nv_bootmode(MAGIC_NUM_FFBM_MODE);
 	} else {
-		smem_zfg_set_nv_bootmode(MAGIC_NUM_NON_FFBM_MODE);
+		smem_zte_set_nv_bootmode(MAGIC_NUM_NON_FFBM_MODE);
 	}
 #endif
 

@@ -369,24 +369,24 @@ config CHARGER_BQ24735
 	  Say Y to enable support for the TI BQ24735 battery charger.
 
 config TI25898D_CHARGER
-	bool "ZFG TI BQ25898D Charger IC"
+	bool "ZTE TI BQ25898D Charger IC"
 	help
 	  Say 'Y' here to enable it.
 
 config TIBQ27426_FG
-	bool "ZFG TI BQ27426 battery IC"
+	bool "ZTE TI BQ27426 battery IC"
 	default n
 	help
 	  Say 'Y' here to enable it.
 
 config TIBQ25601_CHARGER
-	bool "ZFG TI BQ25601 Charger IC"
+	bool "ZTE TI BQ25601 Charger IC"
 	default n
 	help
 	  Say 'Y' here to enable it.
 
-config ZFG_SPMI_LITE
-	bool "ZFG spmi driver"
+config ZTE_SPMI_LITE
+	bool "ZTE spmi driver"
 	default n
 	help
 	  Say 'Y' here to enable it.
@@ -761,8 +761,8 @@ config MSM_BCL_PERIPHERAL_CTL
 	  provides routines to configure and monitor the BCL
 	  PMIC peripheral.
 
-config ZFG_PM_DEBUG_AVAILABLE
-	tristate "zfg pm debug available"
+config ZTE_PM_DEBUG_AVAILABLE
+	tristate "zte pm debug available"
 
 source "drivers/power/reset/Kconfig"
 

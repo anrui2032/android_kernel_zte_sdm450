@@ -109,10 +109,10 @@ config SND_SOC_APQ8084
 	 the machine drivers and the corresponding
 	 DAI-links.
 
-#ZFG_MODIFY by weiguohua for speaker amp 20171114 start
-config ZFG_USE_AMP_AW87316
+#ZTE_MODIFY by weiguohua for speaker amp 20171114 start
+config ZTE_USE_AMP_AW87316
      tristate "USE_AMP_AW87316"
-#ZFG_MODIFY by weiguohua for speaker amp 20171114 end
+#ZTE_MODIFY by weiguohua for speaker amp 20171114 end
 
 config SND_SOC_MSM8994
 	tristate "SoC Machine driver for MSM8994 boards"

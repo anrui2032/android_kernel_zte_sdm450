@@ -36,7 +36,7 @@
 /{
 	mtp_batterydata: qcom,battery-data {
 		qcom,batt-id-range-pct = <15>;
-		#include "batterydata-2685302_ZFG_3000mAh.dtsi"
+		#include "batterydata-2685302_ZTE_3000mAh.dtsi"
 	};
 };
 

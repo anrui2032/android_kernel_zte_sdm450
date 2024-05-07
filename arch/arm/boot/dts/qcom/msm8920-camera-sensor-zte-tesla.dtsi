@@ -235,7 +235,7 @@
 		cell-index = <0>;
 		qcom,cci-master = <0>;
 		reg = <0x0>;
-		qcom,eeprom-name = "zfg_ov13855_z578dl";
+		qcom,eeprom-name = "zte_ov13855_z578dl";
 		compatible = "qcom,eeprom";
 		qcom,slave-addr = <0xA0>;
 		qcom,num-blocks = <1>;

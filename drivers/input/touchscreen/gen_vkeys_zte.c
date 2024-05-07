@@ -16,7 +16,7 @@
 #include <linux/platform_device.h>
 #include <linux/of.h>
 #include <linux/input.h>
-#include <linux/input/gen_vkeys_zfg.h>
+#include <linux/input/gen_vkeys_zte.h>
 
 #define MAX_BUF_SIZE	256
 #define VKEY_VER_CODE	"0x01"
@@ -68,67 +68,67 @@ static int  vkey_parse_dt(struct device *dev,
 		return -EINVAL;
 	}
 
-	rc  =  of_property_read_u32(np, "zfg,disp-maxx_mm", &pdata->disp_maxx_mm);
+	rc  =  of_property_read_u32(np, "zte,disp-maxx_mm", &pdata->disp_maxx_mm);
 	if (rc) {
 		dev_err(dev, "Failed to read display max x_mm\n");
 		return -EINVAL;
 	}
 
-	rc  =  of_property_read_u32(np, "zfg,disp-maxy_mm", &pdata->disp_maxy_mm);
+	rc  =  of_property_read_u32(np, "zte,disp-maxy_mm", &pdata->disp_maxy_mm);
 	if (rc) {
 		dev_err(dev, "Failed to read display max y_mm\n");
 		return -EINVAL;
 	}
 
-	rc  =  of_property_read_u32(np, "zfg,disp-maxy_px", &pdata->disp_maxy_px);
+	rc  =  of_property_read_u32(np, "zte,disp-maxy_px", &pdata->disp_maxy_px);
 	if (rc) {
 		dev_err(dev, "Failed to read display max y_px\n");
 		return -EINVAL;
 	}
 
-	rc  =  of_property_read_u32(np, "zfg,x1", &pdata->x1);
+	rc  =  of_property_read_u32(np, "zte,x1", &pdata->x1);
 	if (rc) {
 		dev_err(dev, "Failed to read  x1\n");
 		return -EINVAL;
 	}
 
-	rc  =  of_property_read_u32(np, "zfg,x2", &pdata->x2);
+	rc  =  of_property_read_u32(np, "zte,x2", &pdata->x2);
 	if (rc) {
 		dev_err(dev, "Failed to read  x2\n");
 		return -EINVAL;
 	}
 
-	rc  =  of_property_read_u32(np, "zfg,x3", &pdata->x3);
+	rc  =  of_property_read_u32(np, "zte,x3", &pdata->x3);
 	if (rc) {
 		dev_err(dev, "Failed to read  x3\n");
 		return -EINVAL;
 	}
 
-	rc  =  of_property_read_u32(np, "zfg,lcd_offset", &pdata->lcd_offset);
+	rc  =  of_property_read_u32(np, "zte,lcd_offset", &pdata->lcd_offset);
 	if (rc) {
 		dev_err(dev, "Failed to read lcd_offset\n");
 		return -EINVAL;
 	}
 
-	rc  =  of_property_read_u32(np, "zfg,y_max_offset", &pdata->y_max_offset);
+	rc  =  of_property_read_u32(np, "zte,y_max_offset", &pdata->y_max_offset);
 	if (rc) {
 		dev_err(dev, "Failed to read lcd_offset\n");
 		return -EINVAL;
 	}
-	rc  =  of_property_read_u32(np, "zfg,dx", &pdata->dx);
+	rc  =  of_property_read_u32(np, "zte,dx", &pdata->dx);
 	if (rc) {
 		dev_err(dev, "Failed to read lcd_offset\n");
 		return -EINVAL;
 	}
 
-	prop  =  of_find_property(np, "zfg,key-codes", NULL);
+	prop  =  of_find_property(np, "zte,key-codes", NULL);
 	if (prop) {
 		pdata->num_keys  =  prop->length / sizeof(u32);
 		pdata->keycodes  =  devm_kzalloc(dev,
 			sizeof(u32) * pdata->num_keys, GFP_KERNEL);
 		if (!pdata->keycodes)
 			return -ENOMEM;
-		rc  =  of_property_read_u32_array(np, "zfg,key-codes",
+		rc  =  of_property_read_u32_array(np, "zte,key-codes",
 				pdata->keycodes, pdata->num_keys);
 		if (rc) {
 			dev_err(dev, "Failed to read key codes\n");
@@ -225,19 +225,19 @@ static int  vkeys_remove(struct platform_device *pdev)
 }
 
 static struct of_device_id vkey_match_table[]  =  {
-	 { .compatible  =  "zfg,gen-vkeys", },
+	 { .compatible  =  "zte,gen-vkeys", },
 	 { },
 };
 
-static struct platform_driver vkeys_zfg_driver  =  {
+static struct platform_driver vkeys_zte_driver  =  {
 	.probe  =  vkeys_probe,
 	.remove  =  vkeys_remove,
 	.driver  =  {
 		.owner  =  THIS_MODULE,
-		.name  =  "gen_vkeys_zfg",
+		.name  =  "gen_vkeys_zte",
 		.of_match_table  =  vkey_match_table,
 	},
 };
 
-module_platform_driver(vkeys_zfg_driver);
+module_platform_driver(vkeys_zte_driver);
 MODULE_LICENSE("GPL v2");

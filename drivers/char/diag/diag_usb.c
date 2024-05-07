@@ -40,7 +40,7 @@
 #define DIAG_USB_MAX_SIZE	16384
 
 /* begin-8-diag security implementation */
-#ifdef ZFG_FEATURE_TF_SECURITY_SYSTEM
+#ifdef ZTE_FEATURE_TF_SECURITY_SYSTEM
 #ifdef DIAG_LOCK_ON
 static int diag_locked = 1;
 #else

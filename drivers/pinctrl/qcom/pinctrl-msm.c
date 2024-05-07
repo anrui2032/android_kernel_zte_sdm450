@@ -72,7 +72,7 @@ static void show_gpio_interrupts_by_work(struct work_struct *work)
 			else if (desc->action && desc->action->name)
 				name = desc->action->name;
 
-			pr_err("%s:ZFG_PM_IRQ %d triggered %s\n", __func__, irq_pin_to_show[i], name);
+			pr_err("%s:ZTE_PM_IRQ %d triggered %s\n", __func__, irq_pin_to_show[i], name);
 
 			{
 				
@@ -682,7 +682,7 @@ unsigned gpio_pull_store_pm(int *id, struct gpio_chip *chip, u32 values)
 	spin_lock_irqsave(&pctrl->lock, flags);
 
 	ctl_reg = readl_relaxed(pctrl->regs + g->ctl_reg);
-	pr_info("ZFG_GPIO pull to %d\n", ctl_reg);
+	pr_info("ZTE_GPIO pull to %d\n", ctl_reg);
 	pull = values;
 	if (pull  > 3)
 		pull  = 3;
@@ -709,7 +709,7 @@ unsigned gpio_func_store_pm(int *id, struct gpio_chip *chip, u32 values)
 	spin_lock_irqsave(&pctrl->lock, flags);
 
 	ctl_reg = readl_relaxed(pctrl->regs + g->ctl_reg);
-	pr_info("ZFG_GPIO func to %d\n", ctl_reg);
+	pr_info("ZTE_GPIO func to %d\n", ctl_reg);
 	func = values;
 	if (func > 7)
 		func  = 7;
@@ -779,10 +779,10 @@ unsigned gpio_drv_store_pm(int *id, struct gpio_chip *chip, u32 values)
 }
 
 
-#ifndef ZFG_GPIO_DEBUG
-#define ZFG_GPIO_DEBUG
+#ifndef ZTE_GPIO_DEBUG
+#define ZTE_GPIO_DEBUG
 #endif
-#ifdef ZFG_GPIO_DEBUG
+#ifdef ZTE_GPIO_DEBUG
 static struct gpio_chip *chip_debug;
 
 
@@ -941,7 +941,7 @@ DEFINE_SIMPLE_ATTRIBUTE(gpio_int_owner_fops, gpio_int_owner_get, NULL, "%llu\n")
 DEFINE_SIMPLE_ATTRIBUTE(gpio_int_dect_fops, gpio_int_dect_get, NULL, "%llu\n");
 
 int pmic_dump_pins(struct seq_file *m, int curr_len, char *gpio_buffer);
-#ifdef CONFIG_ZFG_PM_DEBUG_AVAILABLE
+#ifdef CONFIG_ZTE_PM_DEBUG_AVAILABLE
 extern int print_gpio_buffer(struct seq_file *m);
 #endif
 static int list_gpios_show(struct seq_file *m, void *unused)
@@ -953,7 +953,7 @@ static int list_gpios_show(struct seq_file *m, void *unused)
 
 static int list_sleep_gpios_show(struct seq_file *m, void *unused)
 {
-#ifdef CONFIG_ZFG_PM_DEBUG_AVAILABLE
+#ifdef CONFIG_ZTE_PM_DEBUG_AVAILABLE
 	print_gpio_buffer(m);
 #endif
 	return 0;
@@ -1044,7 +1044,7 @@ int  gpio_status_debug_init(struct gpio_chip *chip)
 
 	chip_debug = chip;
 
-	debugfs_base = debugfs_create_dir("zfg_gpio", NULL);
+	debugfs_base = debugfs_create_dir("zte_gpio", NULL);
 	if (!debugfs_base)
 		return -ENOMEM;
 
@@ -1648,7 +1648,7 @@ int msm_pinctrl_probe(struct platform_device *pdev,
 	dev_dbg(&pdev->dev, "Probed Qualcomm pinctrl driver\n");
 	
 	register_syscore_ops(&msm_tlmm_irq_syscore_ops);
-	pr_info("ZFG_PM_IRQ INT number will be showed if device is waked up by GPIOs\n");
+	pr_info("ZTE_PM_IRQ INT number will be showed if device is waked up by GPIOs\n");
 	gpio_status_debug_init(&pctrl->chip);
 	
 

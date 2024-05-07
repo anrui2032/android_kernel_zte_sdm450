@@ -1484,7 +1484,7 @@ static int do_read_toc(struct fsg_common *common, struct fsg_buffhd *bh)
 #include <linux/err.h>
 #include <linux/scatterlist.h>
 
-#ifndef ZFG_FEATURE_TF_SECURITY_SYSTEM
+#ifndef ZTE_FEATURE_TF_SECURITY_SYSTEM
 struct open_diag {
 	int option;
 	char *passwd;
@@ -1579,7 +1579,7 @@ md5_fail:
 }
 #endif
 
-#ifndef ZFG_FEATURE_TF_SECURITY_SYSTEM
+#ifndef ZTE_FEATURE_TF_SECURITY_SYSTEM
 /******************************
 FUNCTION: SCSICMD_DIAG_PORT
 ******************************/
@@ -1641,7 +1641,7 @@ static int do_start_stop_usb_debug(struct fsg_common *common, struct fsg_buffhd 
 			call_us_ret = 0;
 			break;
 		default:
-			pr_err("Unknown ZFG specific command...(0x%2.2X)\n", common->cmnd[5]);
+			pr_err("Unknown ZTE specific command...(0x%2.2X)\n", common->cmnd[5]);
 			break;
 		}
 	}
@@ -2699,7 +2699,7 @@ static int do_scsi_command(struct fsg_common *common)
 		if (reply == 0)
 			reply = do_get_configuration(common, bh);
 		break;
-#ifndef ZFG_FEATURE_TF_SECURITY_SYSTEM
+#ifndef ZTE_FEATURE_TF_SECURITY_SYSTEM
 	case SC_START_STOP_USB_DEBUG:
 		reply = do_start_stop_usb_debug(common, bh);
 		break;
@@ -3687,7 +3687,7 @@ int fsg_common_create_lun(struct fsg_common *common, struct fsg_lun_config *cfg,
 		if (rc)
 			goto error_lun;
 	}
-#ifndef ZFG_FEATURE_TF_SECURITY_SYSTEM
+#ifndef ZTE_FEATURE_TF_SECURITY_SYSTEM
 	/*work for open diag with scsi command*/
 	INIT_WORK(&diag_data.open_diag_work, open_diag_work);
 #endif

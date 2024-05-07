@@ -3529,10 +3529,10 @@ static int lcd_fb_callback(struct notifier_block *nfb, unsigned long event, void
 		ip_log_pm = 0;
 		return 0;
 	}
-	pr_info("ZFG_PM %s enter , event=%lu\n", __func__, event);
+	pr_info("ZTE_PM %s enter , event=%lu\n", __func__, event);
 	if (evdata && evdata->data && event == FB_EVENT_BLANK) {
 		blank = evdata->data;
-		pr_info("ZFG_IP_PM %s enter , blank=%d\n", __func__, *blank);
+		pr_info("ZTE_IP_PM %s enter , blank=%d\n", __func__, *blank);
 		if (*blank == FB_BLANK_UNBLANK)
 			ip_log_pm = 0;
 		else if ((*blank == FB_BLANK_POWERDOWN) || (*blank == FB_BLANK_NORMAL))

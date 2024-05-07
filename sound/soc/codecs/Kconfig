@@ -657,21 +657,21 @@ config SND_SOC_WCD9XXX_V2
 	tristate
 	default y if SND_SOC_WCD9335=y
 
-#zfg add it for smart9897 pa chip requirement,20170515
-config ZFG_FEATURE_NXP9897_SMART_PA
-	bool "zfg add NXP smart pa chip tfa9897"
-config ZFG_FEATURE_NXP9896_SMART_PA
-	bool "zfg add NXP smart pa chip tfa9896"
-config ZFG_FEATURE_NXP98XX_SMART_PA_I2C8
-	bool "zfg add NXP smart pa chip tfa98xx use i2c8"
-#zfg add it for smart9896 pa chip requirement,20170515
+#zte add it for smart9897 pa chip requirement,20170515
+config ZTE_FEATURE_NXP9897_SMART_PA
+	bool "zte add NXP smart pa chip tfa9897"
+config ZTE_FEATURE_NXP9896_SMART_PA
+	bool "zte add NXP smart pa chip tfa9896"
+config ZTE_FEATURE_NXP98XX_SMART_PA_I2C8
+	bool "zte add NXP smart pa chip tfa98xx use i2c8"
+#zte add it for smart9896 pa chip requirement,20170515
 
-config ZFG_FEATURE_NXP9888_SMART_PA
-	bool "zfg add NXP smart pa chip tfa9888"
+config ZTE_FEATURE_NXP9888_SMART_PA
+	bool "zte add NXP smart pa chip tfa9888"
 
-#zfg add it for headsetkey cal test func by yujianhua
-config ZFG_HEADSET_BUTTONKEY_CAL
-	bool "zfg add headset three button key cal func"
+#zte add it for headsetkey cal test func by yujianhua
+config ZTE_HEADSET_BUTTONKEY_CAL
+	bool "zte add headset three button key cal func"
 
 config SND_SOC_WCD_CPE
 	tristate

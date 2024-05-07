@@ -2625,7 +2625,7 @@ static bool ieee80211_assoc_success(struct ieee80211_sub_if_data *sdata,
 	 * (re)association response frames. Try to recover by using the data
 	 * from the beacon or probe response. This seems to afflict mobile
 	 * 2G/3G/4G wifi routers, reported models include the "Onda PN51T",
-	 * "Vodafone PocketWiFi 2", "ZFG MF60" and a similar T-Mobile device.
+	 * "Vodafone PocketWiFi 2", "ZTE MF60" and a similar T-Mobile device.
 	 */
 	if ((assoc_data->wmm && !elems.wmm_param) ||
 	    (!(ifmgd->flags & IEEE80211_STA_DISABLE_HT) &&

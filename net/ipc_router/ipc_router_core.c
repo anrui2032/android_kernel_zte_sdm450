@@ -54,7 +54,7 @@ module_param_named(debug_mask, msm_ipc_router_debug_mask,
 #define IPC_RTR_INFO_PAGES 6
 
 
-extern int zfg_smd_qmi_wakeup;
+extern int zte_smd_qmi_wakeup;
 /*
 the following table should be find <qmi_common_1.5%2C_qmi_common_constant_definitions_spec.pdf>
 80-VB816-2K
@@ -110,7 +110,7 @@ static const char * const qmi_service[] = {
 #define IPC_RTR_INFO(log_ctx, x...) do { \
 if (log_ctx) \
 	ipc_log_string(log_ctx, x); \
-if ((msm_ipc_router_debug_mask & RTR_DBG) || zfg_smd_qmi_wakeup) \
+if ((msm_ipc_router_debug_mask & RTR_DBG) || zte_smd_qmi_wakeup) \
 	pr_info("[IPCRTR] "x); \
 } while (0)
 

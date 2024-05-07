@@ -20,7 +20,7 @@
 #include "power.h"
 
 
-#ifdef CONFIG_ZFG_BOOT_MODE
+#ifdef CONFIG_ZTE_BOOT_MODE
 #include "soc/qcom/socinfo.h"
 #endif
 
@@ -32,12 +32,12 @@ step2: cat /proc/kmsg
 step3: echo -n "NULL" to cancel debug
 */
 
-#define ZFG_WAKELOCK_DEBUG
+#define ZTE_WAKELOCK_DEBUG
 #include <linux/module.h>
 
-#ifdef ZFG_WAKELOCK_DEBUG
-char *wakelock_debug_zfg;
-module_param_named(wakelock_debug, wakelock_debug_zfg, charp, 0600);
+#ifdef ZTE_WAKELOCK_DEBUG
+char *wakelock_debug_zte;
+module_param_named(wakelock_debug, wakelock_debug_zte, charp, 0600);
 #endif
 
 
@@ -85,8 +85,8 @@ echo 1 > /sys/module/wakeup/parameters/ws_debug_mask
 static int ws_debug_mask;
 module_param(ws_debug_mask, int, 0644);
 
-static void zfg_dumplock_timer_func(unsigned long dummy);
-static DEFINE_TIMER(dumplock_timer, zfg_dumplock_timer_func, 0, 0);
+static void zte_dumplock_timer_func(unsigned long dummy);
+static DEFINE_TIMER(dumplock_timer, zte_dumplock_timer_func, 0, 0);
 #endif
 
 
@@ -483,13 +483,13 @@ static void wakeup_source_activate(struct wakeup_source *ws)
 	
 	#ifdef DUMP_WAKELOCK
 	if (ws_debug_mask != 0)
-		pr_info("ZFG_PM_LOCK active %s\n", ws->name);
+		pr_info("ZTE_PM_LOCK active %s\n", ws->name);
 	#endif
 
-	#ifdef ZFG_WAKELOCK_DEBUG
-	if (wakelock_debug_zfg) {
-		if (strnstr(ws->name, wakelock_debug_zfg, sizeof(wakelock_debug_zfg)))
-			WARN(1, "ZFG_PM_WAKELOCK acquire wakelock %s:\n", ws->name);
+	#ifdef ZTE_WAKELOCK_DEBUG
+	if (wakelock_debug_zte) {
+		if (strnstr(ws->name, wakelock_debug_zte, sizeof(wakelock_debug_zte)))
+			WARN(1, "ZTE_PM_WAKELOCK acquire wakelock %s:\n", ws->name);
 	}
 	#endif
 	
@@ -624,13 +624,13 @@ static void wakeup_source_deactivate(struct wakeup_source *ws)
 	
 	#ifdef DUMP_WAKELOCK
 	if (ws_debug_mask != 0)
-		pr_info("ZFG_PM_LOCK deactive %s\n", ws->name);
+		pr_info("ZTE_PM_LOCK deactive %s\n", ws->name);
 	#endif
 
-	#ifdef ZFG_WAKELOCK_DEBUG
-	if (wakelock_debug_zfg) {
-		if (strnstr(ws->name, wakelock_debug_zfg, sizeof(wakelock_debug_zfg)))
-			WARN(1, "ZFG_PM_WAKELOCK release wakelock %s:\n", ws->name);
+	#ifdef ZTE_WAKELOCK_DEBUG
+	if (wakelock_debug_zte) {
+		if (strnstr(ws->name, wakelock_debug_zte, sizeof(wakelock_debug_zte)))
+			WARN(1, "ZTE_PM_WAKELOCK release wakelock %s:\n", ws->name);
 	}
 	#endif
 	
@@ -874,21 +874,21 @@ void pm_wakeup_clear(void)
 static int dump_period = 120;
 module_param(dump_period, int, 0644);
 
-void dump_wakeup_source_zfg(void)
+void dump_wakeup_source_zte(void)
 {
 	struct wakeup_source *ws;
 
 	rcu_read_lock();
 	list_for_each_entry_rcu(ws, &wakeup_sources, entry) {
 		if (ws->active)
-			pr_info("zfg_dump wakesource %s is active\n", ws->name);
+			pr_info("zte_dump wakesource %s is active\n", ws->name);
 	}
 	rcu_read_unlock();
 }
 
-static void zfg_dumplock_timer_func(unsigned long dummy)
+static void zte_dumplock_timer_func(unsigned long dummy)
 {
-	dump_wakeup_source_zfg();
+	dump_wakeup_source_zte();
 	mod_timer(&dumplock_timer, jiffies + msecs_to_jiffies(dump_period*1000));
 }
 #endif
@@ -922,7 +922,7 @@ bool pm_get_wakeup_count(unsigned int *count, bool block)
 			#ifdef DUMP_WAKELOCK
 				pr_info("[PM] %s for(;;)cnt= %d and wakesource count inpr= %d\n",
 								__func__, cnt, inpr);
-				dump_wakeup_source_zfg();
+				dump_wakeup_source_zte();
 			#endif
 			
 

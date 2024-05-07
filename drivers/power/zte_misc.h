@@ -1,5 +1,5 @@
-#ifndef __POWER_ZFG_MISC__
-#define __POWER_ZFG_MISC__
+#ifndef __POWER_ZTE_MISC__
+#define __POWER_ZTE_MISC__
 
 enum battery_sts {
 	BATTERY_CHARGING = 0,
@@ -42,6 +42,6 @@ struct charging_policy_ops {
 	int (*charging_policy_expired_sec_get)(struct charging_policy_ops *charging_policy);
 };
 
-int zfg_misc_register_charging_policy_ops(struct charging_policy_ops *ops);
+int zte_misc_register_charging_policy_ops(struct charging_policy_ops *ops);
 
 #endif

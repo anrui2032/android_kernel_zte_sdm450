@@ -24,7 +24,7 @@
 #include <asm/cputype.h>
 
 
-#ifdef CONFIG_ZFG_BOOT_MODE
+#ifdef CONFIG_ZTE_BOOT_MODE
 
 #define ANDROID_BOOT_MODE              "androidboot.mode="
 #define ANDROID_BOOT_MODE_FTM          "ffbm-99"
@@ -284,6 +284,6 @@ uint32_t socinfo_get_serial_number(void);
 enum pmic_model socinfo_get_pmic_model(void);
 uint32_t socinfo_get_pmic_die_revision(void);
 int __init socinfo_init(void) __must_check;
-int zfg_get_boot_mode(void);
+int zte_get_boot_mode(void);
 
 #endif

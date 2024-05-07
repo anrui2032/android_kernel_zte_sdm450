@@ -294,15 +294,15 @@ static struct usb_device_descriptor device_desc = {
 
 /* OEM USB Attrs. */
 struct usb_parameters {
-	char noZfgPrefix;
+	char noZtePrefix;
 	char enable_cdrom;
 	char forceSwitch;
 	char noSerialno;
 	char rebootFtm;
 };
 
-struct usb_parameters zfg_usb_parameters = {
-	.noZfgPrefix = 0,
+struct usb_parameters zte_usb_parameters = {
+	.noZtePrefix = 0,
 	.enable_cdrom = 0,
 	.forceSwitch = 0,
 	.noSerialno = 0,
@@ -314,7 +314,7 @@ struct pid_no_oem_prefix {
 	__u16 pid_no_prefix;
 };
 
-static struct pid_no_oem_prefix pid_no_zfg_prefix[] = {
+static struct pid_no_oem_prefix pid_no_zte_prefix[] = {
 	/* {pid, pid_no_prefix} */
 	{0x0504, 0x0360,},
 	{0x0501, 0x0359,},
@@ -348,18 +348,18 @@ static struct pid_no_oem_prefix pid_no_zfg_prefix[] = {
 
 static int not_display_oem_prefix(void)
 {
-	return !!(zfg_usb_parameters.noZfgPrefix);
+	return !!(zte_usb_parameters.noZtePrefix);
 }
 
 static void pid_not_display_oem_prefix(ushort *pid)
 {
 	int index;
-	int size = ARRAY_SIZE(pid_no_zfg_prefix);
+	int size = ARRAY_SIZE(pid_no_zte_prefix);
 	__u16 product_id = *pid;
 
 	for (index = 0; index < size; index++) {
-		if (pid_no_zfg_prefix[index].pid == product_id) {
-			product_id = pid_no_zfg_prefix[index].pid_no_prefix;
+		if (pid_no_zte_prefix[index].pid == product_id) {
+			product_id = pid_no_zte_prefix[index].pid_no_prefix;
 			pr_debug("%s: 0x%x\n", __func__, product_id);
 			*pid = product_id;
 		}
@@ -405,7 +405,7 @@ static void ftm_iSerialNumber_filter(struct usb_composite_dev *cdev)
 {
 	/* If tradefed case reboot ftmmode, do report usb serial number */
 	if (is_usb_factory_mode()
-		|| (zfg_usb_parameters.noSerialno && !zfg_usb_parameters.rebootFtm)) {
+		|| (zte_usb_parameters.noSerialno && !zte_usb_parameters.rebootFtm)) {
 		strings_dev[STRING_SERIAL_IDX].id = 0;
 		device_desc.iSerialNumber = 0;
 		if (cdev)
@@ -4008,7 +4008,7 @@ static ssize_t enable_store(struct device *pdev, struct device_attribute *attr,
 		return -ENODEV;
 
 	/* For usbmanutag. */
-	if (is_usb_factory_mode() && !zfg_usb_parameters.forceSwitch)
+	if (is_usb_factory_mode() && !zte_usb_parameters.forceSwitch)
 		return -EBUSY;
 
 	mutex_lock(&dev->mutex);
@@ -4351,7 +4351,7 @@ field ## _show(struct device *dev, struct device_attribute *attr,	\
 		char *buf)						\
 {									\
 	return snprintf(buf, PAGE_SIZE,					\
-			format_string, zfg_usb_parameters.field);	\
+			format_string, zte_usb_parameters.field);	\
 }									\
 static ssize_t								\
 field ## _store(struct device *dev, struct device_attribute *attr,	\
@@ -4359,7 +4359,7 @@ field ## _store(struct device *dev, struct device_attribute *attr,	\
 {									\
 	int value;							\
 	if (sscanf(buf, format_string, &value) == 1) {			\
-		zfg_usb_parameters.field = value;			\
+		zte_usb_parameters.field = value;			\
 		return size;						\
 	}								\
 	return -EPERM;							\
@@ -4439,7 +4439,7 @@ static DEVICE_ATTR(ftm_tag, 0444, ftm_tag_show, NULL);
 static DEVICE_ATTR(manu_tag, 0664, manu_tag_show, manu_tag_store);
 
 OEM_USB_CONFIG_ATTR(enable_cdrom, "%d\n")
-OEM_USB_CONFIG_ATTR(noZfgPrefix, "%d\n")
+OEM_USB_CONFIG_ATTR(noZtePrefix, "%d\n")
 OEM_USB_CONFIG_ATTR(forceSwitch, "%d\n")
 OEM_USB_CONFIG_ATTR(noSerialno, "%d\n")
 OEM_USB_CONFIG_ATTR(rebootFtm, "%d\n")
@@ -4470,7 +4470,7 @@ static struct device_attribute *android_usb_attributes[] = {
 	&dev_attr_ftm_tag,
 	&dev_attr_manu_tag,
 	&dev_attr_switch_pid,
-	&dev_attr_noZfgPrefix,
+	&dev_attr_noZtePrefix,
 	&dev_attr_forceSwitch,
 	&dev_attr_noSerialno,
 	&dev_attr_rebootFtm,

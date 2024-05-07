@@ -180,7 +180,7 @@ config LEDS_GPIO
 	  defined as platform devices and/or OpenFirmware platform devices.
 	  The code to use these bindings can be selected below.
 
-config ZFG_LEDS_GPIO
+config ZTE_LEDS_GPIO
 	tristate "LED Support for GPIO connected LEDs"
 	depends on LEDS_CLASS
 	depends on GPIOLIB

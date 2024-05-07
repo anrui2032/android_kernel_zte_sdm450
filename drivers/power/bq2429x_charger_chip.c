@@ -45,7 +45,7 @@
 #include <linux/alarmtimer.h>
 #include "bq2429x_reg.h"
 #include "bq2429x.h"
-#include "zfg_misc.h"
+#include "zte_misc.h"
 
 #define CHG_SMOOTH_BATTERY_PROP
 
@@ -3509,7 +3509,7 @@ static int bq2429x_charger_probe(struct i2c_client *client,
 	}
 
 	charging_policy_init(bq);
-	zfg_misc_register_charging_policy_ops(&bq->battery_charging_policy_ops);
+	zte_misc_register_charging_policy_ops(&bq->battery_charging_policy_ops);
 	schedule_delayed_work(&bq->charging_policy_work, 0);
 
 	return 0;

@@ -1,11 +1,11 @@
 
-qcom,zfg_p840t21_4080mah {
+qcom,zte_p840t21_4080mah {
 	
 	qcom,max-voltage-uv = <4400000>;
 	qcom,nom-batt-capacity-mah = <4080>;
 	qcom,batt-id-kohm = <20>;
 	qcom,battery-beta = <3435>;
-	qcom,battery-type = "ZFG_BATTERY_DATA_ID_1";
+	qcom,battery-type = "ZTE_BATTERY_DATA_ID_1";
 	qcom,chg-rslow-comp-c1 = <3554026>;
 	qcom,chg-rslow-comp-c2 = <5775348>;
 	qcom,chg-rs-to-rslow = <702145>;

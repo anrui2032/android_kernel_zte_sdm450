@@ -12,7 +12,7 @@
 
 &mdss_mdp {
 	dsi_lead_td4310_5p99_1080P_video: qcom,mdss_dsi_lead_td4310_5p99_1080P_video {
-		qcom,mdss-dsi-panel-name = "zfgLEAD_TD4310_1080_2160_5P99Inch";
+		qcom,mdss-dsi-panel-name = "zteLEAD_TD4310_1080_2160_5P99Inch";
 		qcom,mdss-dsi-panel-type = "dsi_video_mode";
 		qcom,cont-splash-enabled;
 		qcom,mdss-dsi-panel-status-read-length = <1>;

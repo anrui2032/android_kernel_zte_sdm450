@@ -1327,7 +1327,7 @@ static inline bool time_to_inject(struct f2fs_sb_info *sbi, int type)
 }
 #endif
 /*
-* ZFG_MODIFY start, add function to calculate reserve blocks for root users from reserved segments
+* ZTE_MODIFY start, add function to calculate reserve blocks for root users from reserved segments
 * stored in superblock
 */
 static inline block_t f2fs_r_blocks_count(struct f2fs_sb_info *sbi)
@@ -3334,7 +3334,7 @@ static inline bool f2fs_may_encrypt(struct inode *inode)
 #endif
 }
 
-/*ZFG_MODIFY start,
+/*ZTE_MODIFY start,
   *adjust gc thread's bg gc frequency according to current value of BDF
   */
 #ifdef CONFIG_F2FS_STAT_FS

@@ -979,13 +979,13 @@ __pmic_arb_periph_irq(int irq, void *dev_id, bool show)
 }
 
 
-struct spmi_pmic_arb_dev *zfg_pmic_arb = NULL;
+struct spmi_pmic_arb_dev *zte_pmic_arb = NULL;
 extern int qpnpint_get_irq(struct spmi_controller *spmi_ctrl, struct qpnp_irq_spec *spec);
 extern void print_irq_info(int i);
 
-void zfg_pmic_irq_resume(void)
+void zte_pmic_irq_resume(void)
 {
-	struct spmi_pmic_arb_dev *pmic_arb = zfg_pmic_arb;
+	struct spmi_pmic_arb_dev *pmic_arb = zte_pmic_arb;
 	void __iomem *intr = pmic_arb->intr;
 	u8 ee = pmic_arb->ee;
 	u32 status;
@@ -1025,7 +1025,7 @@ void zfg_pmic_irq_resume(void)
 							.irq = k,
 						};
 						irq = qpnpint_get_irq(&pmic_arb->controller, &irq_spec);
-						pr_info("zfg_pmic_irq_resume sid: 0x%x, pid: 0x%x, irq: 0x%x\n",
+						pr_info("zte_pmic_irq_resume sid: 0x%x, pid: 0x%x, irq: 0x%x\n",
 								sid, pid, k);
 						print_irq_info(irq);
 					}
@@ -1035,9 +1035,9 @@ void zfg_pmic_irq_resume(void)
 	}
 }
 
-static struct syscore_ops zfg_pmic_syscore_ops = {
+static struct syscore_ops zte_pmic_syscore_ops = {
 	.suspend = NULL,
-	.resume = zfg_pmic_irq_resume,
+	.resume = zte_pmic_irq_resume,
 };
 
 
@@ -1394,8 +1394,8 @@ static int spmi_pmic_arb_probe(struct platform_device *pdev)
 	register_syscore_ops(&spmi_pmic_arb_syscore_ops);
 
 	
-	zfg_pmic_arb	=	pmic_arb;
-	register_syscore_ops(&zfg_pmic_syscore_ops);
+	zte_pmic_arb	=	pmic_arb;
+	register_syscore_ops(&zte_pmic_syscore_ops);
 	
 
 	return 0;

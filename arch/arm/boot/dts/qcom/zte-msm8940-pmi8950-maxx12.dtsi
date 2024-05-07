@@ -37,7 +37,7 @@
 				qcom,use-blink;
 				pwms = <&pmi8950_pwm 0 0>;
 				qcom,pwm-names = "red-led";
-				zfg,is-operator-sprint = "no";
+				zte,is-operator-sprint = "no";
 			};
 		};
 
@@ -63,7 +63,7 @@
 				qcom,use-blink;
 				pwms = <&pmi8950_pwm 0 0>;
 				qcom,pwm-names = "green-led";
-				zfg,is-operator-sprint = "no";
+				zte,is-operator-sprint = "no";
 			};
 		};
 	};

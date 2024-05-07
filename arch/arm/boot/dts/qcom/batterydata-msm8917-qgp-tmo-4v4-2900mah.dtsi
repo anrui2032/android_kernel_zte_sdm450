@@ -10,7 +10,7 @@
  * GNU General Public License for more details.
  */
 
-qcom,qrd8917_zfg_tmo_2900mah_averaged_masterslave_apr29th2016 {
+qcom,qrd8917_zte_tmo_2900mah_averaged_masterslave_apr29th2016 {
 	qcom,max-voltage-uv = <4400000>;
 	qcom,fcc-mah = <2900>;
 	qcom,fastchg-current-ma = <2820>;

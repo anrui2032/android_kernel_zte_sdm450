@@ -34,12 +34,12 @@
 		qcom,cam-vreg-op-mode = <80000>;
 	};
 
-	zfg_eeprom0: zfg,eeprom@0 {
+	zte_eeprom0: zte,eeprom@0 {
 		cell-index = <0>;
-		compatible = "zfg,ov16b10_031-eeprom";
+		compatible = "zte,ov16b10_031-eeprom";
 		qcom,cci-master = <0>;
 		reg = <0x0>;
-		zfg,eeprom-share = <1>;
+		zte,eeprom-share = <1>;
 		cam_vio-supply = <&pm8953_l6>;
 		cam_vdig-supply = <&pm8953_l2>;
 		cam_vaf-supply = <&pm8953_l22>;
@@ -72,10 +72,10 @@
 		qcom,clock-rates = <24000000 0>;
 	};
 
-	zfg_eeprom1: zfg,eeprom@1 {
+	zte_eeprom1: zte,eeprom@1 {
 		cell-index = <1>;
-		compatible = "zfg,s5k4h7_127-eeprom";
-		zfg,eeprom-name = "zfg_s5k4h7_127";
+		compatible = "zte,s5k4h7_127-eeprom";
+		zte,eeprom-name = "zte_s5k4h7_127";
 		qcom,cci-master = <1>;
 		reg = <0x1>;
 		cam_vdig-supply = <&pm8953_l23>;
@@ -137,7 +137,7 @@
 		qcom,csiphy-sd-index = <1>;
 		qcom,csid-sd-index = <1>;
 		qcom,mount-angle = <270>;
-		qcom,eeprom-src = <&zfg_eeprom0>;
+		qcom,eeprom-src = <&zte_eeprom0>;
 		qcom,led-flash-src = <&led_flash2>;
 		qcom,actuator-src = <&actuator0>;
 		cam_vio-supply = <&pm8953_l6>;
@@ -181,7 +181,7 @@
 		qcom,csiphy-sd-index = <2>;
 		qcom,csid-sd-index = <2>;
 		qcom,mount-angle = <90>;
-		qcom,eeprom-src = <&zfg_eeprom0>;
+		qcom,eeprom-src = <&zte_eeprom0>;
 		cam_vdig-supply = <&pm8953_l23>;
 		cam_vio-supply = <&pm8953_l6>;
 		qcom,cam-vreg-name = "cam_vdig", "cam_vio";
@@ -223,7 +223,7 @@
 		qcom,csiphy-sd-index = <0>;
 		qcom,csid-sd-index = <0>;
 		qcom,mount-angle = <90>;
-		qcom,eeprom-src = <&zfg_eeprom1>;
+		qcom,eeprom-src = <&zte_eeprom1>;
 		cam_vdig-supply = <&pm8953_l23>;
 		cam_vio-supply = <&pm8953_l6>;
 		qcom,cam-vreg-name = "cam_vdig", "cam_vio";

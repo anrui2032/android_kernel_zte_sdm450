@@ -11,11 +11,11 @@
  * GNU General Public License for more details.
  */
 
-#include "sdm450-camera-sensor-zfg-kitty.dtsi"
+#include "sdm450-camera-sensor-zte-kitty.dtsi"
 
-#include "dsi-panel-zfg-lead-hx83112-dj-6p0-1080p-video.dtsi"
-#include "dsi-panel-zfg-xinli-hx83112-lg-6p0-1080p-video.dtsi"
-#include "zfg-sdm450-ti-bq25600d-bq27426.dtsi"
+#include "dsi-panel-zte-lead-hx83112-dj-6p0-1080p-video.dtsi"
+#include "dsi-panel-zte-xinli-hx83112-lg-6p0-1080p-video.dtsi"
+#include "zte-sdm450-ti-bq25600d-bq27426.dtsi"
 
 &i2c_3 { /* BLSP1 QUP3 */
 	status = "okay";
@@ -96,8 +96,8 @@
 	qcom,dsi-pref-prim-pan = <&dsi_lead_hx83112_dj_1080p_video>;
 	pinctrl-0 = <&mdss_dsi_active &mdss_te_active &lcd_ids_active>;
 	qcom,platform-bklight-en-gpio = <&tlmm 41 0>;
-	zfg,disp_vsp_en_gpio = <&tlmm 44 0>;
-	zfg,disp_vsn_en_gpio = <&tlmm 45 0>;
+	zte,disp_vsp_en_gpio = <&tlmm 44 0>;
+	zte,disp_vsn_en_gpio = <&tlmm 45 0>;
 	/delete-property/lab-supply;
 	/delete-property/ibb-supply;
 };
@@ -248,8 +248,8 @@
 /*end*/
 
 &soc {
-	zfg-gpio-leds {
-		compatible = "zfg-gpio-leds";
+	zte-gpio-leds {
+		compatible = "zte-gpio-leds";
 		charger-red-led {
 			red = <&pm8953_gpios 5 0x0>;
 			label = "red";
@@ -268,11 +268,11 @@
 			qcom,use-blink;
 			pwms = <&pm8953_pwm 0 0>;
 			qcom,pwm-names = "red-led";
-			zfg,is-operator-sprint = "no";
+			zte,is-operator-sprint = "no";
 		};
 	};
-	zfg-gpio-leds {
-		compatible = "zfg-gpio-leds";
+	zte-gpio-leds {
+		compatible = "zte-gpio-leds";
 		charger-green-led {
 			green = <&pm8953_gpios 6 0x0>;
 			label = "green";
@@ -291,7 +291,7 @@
 			qcom,use-blink;
 			pwms = <&pm8953_pwm 0 0>;
 			qcom,pwm-names = "green-led";
-			zfg,is-operator-sprint = "no";
+			zte,is-operator-sprint = "no";
 		};
 	};
 
@@ -299,9 +299,9 @@
 		interrupts = <0 98 0>;
 	};
 
-	zfg_vibrator {
-		compatible = "zfg_vibrator";
-		zfg,motor_en_gpio = <&tlmm 46 0x0>;
+	zte_vibrator {
+		compatible = "zte_vibrator";
+		zte,motor_en_gpio = <&tlmm 46 0x0>;
 		linux,output-type = <0>;
 	};
 
@@ -327,8 +327,8 @@
 
 	hall_sensor {
 		compatible = "ah,hall_ic";
-		pinctrl-names = "zfg_hall_gpio_active";
-		pinctrl-0 = <&zfg_hall_gpio_active>;
+		pinctrl-names = "zte_hall_gpio_active";
+		pinctrl-0 = <&zte_hall_gpio_active>;
 		ah,gpio_irq = <&tlmm 38 0x00>;
 		linux,name = "hall_sensor";
 	};
@@ -370,8 +370,8 @@
 		goodix,gpio_pwr = <&tlmm 95 0>;
 		interrupt-names = "goodix_wake_up";
 	};
-	zfg_misc {
-		compatible = "zfg-misc";
+	zte_misc {
+		compatible = "zte-misc";
 	};
 /*Added by chenhui for fingerprint, end*/
 
@@ -548,8 +548,8 @@
 	};
 /*end*/
 /*added by chenhui for hall gpio for no pull*/
-	zfg_hall: zfg_hall {
-		zfg_hall_gpio_active: zfg_hall_gpio_active {
+	zte_hall: zte_hall {
+		zte_hall_gpio_active: zte_hall_gpio_active {
 			mux {
 				pins = "gpio38";
 				function = "gpio";
@@ -710,7 +710,7 @@
 
 /*added by chenhui for SAR IC SX9325, begin*/
 	sx9310-input@28 {
-		compatible = "zfg, sx9310-input";
+		compatible = "zte, sx9310-input";
 		reg = <0x28>;
 		//cc,irq_gpio = <&tlmm 63 0x0>;
 		interrupt-parent = <&tlmm>;
@@ -774,9 +774,9 @@
 		};
 
 		spmi_lite {
-			compatible = "zfg,spmi-lite";
-			zfg,led_red_gpio = <5>;
-			zfg,led_green_gpio = <6>;
+			compatible = "zte,spmi-lite";
+			zte,led_red_gpio = <5>;
+			zte,led_green_gpio = <6>;
 		};
 
 		pm8953_gpios: gpios {

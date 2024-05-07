@@ -945,7 +945,7 @@ static irqreturn_t qpnp_kpdpwr_irq(int irq, void *_pon)
 			pon->timer.expires = jiffies + 3 * HZ;
 			pr_info("%s: FTM mode,start 3s timer for reboot\n", __func__);
 		} else {
-#ifdef CONFIG_ZFG_PWRKEY_16S_RESET
+#ifdef CONFIG_ZTE_PWRKEY_16S_RESET
 			pon->timer.expires = jiffies + 16 * HZ;
 			pr_info("%s: Normal mode,start 16s timer for reboot\n", __func__);
 #else
@@ -1119,7 +1119,7 @@ static irqreturn_t qpnp_resin_bark_irq(int irq, void *_pon)
 	/* disable the bark interrupt */
 	disable_irq_nosync(irq);
 	
-	pr_info("ZFG_PM resin_bark\n");
+	pr_info("ZTE_PM resin_bark\n");
 	
 	cfg = qpnp_get_cfg(pon, PON_RESIN);
 	if (!cfg) {

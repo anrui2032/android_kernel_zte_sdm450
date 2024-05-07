@@ -23,7 +23,7 @@
 #include "dsi-panel-truly-wuxga-video.dtsi"
 #include "dsi-panel-lt8912-480p-video.dtsi"
 #include "dsi-panel-lt8912-1080p-video.dtsi"
-#include "dsi-panel-zfg-lead-hx83112-dj-6p0-1080p-video.dtsi"
+#include "dsi-panel-zte-lead-hx83112-dj-6p0-1080p-video.dtsi"
 #include "dsi-panel-lgd-incell-sw49106-fhd-video.dtsi"
 
 &soc {

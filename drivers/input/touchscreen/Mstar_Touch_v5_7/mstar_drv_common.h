@@ -210,7 +210,7 @@ rights to any and all damages, losses, costs and expenses resulting therefrom.
 /*------------------- #ifdef CONFIG_ENABLE_ITO_MP_TEST ------------------- //*/
 /*
  * Note.
-*zfg test
+*zte test
  */
 #define CONFIG_TPD_MSTAR_TEST
 #ifdef CONFIG_ENABLE_ITO_MP_TEST

@@ -130,7 +130,7 @@ static int set_hall_gpio_state(struct device *dev)
 		error = PTR_ERR(hall_gpio_pinctrl);
 		return error;
 	}
-	hall_gpio_state = pinctrl_lookup_state(hall_gpio_pinctrl, "zfg_hall_gpio_active");
+	hall_gpio_state = pinctrl_lookup_state(hall_gpio_pinctrl, "zte_hall_gpio_active");
 	if (IS_ERR_OR_NULL(hall_gpio_state)) {
 		pr_info("Can not get hall_gpio_state\n");
 		error = PTR_ERR(hall_gpio_state);
@@ -139,7 +139,7 @@ static int set_hall_gpio_state(struct device *dev)
 
 	error = pinctrl_select_state(hall_gpio_pinctrl, hall_gpio_state);
 	if (error) {
-		pr_info("can not set hall_gpio pins to zfg_hall_gpio_active states\n");
+		pr_info("can not set hall_gpio pins to zte_hall_gpio_active states\n");
 	} else {
 		pr_info("set_hall_gpio_state success.\n");
 	}

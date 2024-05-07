@@ -1442,7 +1442,7 @@ int vt_move_to_console(unsigned int vt, int alloc)
 	prev = fg_console;
 
 	
-	pr_info("zfg_console BEGIN: %s console %d -> %d\n", alloc ? "SUSPEND" : "RESUME", prev, vt);
+	pr_info("zte_console BEGIN: %s console %d -> %d\n", alloc ? "SUSPEND" : "RESUME", prev, vt);
 
 	if (alloc && vc_allocate(vt)) {
 		/* we can't have a free VC for now. Too bad,
@@ -1466,7 +1466,7 @@ int vt_move_to_console(unsigned int vt, int alloc)
 		return -EINTR;
 	}
 
-	pr_info("zfg_console DONE\n");
+	pr_info("zte_console DONE\n");
 	return prev;
 }
 

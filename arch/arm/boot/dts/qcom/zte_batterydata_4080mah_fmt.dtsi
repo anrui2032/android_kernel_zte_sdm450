@@ -1,11 +1,11 @@
 
-qcom,zfg_batterydata_4080mah_fmt {
+qcom,zte_batterydata_4080mah_fmt {
 	
 	qcom,max-voltage-uv = <4400000>;
 	qcom,nom-batt-capacity-mah = <4080>;
 	qcom,batt-id-kohm = <10>;
 	qcom,battery-beta = <4050>;
-	qcom,battery-type = "ZFG_BATTERY_DATA_ID_2";
+	qcom,battery-type = "ZTE_BATTERY_DATA_ID_2";
 	qcom,chg-rslow-comp-c1 = <3188392>;
 	qcom,chg-rslow-comp-c2 = <4414699>;
 	qcom,chg-rs-to-rslow = <801734>;

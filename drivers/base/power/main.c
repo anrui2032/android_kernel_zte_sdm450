@@ -873,7 +873,7 @@ void dpm_resume(pm_message_t state)
 		if (!is_async(dev)) {
 			int error;
 
-			/*zfg_pm ++++, begin
+			/*zte_pm ++++, begin
 			mutex_unlock(&dpm_list_mtx);
 			error = device_resume(dev, state, false);
 			*/
@@ -883,7 +883,7 @@ void dpm_resume(pm_message_t state)
 			jif = jiffies;
 			error = device_resume(dev, state, false);
 			if ((jiffies - jif) > 1) {
-				pr_err("ZFG_PM: devices of %s exit device_resume() %lu ms\n",
+				pr_err("ZTE_PM: devices of %s exit device_resume() %lu ms\n",
 						dev_name(dev), (jiffies - jif)*10);
 			}
 			

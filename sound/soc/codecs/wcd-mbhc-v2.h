@@ -527,7 +527,7 @@ static inline void wcd_mbhc_deinit(struct wcd_mbhc *mbhc)
 #endif
 
 /*add by yujianhua for headsetkey begin*/
-#ifdef CONFIG_ZFG_HEADSET_BUTTONKEY_CAL
+#ifdef CONFIG_ZTE_HEADSET_BUTTONKEY_CAL
 #define MAX_KEYVAL 787
 #define CALKEY_STEP 25
 enum {

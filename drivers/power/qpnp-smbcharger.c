@@ -9,7 +9,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-#define pr_fmt(fmt) "ZFGCHG:SMBCHG: %s: " fmt, __func__
+#define pr_fmt(fmt) "ZTECHG:SMBCHG: %s: " fmt, __func__
 
 #include <linux/spmi.h>
 #include <linux/spinlock.h>
@@ -39,7 +39,7 @@
 #include <linux/msm_bcl.h>
 #include <linux/ktime.h>
 #include <linux/pmic-voter.h>
-#include "zfg_misc.h"
+#include "zte_misc.h"
 #include <linux/reboot.h>
 #include <linux/wakelock.h>
 
@@ -1143,11 +1143,11 @@ static int get_property_from_fg(struct smbchg_chip *chip,
 }
 
 static int fake_usb_offline = 0;
-static int zfg_set_usb_offline(const char *val, struct kernel_param *kp)
+static int zte_set_usb_offline(const char *val, struct kernel_param *kp)
 {
 	int offline;
 
-	pr_info("zfg_set_usb_offline,start.\n");
+	pr_info("zte_set_usb_offline,start.\n");
 	if (sscanf(val, "%d", &offline) != 1)
 		return -EINVAL;
 
@@ -1158,10 +1158,10 @@ static int zfg_set_usb_offline(const char *val, struct kernel_param *kp)
 	}
 	fake_usb_offline = !!offline;
 	mutex_unlock(&the_chip->usb_set_online_lock);
-	pr_info("zfg_set_usb_offline,end\n");
+	pr_info("zte_set_usb_offline,end\n");
 	return 0;
 }
-module_param_call(set_usb_online, zfg_set_usb_offline, param_get_uint,
+module_param_call(set_usb_online, zte_set_usb_offline, param_get_uint,
 					&fake_usb_offline, 0660);
 
 static int get_prop_batt_voltage_now(struct smbchg_chip *chip);
@@ -1214,7 +1214,7 @@ static int get_prop_batt_current_now(struct smbchg_chip *chip)
 	return ua;
 }
 
-static int zfg_get_usbin_voltage_now(struct smbchg_chip *chip)
+static int zte_get_usbin_voltage_now(struct smbchg_chip *chip)
 {
 	int rc;
 	struct qpnp_vadc_result adc_result;
@@ -4818,7 +4818,7 @@ static int smbchg_set_optimal_charging_mode(struct smbchg_chip *chip, int type)
 }
 
 #define DEFAULT_SDP_MA		100
-#ifdef ZFG_DISABLE_HVDCP
+#ifdef ZTE_DISABLE_HVDCP
 #define DEFAULT_CDP_MA		2100
 #else
 #define DEFAULT_CDP_MA          1500
@@ -8626,7 +8626,7 @@ static int smbchg_check_chg_version(struct smbchg_chip *chip)
 
 		chip->schg_version = QPNP_SCHG_LITE;
 		/* PMI8937/PMI8940 doesn't support HVDCP */
-		#ifdef ZFG_DISABLE_HVDCP
+		#ifdef ZTE_DISABLE_HVDCP
 		if ((pmic_rev_id->pmic_subtype == PMI8937)
 			|| (pmic_rev_id->pmic_subtype == PMI8940)
 			|| (pmic_rev_id->pmic_subtype == PMI8950))
@@ -8733,7 +8733,7 @@ static void update_heartbeat(struct work_struct *work)
 	chg_current = get_prop_batt_current_now(chip);
 	batt_health = get_prop_batt_health(chip);
 	usb_present = is_usb_present(chip);
-	usb_voltage = zfg_get_usbin_voltage_now(chip);
+	usb_voltage = zte_get_usbin_voltage_now(chip);
 	usb_current = smbchg_get_iusb(chip);
 	printk_counter++;
 

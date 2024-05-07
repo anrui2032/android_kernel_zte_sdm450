@@ -191,7 +191,7 @@ static void set_dload_mode(int on)
 
 	dload_mode_enabled = on;
 	
-	pr_notice("zfg_restart set_dload_mode %d, param=%d\n",
+	pr_notice("zte_restart set_dload_mode %d, param=%d\n",
 	    dload_mode_enabled, on);
 }
 
@@ -355,7 +355,7 @@ static void msm_restart_prepare(const char *cmd)
 	/* Hard reset the PMIC unless memory contents must be maintained. */
 	if (need_warm_reset) {
 	
-		pr_notice("zfg_restart flag %d, %d, %d\n",
+		pr_notice("zte_restart flag %d, %d, %d\n",
 			in_panic, download_mode, restart_mode);
 		qpnp_pon_system_pwr_off(PON_POWER_OFF_WARM_RESET);
 	} else {
@@ -664,9 +664,9 @@ skip_sysfs_create:
 	if (scm_is_call_available(SCM_SVC_PWR, SCM_IO_DEASSERT_PS_HOLD) > 0)
 		scm_deassert_ps_hold_supported = true;
 
-#if defined(ZFG_RESTART_USER_BUILD) /*may defined in the local makefile*/
+#if defined(ZTE_RESTART_USER_BUILD) /*may defined in the local makefile*/
 	download_mode = 0; /* reinit differing with default */
-#elif defined(ZFG_RESTART_USERDEBUG_BUILD) || defined(ZFG_RESTART_ENG_BUILD)
+#elif defined(ZTE_RESTART_USERDEBUG_BUILD) || defined(ZTE_RESTART_ENG_BUILD)
 	/* nothing need to do, the default is already 1 */
 #else
 	/* no choose, just use the default value 1 as eng build */

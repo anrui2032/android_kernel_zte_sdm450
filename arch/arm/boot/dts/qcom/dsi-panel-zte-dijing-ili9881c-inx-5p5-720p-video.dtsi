@@ -17,9 +17,9 @@
  *---------------------------------------------------------------------------*/
 &mdss_mdp {
 	dsi_ili9881c_dijing_720p_video: qcom,mdss_dsi_ili9881c_dijing_720p_video {
-		qcom,mdss-dsi-panel-name = "zfgDIJING_ILI9881C_INX_720_1280_5P5Inch";
-		zfg,lcd-proc-panel-name = "IC:ILI9881C; Vendor:DIJING; Resolution:720*1280";
-		zfg,lcm_reset_pin_keep_high_sleeping;
+		qcom,mdss-dsi-panel-name = "zteDIJING_ILI9881C_INX_720_1280_5P5Inch";
+		zte,lcd-proc-panel-name = "IC:ILI9881C; Vendor:DIJING; Resolution:720*1280";
+		zte,lcm_reset_pin_keep_high_sleeping;
 		qcom,cont-splash-enabled;
 		qcom,panel-supply-entries = <&dsi_panel_pwr_supply>;
 		qcom,mdss-dsi-panel-controller = <&mdss_dsi0>;

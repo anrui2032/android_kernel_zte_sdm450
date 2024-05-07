@@ -322,7 +322,7 @@ struct device_node *of_batterydata_get_best_profile(
 	union power_supply_propval ret = {0, };
 	int delta = 0, best_delta = 0, best_id_kohm = 0, id_range_pct,
 		batt_id_kohm = 0, i = 0, rc = 0, limit = 0;
-#if defined(CONFIG_ZFG_BATT_ID_PARALLEL_RESISTANCE_330KOHM)
+#if defined(CONFIG_ZTE_BATT_ID_PARALLEL_RESISTANCE_330KOHM)
 	int batt_id_parallel_330_kohm = 0;
 #endif
 	bool in_range = false;
@@ -340,7 +340,7 @@ struct device_node *of_batterydata_get_best_profile(
 		return ERR_PTR(-ENOSYS);
 	}
 
-#if defined(CONFIG_ZFG_BATT_ID_PARALLEL_RESISTANCE_330KOHM)
+#if defined(CONFIG_ZTE_BATT_ID_PARALLEL_RESISTANCE_330KOHM)
 	batt_id_parallel_330_kohm = ret.intval / 1000;
 	batt_id_kohm = 330 * batt_id_parallel_330_kohm / (330-batt_id_parallel_330_kohm);
 	pr_info("batt_id_parallel_330_kohm = %d, batt_id_kohm = %d, first_run = %d\n",

@@ -52,7 +52,7 @@
 		cell-index = <0>;
 		qcom,cci-master = <0>;
 		reg = <0x0>;
-		qcom,eeprom-name = "zfg_gt24c64a";
+		qcom,eeprom-name = "zte_gt24c64a";
 		compatible = "qcom,eeprom";
 		qcom,slave-addr = <0xA0>;
 		qcom,num-blocks = <1>;
@@ -98,7 +98,7 @@
 		cell-index = <2>;
 		qcom,cci-master = <1>;
 		reg = <0x02>;
-		qcom,eeprom-name = "zfg_imx258";
+		qcom,eeprom-name = "zte_imx258";
 		compatible = "qcom,eeprom";
 		qcom,slave-addr = <0xA0>;
 		qcom,num-blocks = <1>;

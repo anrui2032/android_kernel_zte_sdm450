@@ -650,7 +650,7 @@ static const struct usb_device_id smsusb_id_table[] = {
 	{ USB_DEVICE(0x187f, 0x0800),
 		.driver_info = SMS1XXX_BOARD_SIANO_DENVER_1530 },
 	{ USB_DEVICE(0x19D2, 0x0086),
-		.driver_info = SMS1XXX_BOARD_ZFG_DVB_DATA_CARD },
+		.driver_info = SMS1XXX_BOARD_ZTE_DVB_DATA_CARD },
 	{ USB_DEVICE(0x19D2, 0x0078),
 		.driver_info = SMS1XXX_BOARD_ONDA_MDTV_DATA_CARD },
 	{ USB_DEVICE(0x3275, 0x0080),

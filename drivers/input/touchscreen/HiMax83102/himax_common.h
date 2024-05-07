@@ -52,7 +52,7 @@
 
 #include "himax_firmware_config.h"
 
-#define HIMAX_DRIVER_VER "0.1.99.0_ZFG V7_01"
+#define HIMAX_DRIVER_VER "0.1.99.0_ZTE V7_01"
 
 #define FLASH_DUMP_FILE "/sdcard/HX_Flash_Dump.bin"
 

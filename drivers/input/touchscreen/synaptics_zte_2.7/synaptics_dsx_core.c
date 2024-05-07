@@ -138,7 +138,7 @@
 #define CUSTOMER_ID_OLD "5534Z6400"
 #define CUSTOMER_ID_NEW "5534Z6400C"
 
-struct device dev_zfg;
+struct device dev_zte;
 
 static struct device *dev;
 static struct workqueue_struct *syna_rmi4_resume_wq;
@@ -149,10 +149,10 @@ static int suspend_flag;
 static DECLARE_WAIT_QUEUE_HEAD(suspend_wait);
 
 #ifdef CONFIG_BOARD_COCONUT
-extern const char *zfg_get_lcd_panel_name(void);
-#define SYN_OFILM_FW_NAME_2ND "ZFG_Z6400_TianMa_Ofilm_6P0_1920_1080_S3603_DS5_17.0.0.1085_PR2697865_55343034.img"
-#define SYN_OFILM_FW_NAME_3ND "ZFG_Z6400_TianMa_Ofilm_6P0_1920_1080_S3603_DS5_17.0.0.1085_PR2697865_55343232.img"
-#define SYN_OFILM_FW_NAME_4ND "ZFG_Z6400_Lead_Ofilm_6P0_1920_1080_S3603_DS5_17.0.0.1085_PR2697865_55343733.img"
+extern const char *zte_get_lcd_panel_name(void);
+#define SYN_OFILM_FW_NAME_2ND "ZTE_Z6400_TianMa_Ofilm_6P0_1920_1080_S3603_DS5_17.0.0.1085_PR2697865_55343034.img"
+#define SYN_OFILM_FW_NAME_3ND "ZTE_Z6400_TianMa_Ofilm_6P0_1920_1080_S3603_DS5_17.0.0.1085_PR2697865_55343232.img"
+#define SYN_OFILM_FW_NAME_4ND "ZTE_Z6400_Lead_Ofilm_6P0_1920_1080_S3603_DS5_17.0.0.1085_PR2697865_55343733.img"
 #endif
 
 char *syn_fwfile_table[SYN_MOUDLE_NUM_MAX] = {
@@ -215,7 +215,7 @@ extern unsigned char get_config_id_addr;
 u32 syna_abs_x_max;
 u32 syna_abs_y_max;
 
-static int count_zfg = 0;
+static int count_zte = 0;
 static int touch_module;
 
 static bool syna_regulator_enable_flag = false;
@@ -962,11 +962,11 @@ static ssize_t synaptics_rmi4_wake_gesture_read(struct file *file,
 {
 	int count = 0;
 	int ret = 0;
-	struct synaptics_rmi4_data *rmi4_data = dev_get_drvdata(&dev_zfg);
+	struct synaptics_rmi4_data *rmi4_data = dev_get_drvdata(&dev_zte);
 	char data_buf[USER_BUF_SIZE] = {0};
 
-	if (count_zfg++ > 0) {
-		count_zfg = 0;
+	if (count_zte++ > 0) {
+		count_zte = 0;
 		return 0;
 	}
 	if (*ppos)
@@ -986,7 +986,7 @@ static ssize_t synaptics_rmi4_wake_gesture_write(struct file *file,
 {
 	int ret;
 	unsigned int input;
-	struct synaptics_rmi4_data *rmi4_data = dev_get_drvdata(&dev_zfg);
+	struct synaptics_rmi4_data *rmi4_data = dev_get_drvdata(&dev_zte);
 	char data_buf[USER_BUF_SIZE] = {0};
 
 	ret = copy_from_user(data_buf, buffer, count);
@@ -1014,10 +1014,10 @@ static ssize_t synaptics_rmi4_glove_read(struct file *file,
 	int count = 0;
 	int ret = 0;
 	char data_buf[USER_BUF_SIZE] = {0};
-	struct synaptics_rmi4_data *rmi4_data = dev_get_drvdata(&dev_zfg);
+	struct synaptics_rmi4_data *rmi4_data = dev_get_drvdata(&dev_zte);
 
-	if (count_zfg++ > 0) {
-		count_zfg = 0;
+	if (count_zte++ > 0) {
+		count_zte = 0;
 		return 0;
 	}
 	if (*ppos)
@@ -1038,7 +1038,7 @@ static ssize_t synaptics_rmi4_glove_write(struct file *file,
 	int ret;
 	unsigned int input;
 	char data_buf[USER_BUF_SIZE] = {0};
-	struct synaptics_rmi4_data *rmi4_data = dev_get_drvdata(&dev_zfg);
+	struct synaptics_rmi4_data *rmi4_data = dev_get_drvdata(&dev_zte);
 
 	ret = copy_from_user(data_buf, buffer, count);
 	if (ret)
@@ -1064,7 +1064,7 @@ static ssize_t synaptics_rmi4_glove_write(struct file *file,
 
 void synaptics_rmi4_smart_cover_write_reg(struct work_struct *work)
 {
-	struct synaptics_rmi4_data *rmi4_data = dev_get_drvdata(&dev_zfg);
+	struct synaptics_rmi4_data *rmi4_data = dev_get_drvdata(&dev_zte);
 
 	dev_info(rmi4_data->pdev->dev.parent,
 		"%s: hall_state = %d, suspend = %d\n",
@@ -1101,10 +1101,10 @@ static ssize_t synaptics_rmi4_smart_cover_read(struct file *file,
 	int count = 0;
 	int ret = 0;
 	char data_buf[USER_BUF_SIZE] = {0};
-	struct synaptics_rmi4_data *rmi4_data = dev_get_drvdata(&dev_zfg);
+	struct synaptics_rmi4_data *rmi4_data = dev_get_drvdata(&dev_zte);
 
-	if (count_zfg++ > 0) {
-		count_zfg = 0;
+	if (count_zte++ > 0) {
+		count_zte = 0;
 		return 0;
 	}
 	if (*ppos)
@@ -1125,7 +1125,7 @@ static ssize_t synaptics_rmi4_smart_cover_write(struct file *file,
 	int ret;
 	unsigned int input;
 	char data_buf[USER_BUF_SIZE] = {0};
-	struct synaptics_rmi4_data *rmi4_data = dev_get_drvdata(&dev_zfg);
+	struct synaptics_rmi4_data *rmi4_data = dev_get_drvdata(&dev_zte);
 
 	ret = copy_from_user(data_buf, buffer, count);
 	if (ret)
@@ -1151,8 +1151,8 @@ static ssize_t forcetouch_flag_vendor_read(struct file *file,
 	int ret = 0;
 	char data_buf[USER_BUF_SIZE] = {0};
 
-	if (count_zfg++ > 0) {
-		count_zfg = 0;
+	if (count_zte++ > 0) {
+		count_zte = 0;
 		return 0;
 	}
 
@@ -2186,7 +2186,7 @@ static int synaptics_rmi4_int_enable(struct synaptics_rmi4_data *rmi4_data,
 	return retval;
 }
 
-/*static int synaptics_rmi4_irq_enable_zfg(struct synaptics_rmi4_data *rmi4_data,
+/*static int synaptics_rmi4_irq_enable_zte(struct synaptics_rmi4_data *rmi4_data,
 		bool enable)
 {
 	int retval = 0;
@@ -4901,10 +4901,10 @@ void synaptics_get_configid(
 
 	if (touch_module < SYN_MOUDLE_NUM_MAX) {
 #ifdef CONFIG_BOARD_COCONUT
-		pr_info("%s: panel_name = %s!\n", __func__, zfg_get_lcd_panel_name());
+		pr_info("%s: panel_name = %s!\n", __func__, zte_get_lcd_panel_name());
 		pr_info("%s: fw_origin_id_2nd = 0x%x\n", __func__, fw_origin_id);
-		if ((strcmp(zfg_get_lcd_panel_name(), "zfgTM(NT35695)TM_1080*1920_6P0Inch") == 0) ||
-			(strcmp(zfg_get_lcd_panel_name(), "zfgTM(ILI7807D)TM_1080*1920_6P0Inch") == 0)) {
+		if ((strcmp(zte_get_lcd_panel_name(), "zteTM(NT35695)TM_1080*1920_6P0Inch") == 0) ||
+			(strcmp(zte_get_lcd_panel_name(), "zteTM(ILI7807D)TM_1080*1920_6P0Inch") == 0)) {
 			if (!bootloader_mode) {
 				if (fw_origin_id == 0x30)
 					syna_file_name = SYN_OFILM_FW_NAME_2ND;
@@ -4920,8 +4920,8 @@ void synaptics_get_configid(
 				else if (strcmp(customer_ID, CUSTOMER_ID_NEW) == 0)
 					syna_file_name = SYN_OFILM_FW_NAME_3ND;
 			}
-		} else if ((strcmp(zfg_get_lcd_panel_name(), "zfgLEAD_OTM1906A_AUO_1080_1920_6P0Inch") == 0) ||
-			(strcmp(zfg_get_lcd_panel_name(), "zfgLEAD_OTM1911A_AUO_1080_1920_6P0Inch") == 0)) {
+		} else if ((strcmp(zte_get_lcd_panel_name(), "zteLEAD_OTM1906A_AUO_1080_1920_6P0Inch") == 0) ||
+			(strcmp(zte_get_lcd_panel_name(), "zteLEAD_OTM1911A_AUO_1080_1920_6P0Inch") == 0)) {
 			if (!bootloader_mode) {
 				if (fw_origin_id == 0x35 || fw_origin_id == 0x30)
 					syna_file_name = syn_fwfile_table[touch_module];
@@ -5393,7 +5393,7 @@ static int synaptics_rmi4_probe(struct platform_device *pdev)
 	if (refresh == NULL)
 		pr_notice("proc_create ts_information failed!\n");
 
-	dev_zfg = rmi4_data->pdev->dev;
+	dev_zte = rmi4_data->pdev->dev;
 	refresh = proc_create("wake_gesture", 0664, dir, &proc_ops_wake_gesture);
 	if (refresh == NULL)
 		pr_notice("proc_create wake_gesture failed!\n");

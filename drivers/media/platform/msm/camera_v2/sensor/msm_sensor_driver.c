@@ -18,8 +18,8 @@
 #include "msm_cci.h"
 #include "msm_camera_dt_util.h"
 
-#include "zfg_camera_sensor_util.h"
- #include "zfg_eeprom.h"
+#include "zte_camera_sensor_util.h"
+ #include "zte_eeprom.h"
 #include <linux/debugfs.h>
 
 /* Logging macro */
@@ -304,7 +304,7 @@ static int is_msm_eeprom_subdevid(
 	return 0;
 }
 
-static int32_t zfg_get_info_from_eeprom(
+static int32_t zte_get_info_from_eeprom(
 		struct msm_sensor_ctrl_t *s_ctrl, struct device_node *eeprom_node,
 		struct msm_camera_sensor_slave_info *slave_info)
 {
@@ -349,7 +349,7 @@ static int32_t zfg_get_info_from_eeprom(
 	return 0;
 }
 
-static int32_t zfg_sensor_fill_eeprom_subdevid_by_name(
+static int32_t zte_sensor_fill_eeprom_subdevid_by_name(
 				struct msm_sensor_ctrl_t *s_ctrl,
 				struct msm_camera_sensor_slave_info *slave_info)
 {
@@ -395,7 +395,7 @@ static int32_t zfg_sensor_fill_eeprom_subdevid_by_name(
 		}
 		/* In the case of eeprom probe from kernel eeprom name
 			should be present, Otherwise it will throw as errors */
-		rc = of_property_read_string(src_node, "zfg,eeprom-name",
+		rc = of_property_read_string(src_node, "zte,eeprom-name",
 			&eeprom_name);
 		if (rc < 0) {
 			pr_err("%s:%d Eeprom userspace probe for %s\n",
@@ -416,7 +416,7 @@ static int32_t zfg_sensor_fill_eeprom_subdevid_by_name(
 			continue;
 		}
 
-		zfg_get_info_from_eeprom(s_ctrl, src_node, slave_info);
+		zte_get_info_from_eeprom(s_ctrl, src_node, slave_info);
 		*eeprom_subdev_id = val;
 		CDBG("%s:%d Eeprom subdevice id is %d\n",
 			__func__, __LINE__, val);
@@ -1123,7 +1123,7 @@ CSID_TG:
 	if (is_msm_eeprom_subdevid(s_ctrl))
 		rc = msm_sensor_fill_eeprom_subdevid_by_name(s_ctrl);
 	else
-		rc = zfg_sensor_fill_eeprom_subdevid_by_name(s_ctrl, slave_info);
+		rc = zte_sensor_fill_eeprom_subdevid_by_name(s_ctrl, slave_info);
 
 	if (rc < 0) {
 		pr_err("%s failed %d\n", __func__, __LINE__);

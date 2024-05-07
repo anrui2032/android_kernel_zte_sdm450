@@ -12,7 +12,7 @@
 
 &mdss_mdp {
 	dsi_truly_nt36672_lg_6p0_1080p_plus_video_vid: qcom,mdss_dsi_truly_nt36672_lgd_5p99_1080p_plus_video {
-		qcom,mdss-dsi-panel-name = "zfgTRULY(NT36672)LG_1080*2160_6P0Inch";
+		qcom,mdss-dsi-panel-name = "zteTRULY(NT36672)LG_1080*2160_6P0Inch";
 		qcom,mdss-dsi-panel-type = "dsi_video_mode";
 		qcom,cont-splash-enabled;
 		qcom,mdss-pan-physical-width-dimension = <68>;

@@ -56,7 +56,7 @@
 		};
 	};
 
-	zfg_pm_debug {
-		compatible = "zfg_pm_debug";
+	zte_pm_debug {
+		compatible = "zte_pm_debug";
 	};
 };

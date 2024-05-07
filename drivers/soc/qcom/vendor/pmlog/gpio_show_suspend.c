@@ -3,11 +3,11 @@
 #include <linux/slab.h>
 #include <linux/seq_file.h>
 /*This program is used for dump sleep gpio stats.*/
-#ifndef ZFG_GPIO_DEBUG
-#define ZFG_GPIO_DEBUG
+#ifndef ZTE_GPIO_DEBUG
+#define ZTE_GPIO_DEBUG
 #endif
 
-#ifdef ZFG_GPIO_DEBUG
+#ifdef ZTE_GPIO_DEBUG
 static int msm_pm_debug_mask = 0;
 module_param_named(
 	gpio_debug_mask, msm_pm_debug_mask, int, S_IRUGO | S_IWUSR | S_IWGRP
@@ -41,7 +41,7 @@ int vendor_free_gpio_buffer(void)
 EXPORT_SYMBOL(vendor_free_gpio_buffer);
 
 
-void zfg_pm_vendor_before_powercollapse(void)
+void zte_pm_vendor_before_powercollapse(void)
 {
 	int curr_len = 0;/*Default close*/
 
@@ -68,5 +68,5 @@ void zfg_pm_vendor_before_powercollapse(void)
 	} while (0);
 
 }
-EXPORT_SYMBOL(zfg_pm_vendor_before_powercollapse);
+EXPORT_SYMBOL(zte_pm_vendor_before_powercollapse);
 #endif

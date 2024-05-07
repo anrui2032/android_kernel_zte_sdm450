@@ -6,7 +6,7 @@
 #include <linux/crc32.h>
 #include "msm_sd.h"
 #include "msm_cci.h"
-#include "zfg_eeprom.h"
+#include "zte_eeprom.h"
 
 #define OV8856_SENSOR_INFO_MODULE_ID_SUNNY		0x01
 #define OV8856_SENSOR_INFO_MODULE_ID_TRULY		0x02
@@ -360,7 +360,7 @@ int ov8856_user_read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl,
 	return rc;
 }
 
-static struct zfg_eeprom_fn_t ov8856_eeprom_func_tbl = {
+static struct zte_eeprom_fn_t ov8856_eeprom_func_tbl = {
 	.eeprom_parse_map = NULL,
 	.kernel_read_eeprom_memory = NULL,
 	.user_read_eeprom_memory = ov8856_user_read_eeprom_memory,
@@ -371,7 +371,7 @@ static struct zfg_eeprom_fn_t ov8856_eeprom_func_tbl = {
 };
 
 static const struct of_device_id ov8856_eeprom_dt_match[] = {
-	{ .compatible = "zfg,ov8856-eeprom", .data = &ov8856_eeprom_func_tbl},
+	{ .compatible = "zte,ov8856-eeprom", .data = &ov8856_eeprom_func_tbl},
 };
 MODULE_DEVICE_TABLE(of, common_eeprom_dt_match);
 
@@ -383,7 +383,7 @@ static int ov8856_eeprom_platform_probe(struct platform_device *pdev)
 	pr_info("%s:%d E", __func__, __LINE__);
 	match = of_match_device(ov8856_eeprom_dt_match, &pdev->dev);
 	if (match)
-		rc = zfg_eeprom_platform_probe_user(pdev, match);
+		rc = zte_eeprom_platform_probe_user(pdev, match);
 	else {
 		pr_err("%s:%d match is null\n", __func__, __LINE__);
 		rc = -EINVAL;
@@ -400,7 +400,7 @@ static int ov8856_eeprom_platform_remove(struct platform_device *pdev)
 	pr_info("%s:%d E", __func__, __LINE__);
 	match = of_match_device(ov8856_eeprom_dt_match, &pdev->dev);
 	if (match)
-		rc = zfg_eeprom_platform_remove(pdev);
+		rc = zte_eeprom_platform_remove(pdev);
 	else {
 		pr_err("%s:%d match is null\n", __func__, __LINE__);
 		rc = -EINVAL;
@@ -411,7 +411,7 @@ static int ov8856_eeprom_platform_remove(struct platform_device *pdev)
 
 static struct platform_driver ov8856_eeprom_platform_driver = {
 	.driver = {
-		.name = "zfg,ov8856-eeprom",
+		.name = "zte,ov8856-eeprom",
 		.owner = THIS_MODULE,
 		.of_match_table = ov8856_eeprom_dt_match,
 	},
@@ -437,6 +437,6 @@ static void __exit ov8856_eeprom_exit_module(void)
 
 module_init(ov8856_eeprom_init_module);
 module_exit(ov8856_eeprom_exit_module);
-MODULE_DESCRIPTION("ZFG EEPROM driver");
+MODULE_DESCRIPTION("ZTE EEPROM driver");
 MODULE_LICENSE("GPL v2");
 

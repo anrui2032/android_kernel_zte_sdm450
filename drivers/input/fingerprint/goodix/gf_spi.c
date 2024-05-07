@@ -67,7 +67,7 @@
 #define N_SPI_MINORS		32	/* ... up to 256 */
 static int SPIDEV_MAJOR;
 
-#if defined(ZFG_PROJ_CONTAIN_GF3258)
+#if defined(ZTE_PROJ_CONTAIN_GF3258)
 extern int is_goodix_fp_gf3258(void);
 #endif
 
@@ -851,7 +851,7 @@ static int __init gf_init(void)
 	 */
 	pr_err("enter gf_init\n");
 
-#if defined(ZFG_PROJ_CONTAIN_GF3258)
+#if defined(ZTE_PROJ_CONTAIN_GF3258)
 	if (is_goodix_fp_gf3258()) {
 		pr_err("fingerprint is goodix series.\n");
 	} else {

@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * Added by zfg_sw for modem control led
+ * Added by zte_sw for modem control led
  */
 #include <linux/kernel.h>
 #include <linux/init.h>
@@ -567,7 +567,7 @@ static struct platform_driver gpio_led_driver = {
 	.probe		= gpio_led_probe,
 	.remove		= gpio_led_remove,
 	.driver		= {
-		.name	= "zfg,leds",
+		.name	= "zte,leds",
 		.owner	= THIS_MODULE,
 		.of_match_table = gpio_led_of_match,
 		.pm = &led_pm_ops,

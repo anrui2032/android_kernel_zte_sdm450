@@ -56,7 +56,7 @@
 #include "mdss_mdp.h"
 #include "mdp3_ctrl.h"
 #include "mdss_dsi.h"
-#include "zfg_lcd_common.h"
+#include "zte_lcd_common.h"
 
 #ifdef CONFIG_FB_MSM_TRIPLE_BUFFER
 #define MDSS_FB_NUM 3
@@ -5066,7 +5066,7 @@ int mdss_fb_suspres_panel(struct device *dev, void *data)
  * from the panel. The function sends the PANEL_ALIVE=0 status to HAL
  * layer.
  */
-extern struct mdss_dsi_ctrl_pdata *g_zfg_ctrl_pdata;
+extern struct mdss_dsi_ctrl_pdata *g_zte_ctrl_pdata;
 void mdss_fb_report_panel_dead(struct msm_fb_data_type *mfd)
 {
 	char *envp[2] = {"PANEL_ALIVE=0", NULL};
@@ -5078,8 +5078,8 @@ void mdss_fb_report_panel_dead(struct msm_fb_data_type *mfd)
 	}
 
 	pdata->panel_info.panel_dead = true;
-	#ifdef CONFIG_ZFG_LCD_COMMON_FUNCTION
-	g_zfg_ctrl_pdata->zfg_lcd_ctrl->lcd_esd_num++;
+	#ifdef CONFIG_ZTE_LCD_COMMON_FUNCTION
+	g_zte_ctrl_pdata->zte_lcd_ctrl->lcd_esd_num++;
 	#endif
 	kobject_uevent_env(&mfd->fbi->dev->kobj,
 		KOBJ_CHANGE, envp);

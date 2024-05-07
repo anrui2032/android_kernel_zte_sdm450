@@ -11,7 +11,7 @@
  * GNU General Public License for more details.
  */
 
-#include "sdm450-camera-sensor-zfg-copper.dtsi"
+#include "sdm450-camera-sensor-zte-copper.dtsi"
 
 #include "dsi-panel-truly-hx83102-cpt-5p7-720p-video.dtsi"
 
@@ -201,8 +201,8 @@
 	qcom,dsi-pref-prim-pan = <&dsi_hx83102_truly_720p_video>;
 	pinctrl-0 = <&mdss_dsi_active &mdss_te_active &lcd_ids_active>;
 	qcom,platform-bklight-en-gpio = <&tlmm 41 0>;
-	zfg,disp_vsp_en_gpio = <&tlmm 44 0>;
-	zfg,disp_vsn_en_gpio = <&tlmm 45 0>;
+	zte,disp_vsp_en_gpio = <&tlmm 44 0>;
+	zte,disp_vsn_en_gpio = <&tlmm 45 0>;
 	/delete-property/lab-supply;
 	/delete-property/ibb-supply;
 };
@@ -333,9 +333,9 @@
 		interrupts = <0 98 0>;
 	};
 
-	zfg_vibrator {
-		compatible = "zfg_vibrator";
-		zfg,motor_en_gpio = <&tlmm 60 0x0>;
+	zte_vibrator {
+		compatible = "zte_vibrator";
+		zte,motor_en_gpio = <&tlmm 60 0x0>;
 		linux,output-type = <0>;
 	};
 
@@ -353,8 +353,8 @@
 
 	hall_sensor {
 		compatible = "ah,hall_ic";
-		pinctrl-names = "zfg_hall_gpio_active";
-		pinctrl-0 = <&zfg_hall_gpio_active>;
+		pinctrl-names = "zte_hall_gpio_active";
+		pinctrl-0 = <&zte_hall_gpio_active>;
 		ah,gpio_irq = <&tlmm 38 0x00>;
 		linux,name = "hall_sensor";
 	};
@@ -378,8 +378,8 @@
 		silead,gpio_pwr = <&tlmm 95 0>;
 		interrupt-names = "sl_wake_up";
 	};
-	zfg_misc {
-		compatible = "zfg-misc";
+	zte_misc {
+		compatible = "zte-misc";
 	};
 /*Added by shizuyong for silead, end*/
 
@@ -508,8 +508,8 @@
 	};
 /*Added by shizuyong for silead, end*/
 /*added by chenhui for hall gpio for no pull*/
-	zfg_hall: zfg_hall {
-		zfg_hall_gpio_active: zfg_hall_gpio_active {
+	zte_hall: zte_hall {
+		zte_hall_gpio_active: zte_hall_gpio_active {
 			mux {
 				pins = "gpio38";
 				function = "gpio";
@@ -583,7 +583,7 @@
 	qcom,msm-mbhc-hphl-swh = <1>;
 	qcom,msm-mbhc-gnd-swh = <1>;
 	qcom,msm-hs-micbias-type = "internal";
-	zfg,speaker-mode-switch-gpios = <&tlmm 8 0x0>;
+	zte,speaker-mode-switch-gpios = <&tlmm 8 0x0>;
 	qcom,audio-routing =
 		"RX_BIAS", "MCLK",
 		"SPK_RX_BIAS", "MCLK",
@@ -641,7 +641,7 @@
 */
 /*added by chenhui for SAR IC SX9325, begin*/
 	sx9310-input@28 {
-		compatible = "zfg, sx9310-input";
+		compatible = "zte, sx9310-input";
 		reg = <0x28>;
 		//cc,irq_gpio = <&tlmm 62 0x0>;
 		interrupt-parent = <&tlmm>;

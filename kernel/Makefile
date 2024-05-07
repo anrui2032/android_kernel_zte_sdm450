@@ -200,7 +200,7 @@ x509.genkey:
 	@echo >>x509.genkey "x509_extensions = myexts"
 	@echo >>x509.genkey
 	@echo >>x509.genkey "[ req_distinguished_name ]"
-	@echo >>x509.genkey "CN = ZFG signing key"
+	@echo >>x509.genkey "CN = ZTE signing key"
 	@echo >>x509.genkey
 	@echo >>x509.genkey "[ myexts ]"
 	@echo >>x509.genkey "basicConstraints=critical,CA:FALSE"

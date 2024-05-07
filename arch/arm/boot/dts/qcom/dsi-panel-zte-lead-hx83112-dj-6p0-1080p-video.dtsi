@@ -13,7 +13,7 @@
 	dsi_lead_hx83112_dj_1080p_video: qcom,mdss_dsi_lead_hx83112_dj_1080p_video {
 		qcom,mdss-dsi-panel-name = "hx83112 dj 1080p video 5p7inch_dsi panel";
 		qcom,cont-splash-enabled;
-		zfg,lcd_bl_vsp_vsn_voltage = <0xf>;
+		zte,lcd_bl_vsp_vsn_voltage = <0xf>;
 		qcom,mdss-dsi-panel-controller = <&mdss_dsi0>;
 		qcom,mdss-dsi-panel-type = "dsi_video_mode";
 		qcom,mdss-dsi-panel-framerate = <60>;

@@ -62,7 +62,7 @@ extern const uint16_t touch_key_array[TOUCH_KEY_NUM];
 extern const uint16_t gesture_key_array[];
 #endif
 #define BOOT_UPDATE_FIRMWARE 1
-#define BOOT_UPDATE_FIRMWARE_NAME "ZFG_Z610DL_TRULY_5P99_1080_2160_NT36672_62323037.bin"
+#define BOOT_UPDATE_FIRMWARE_NAME "ZTE_Z610DL_TRULY_5P99_1080_2160_NT36672_62323037.bin"
 
 struct nvt_ts_mem_map {
 	uint32_t EVENT_BUF_ADDR;

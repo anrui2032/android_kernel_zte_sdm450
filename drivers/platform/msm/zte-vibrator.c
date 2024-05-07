@@ -151,7 +151,7 @@ static int qpnp_vib_parse_dt(struct qpnp_vib *vib)
 		vib->vtg_level = QPNP_VIB_MAX_LEVEL;
 
 	/*get motor_en_gpio*/
-	vib->motor_en_gpio = of_get_named_gpio(pdev->dev.of_node, "zfg,motor_en_gpio", 0);
+	vib->motor_en_gpio = of_get_named_gpio(pdev->dev.of_node, "zte,motor_en_gpio", 0);
 	if (!gpio_is_valid(vib->motor_en_gpio)) {
 		pr_info("motor_en_gpio is invalid.\n");
 		return -EINVAL;
@@ -171,7 +171,7 @@ static int qpnp_vibrator_probe(struct platform_device *pdev)
 	struct qpnp_vib *vib;
 	int rc;
 
-	pr_info("zfgvibrator probe1 ");
+	pr_info("ztevibrator probe1 ");
 
 	vib = devm_kzalloc(&pdev->dev, sizeof(*vib), GFP_KERNEL);
 	if (!vib)
@@ -203,7 +203,7 @@ static int qpnp_vibrator_probe(struct platform_device *pdev)
 	vib->timed_dev.enable = qpnp_vib_enable;
 
 	dev_set_drvdata(&pdev->dev, vib);
-	pr_err("zfgvibrator probe");
+	pr_err("ztevibrator probe");
 
 	rc = timed_output_dev_register(&vib->timed_dev);
 	if (rc < 0) {
@@ -211,7 +211,7 @@ static int qpnp_vibrator_probe(struct platform_device *pdev)
 		return rc;
 	}
 
-	pr_info("zfgvibrator probe2");
+	pr_info("ztevibrator probe2");
 
 	return rc;
 }
@@ -229,7 +229,7 @@ static int qpnp_vibrator_remove(struct platform_device *pdev)
 }
 
 static struct of_device_id vibrator_match_table[] = {
-	{	.compatible = "zfg_vibrator",
+	{	.compatible = "zte_vibrator",
 	},
 	{}
 };

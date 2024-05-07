@@ -50,7 +50,7 @@
 
 #define NUM_PARAMS_REG_ENABLE_SET 2
 
-#if defined(CONFIG_ZFG_FINGERPRINT_FPC1028)
+#if defined(CONFIG_ZTE_FINGERPRINT_FPC1028)
 extern int is_fpc1028_fp(void);
 #endif
 
@@ -685,7 +685,7 @@ static int __init fpc1020_init(void)
 {
 	int rc = 0;
 
-#if defined(CONFIG_ZFG_FINGERPRINT_FPC1028)
+#if defined(CONFIG_ZTE_FINGERPRINT_FPC1028)
 	if (is_fpc1028_fp()) {
 		pr_info("fingerprint is fpc1028.\n");
 	} else {

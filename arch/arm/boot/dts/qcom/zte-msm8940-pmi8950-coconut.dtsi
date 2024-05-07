@@ -11,7 +11,7 @@
  * GNU General Public License for more details.
  */
 
-#include "msm8940-camera-sensor-zfg-coconut.dtsi"
+#include "msm8940-camera-sensor-zte-coconut.dtsi"
 
 &i2c_8 {
 	tfa9888@34 {
@@ -214,8 +214,8 @@
 };
 
 &soc {
-	zfg_misc {
-		compatible = "zfg-misc";
+	zte_misc {
+		compatible = "zte-misc";
 	};
 
 	
@@ -280,7 +280,7 @@
 				qcom,use-blink;
 				pwms = <&pmi8950_pwm 0 0>;
 				qcom,pwm-names = "red-led";
-				zfg,is-operator-sprint = "no";
+				zte,is-operator-sprint = "no";
 			};
 		};
 
@@ -306,7 +306,7 @@
 				qcom,use-blink;
 				pwms = <&pmi8950_pwm 0 0>;
 				qcom,pwm-names = "green-led";
-				zfg,is-operator-sprint = "no";
+				zte,is-operator-sprint = "no";
 			};
 		};
 	};

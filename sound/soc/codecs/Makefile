@@ -190,19 +190,19 @@ snd-soc-max9877-objs := max9877.o
 snd-soc-tpa6130a2-objs := tpa6130a2.o
 snd-soc-tas2552-objs := tas2552.o
 
-#zfg dll add it for smart pa chip  tfa9897 and 96
+#zte dll add it for smart pa chip  tfa9897 and 96
 snd-soc-tfa98xx-objs :=tfa9897/tfa98xx.o tfa9897/tfa_container.o tfa9897/tfa_dsp.o tfa9897/tfa9890_init.o tfa9897/tfa9888_init.o tfa9897/tfa9891_init.o tfa9897/tfa9897_init.o tfa9897/tfa9887B_init.o tfa9897/tfa9887_init.o
 snd-soc-tfa9896-objs :=tfa9896/tfa98xx.o tfa9896/tfa_container.o tfa9896/tfa_dsp.o tfa9896/tfa_init.o tfa9896/tfa_debug.o
-obj-$(CONFIG_ZFG_FEATURE_NXP9897_SMART_PA)	+= snd-soc-tfa98xx.o
-obj-$(CONFIG_ZFG_FEATURE_NXP9896_SMART_PA)	+= snd-soc-tfa9896.o
-#zfg dll add it for smart pa chip  tfa9897  and 96
+obj-$(CONFIG_ZTE_FEATURE_NXP9897_SMART_PA)	+= snd-soc-tfa98xx.o
+obj-$(CONFIG_ZTE_FEATURE_NXP9896_SMART_PA)	+= snd-soc-tfa9896.o
+#zte dll add it for smart pa chip  tfa9897  and 96
 
 snd-soc-tfa9888-objs := tfa9888/tfa98xx.o tfa9888/tfa_container.o tfa9888/tfa_dsp.o tfa9888/tfa9890_init.o tfa9888/tfa9888_init.o tfa9888/tfa9891_init.o tfa9888/tfa9897_init.o tfa9888/tfa9887B_init.o tfa9888/tfa9887_init.o
-obj-$(CONFIG_ZFG_FEATURE_NXP9888_SMART_PA)	+= snd-soc-tfa9888.o
+obj-$(CONFIG_ZTE_FEATURE_NXP9888_SMART_PA)	+= snd-soc-tfa9888.o
 
-#zfg yujianhua add for headsetkey cal
-snd-soc-headsetkeycal-objs := zfg_audio_headset_buttonkey.o
-obj-$(CONFIG_ZFG_HEADSET_BUTTONKEY_CAL) += snd-soc-headsetkeycal.o
+#zte yujianhua add for headsetkey cal
+snd-soc-headsetkeycal-objs := zte_audio_headset_buttonkey.o
+obj-$(CONFIG_ZTE_HEADSET_BUTTONKEY_CAL) += snd-soc-headsetkeycal.o
 
 obj-$(CONFIG_SND_SOC_88PM860X)	+= snd-soc-88pm860x.o
 obj-$(CONFIG_SND_SOC_AB8500_CODEC)	+= snd-soc-ab8500-codec.o
@@ -390,4 +390,4 @@ obj-$(CONFIG_SND_SOC_MSM_STUB)  += snd-soc-msm-stub.o
 # Amp
 obj-$(CONFIG_SND_SOC_MAX9877)	+= snd-soc-max9877.o
 obj-$(CONFIG_SND_SOC_TPA6130A2)	+= snd-soc-tpa6130a2.o
-obj-$(CONFIG_ZFG_FEATURE_NXP9890_SMART_PA)  += tfa9890/
+obj-$(CONFIG_ZTE_FEATURE_NXP9890_SMART_PA)  += tfa9890/

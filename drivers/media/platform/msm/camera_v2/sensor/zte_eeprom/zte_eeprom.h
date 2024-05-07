@@ -43,7 +43,7 @@ typedef enum {
 	Group_Three,
 } Group_t;
 
-struct zfg_eeprom_fn_t {
+struct zte_eeprom_fn_t {
 	int (*eeprom_parse_map)(struct device_node *of,
 				struct msm_eeprom_memory_block_t *data);
 	int (*kernel_read_eeprom_memory)(struct msm_eeprom_ctrl_t *e_ctrl,
@@ -60,7 +60,7 @@ typedef struct {
 	const char *sensor_module_name;
 	const char *chromtix_lib_name;
 	const char *default_chromtix_lib_name;
-} zfg_eeprom_module_info_t;
+} zte_eeprom_module_info_t;
 
 struct msm_eeprom_ctrl_t {
 	struct platform_device *pdev;
@@ -80,8 +80,8 @@ struct msm_eeprom_ctrl_t {
 	struct msm_eeprom_memory_block_t cal_data;
 	uint8_t is_supported;
 
-	struct zfg_eeprom_fn_t *eeprom_fun_p;
-	zfg_eeprom_module_info_t module_info[2];
+	struct zte_eeprom_fn_t *eeprom_fun_p;
+	zte_eeprom_module_info_t module_info[2];
 	uint32_t checksum;
 	uint32_t valid_flag;
 	uint32_t share_eeprom;
@@ -90,11 +90,11 @@ struct msm_eeprom_ctrl_t {
 uint32_t msm_eeprom_match_crc(struct msm_eeprom_memory_block_t *data);
 int user_eeprom_parse_memory_map(struct msm_eeprom_ctrl_t *e_ctrl,
 	struct msm_eeprom_memory_map_array *eeprom_map_array);
-void parse_module_name(zfg_eeprom_module_info_t *module_info,
+void parse_module_name(zte_eeprom_module_info_t *module_info,
 	MODULE_Map_Table *map, uint16_t len, uint16_t  sensor_module_id);
-int zfg_kernel_read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl,
+int zte_kernel_read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl,
 	struct msm_eeprom_memory_block_t *block);
-int zfg_kernel_eeprom_parse_memory_map(struct device_node *of,
+int zte_kernel_eeprom_parse_memory_map(struct device_node *of,
 				struct msm_eeprom_memory_block_t *data);
 int common_kernel_read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl,
 	struct msm_eeprom_memory_block_t *block);
@@ -102,10 +102,10 @@ int common_user_read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl,
 	struct msm_eeprom_memory_map_array *eeprom_map_array);
 int common_eeprom_parse_memory_map(struct device_node *of,
 	struct msm_eeprom_memory_block_t *data);
-int zfg_eeprom_platform_probe_user(struct platform_device *pdev,
+int zte_eeprom_platform_probe_user(struct platform_device *pdev,
 	const struct of_device_id *match);
-int zfg_eeprom_platform_probe_kernel(struct platform_device *pdev,
+int zte_eeprom_platform_probe_kernel(struct platform_device *pdev,
 	const struct of_device_id *match);
-int zfg_eeprom_platform_remove(struct platform_device *pdev);
+int zte_eeprom_platform_remove(struct platform_device *pdev);
 
 #endif

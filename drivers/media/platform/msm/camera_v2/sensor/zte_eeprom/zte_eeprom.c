@@ -16,17 +16,17 @@
 #include <linux/crc32.h>
 #include "msm_sd.h"
 #include "msm_cci.h"
-#include "zfg_eeprom.h"
+#include "zte_eeprom.h"
 
 
 #undef CDBG
-#ifdef CONFIG_ZFG_CAMERA_EEPROM_DEBUG
+#ifdef CONFIG_ZTE_CAMERA_EEPROM_DEBUG
 #define CDBG(fmt, args...) pr_info(fmt, ##args)
 #else
 #define CDBG(fmt, args...) do { } while (0)
 #endif
 
-DEFINE_MSM_MUTEX(zfg_eeprom_mutex);
+DEFINE_MSM_MUTEX(zte_eeprom_mutex);
 #ifdef CONFIG_COMPAT
 static struct v4l2_file_operations msm_eeprom_v4l2_subdev_fops;
 #endif
@@ -931,7 +931,7 @@ static int lookupIndexByid(MODULE_Map_Table arr[], int len, uint16_t value)
 
 	return -EINVAL;
 }
-void parse_module_name(zfg_eeprom_module_info_t *module_info,
+void parse_module_name(zte_eeprom_module_info_t *module_info,
 	MODULE_Map_Table *map, uint16_t len, uint16_t  sensor_module_id)
 {
 	int index = lookupIndexByid(map, len, sensor_module_id);
@@ -940,15 +940,15 @@ void parse_module_name(zfg_eeprom_module_info_t *module_info,
 		module_info->sensor_module_name = map[index].sensor_module_name;
 		module_info->chromtix_lib_name = map[index].chromtix_lib_name;
 		module_info->default_chromtix_lib_name = map[index].default_chromtix_lib_name;
-		pr_info("ZFG_CAMERA:%s:%d:sensor_module_name = %s\n",
+		pr_info("ZTE_CAMERA:%s:%d:sensor_module_name = %s\n",
 			   __func__, __LINE__, module_info->sensor_module_name);
 	} else {
-		pr_err("ZFG_CAMERA:%s:%d:unknown module id : %d\n",
+		pr_err("ZTE_CAMERA:%s:%d:unknown module id : %d\n",
 			   __func__, __LINE__, sensor_module_id);
 	}
 }
 
-int zfg_kernel_read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl,
+int zte_kernel_read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl,
 	struct msm_eeprom_memory_block_t *block)
 {
 	int rc = 0;
@@ -992,7 +992,7 @@ int zfg_kernel_read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl,
 	return rc;
 }
 
-int zfg_kernel_eeprom_parse_memory_map(struct device_node *of,
+int zte_kernel_eeprom_parse_memory_map(struct device_node *of,
 				struct msm_eeprom_memory_block_t *data)
 {
 	int i, rc = 0;
@@ -1000,7 +1000,7 @@ int zfg_kernel_eeprom_parse_memory_map(struct device_node *of,
 	uint32_t count = 6;
 	struct msm_eeprom_memory_map_t *map;
 
-	snprintf(property, PROPERTY_MAXSIZE, "zfg,num-blocks");
+	snprintf(property, PROPERTY_MAXSIZE, "zte,num-blocks");
 	rc = of_property_read_u32(of, property, &data->num_map);
 	CDBG("%s: %s %d\n", __func__, property, data->num_map);
 	if (rc < 0) {
@@ -1014,7 +1014,7 @@ int zfg_kernel_eeprom_parse_memory_map(struct device_node *of,
 	}
 	data->map = map;
 	for (i = 0; i < data->num_map; i++) {
-		snprintf(property, PROPERTY_MAXSIZE, "zfg,mem%d", i);
+		snprintf(property, PROPERTY_MAXSIZE, "zte,mem%d", i);
 		rc = of_property_read_u32_array(of, property,
 					(uint32_t *) &map[i].mem, count);
 		if (rc < 0) {
@@ -1284,7 +1284,7 @@ ERROR:
 }
 
 
-int zfg_eeprom_platform_probe(struct platform_device *pdev, const struct of_device_id *match,
+int zte_eeprom_platform_probe(struct platform_device *pdev, const struct of_device_id *match,
 			int32_t userspace_probe)
 {
 	int rc = 0;
@@ -1295,7 +1295,7 @@ int zfg_eeprom_platform_probe(struct platform_device *pdev, const struct of_devi
 	struct msm_eeprom_board_info *eb_info = NULL;
 	struct device_node *of_node = pdev->dev.of_node;
 	struct msm_camera_power_ctrl_t *power_info = NULL;
-	struct zfg_eeprom_fn_t *eeprom_fun_p = (struct zfg_eeprom_fn_t *)(match->data);
+	struct zte_eeprom_fn_t *eeprom_fun_p = (struct zte_eeprom_fn_t *)(match->data);
 
 	pr_info("%s E\n", __func__);
 	if (!(eeprom_fun_p)) {
@@ -1308,7 +1308,7 @@ int zfg_eeprom_platform_probe(struct platform_device *pdev, const struct of_devi
 		return -ENOMEM;
 	}
 	e_ctrl->eeprom_v4l2_subdev_ops = &msm_eeprom_subdev_ops;
-	e_ctrl->eeprom_mutex = &zfg_eeprom_mutex;
+	e_ctrl->eeprom_mutex = &zte_eeprom_mutex;
 
 	e_ctrl->eeprom_fun_p = eeprom_fun_p;
 	e_ctrl->cal_data.mapdata = NULL;
@@ -1385,7 +1385,7 @@ int zfg_eeprom_platform_probe(struct platform_device *pdev, const struct of_devi
 	}
 	cci_client->cci_i2c_master = e_ctrl->cci_master;
 
-	rc = of_property_read_string(of_node, "zfg,eeprom-name",
+	rc = of_property_read_string(of_node, "zte,eeprom-name",
 		&eb_info->eeprom_name);
 	CDBG("%s qcom,eeprom-name %s, rc %d\n", __func__,
 		eb_info->eeprom_name, rc);
@@ -1395,10 +1395,10 @@ int zfg_eeprom_platform_probe(struct platform_device *pdev, const struct of_devi
 	}
 
 	e_ctrl->share_eeprom = 0;
-	rc = of_property_read_u32(of_node, "zfg,eeprom-share",
+	rc = of_property_read_u32(of_node, "zte,eeprom-share",
 		&e_ctrl->share_eeprom);
 	if (rc < 0)
-		CDBG("%s:%d zfg,eeprom-share %d isn't defined\n", __func__,
+		CDBG("%s:%d zte,eeprom-share %d isn't defined\n", __func__,
 			__LINE__, e_ctrl->share_eeprom);
 
 	e_ctrl->userspace_probe = userspace_probe;
@@ -1511,19 +1511,19 @@ ectrl_free:
 	return rc;
 }
 
-int zfg_eeprom_platform_probe_user(struct platform_device *pdev,
+int zte_eeprom_platform_probe_user(struct platform_device *pdev,
 	const struct of_device_id *match)
 {
-	return zfg_eeprom_platform_probe(pdev, match, 1);
+	return zte_eeprom_platform_probe(pdev, match, 1);
 }
 
-int zfg_eeprom_platform_probe_kernel(struct platform_device *pdev,
+int zte_eeprom_platform_probe_kernel(struct platform_device *pdev,
 	const struct of_device_id *match)
 {
-	return zfg_eeprom_platform_probe(pdev, match, 0);
+	return zte_eeprom_platform_probe(pdev, match, 0);
 }
 
-int zfg_eeprom_platform_remove(struct platform_device *pdev)
+int zte_eeprom_platform_remove(struct platform_device *pdev)
 {
 	struct v4l2_subdev *sd = platform_get_drvdata(pdev);
 	struct msm_eeprom_ctrl_t  *e_ctrl;
