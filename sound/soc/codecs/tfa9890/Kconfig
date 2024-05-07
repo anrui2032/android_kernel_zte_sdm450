@@ -1,0 +1,2 @@
+config ZFG_FEATURE_NXP9890_SMART_PA
+	bool "zfg add NXP smart pa chip tfa9890"

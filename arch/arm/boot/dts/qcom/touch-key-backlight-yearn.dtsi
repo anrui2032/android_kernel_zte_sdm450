@@ -1,0 +1,74 @@
+//for touchscreen and key and keypad-backlight
+
+&soc {
+	i2c@78b7000 {
+		focaltech@38{
+		compatible = "focaltech,fts_ts";
+		reg = <0x38>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <65 0x2>;
+		vdd-supply = <&pm8953_l17>;
+		vcc_i2c-supply = <&pm8953_l6>;
+		pinctrl-names = "pmx_ts_active", "pmx_ts_suspend";
+		pinctrl-0 = <&ts_int_active>;
+		pinctrl-1 = <&ts_int_suspend>;
+		focaltech,reset-gpio = <&tlmm 64 0x0>;
+		focaltech,irq-gpio = <&tlmm 65 0x2002>;
+		focaltech,display-coords = <0 0 1080 2246>;
+		focaltech,max-touch-number = <5>;
+		};
+	};
+
+	gen-vkeys {
+		compatible = "zfg,gen-vkeys";
+		label = "synaptics_dsx";
+		zfg,disp-maxy_px = <1920>;
+		zfg,disp-maxy_mm = <1335>;//0.1mm
+		zfg,disp-maxx_mm = <740>;//0.1mm
+		zfg,x1=<160>;
+		zfg,x2=<375>;
+		zfg,x3=<580>;
+		zfg,lcd_offset=<25>;//距离LCD至少2mm 这里再放宽0.5mm
+		zfg,y_max_offset=<150>;
+		zfg,dx=<100>;//标准中X范围为5mm+-1mm取中值*2
+		zfg,key-codes = <158 102 187>;
+	};
+
+	gpio_keys {
+		compatible = "gpio-keys";
+		input-name = "gpio-keys";
+		pinctrl-names = "tlmm_gpio_key_active","tlmm_gpio_key_suspend";
+		pinctrl-0 = <&gpio_key_active>;
+		pinctrl-1 = <&gpio_key_suspend>;
+
+		vol_down {
+			label = "volume_down";
+			gpios = <&tlmm 128 0x1>;
+			linux,input-type = <1>;
+			linux,code = <114>;
+			gpio-key,wakeup;
+			debounce-interval = <15>;
+		};
+		vol_up {
+			label = "volume_up";
+			gpios = <&tlmm 91 0x1>;
+			linux,input-type = <1>;
+			linux,code = <115>;
+			gpio-key,wakeup;
+			debounce-interval = <15>;
+		};
+	};
+
+	/*gpio-leds {
+		compatible = "gpio-leds";
+		status = "okay";
+		pinctrl-names = "default";
+		pinctrl-0 = <&button_backlight_off>;
+
+		keypad-backlight {
+			gpios = <&tlmm 97 0>;
+			label = "button-backlight";
+			linux,default-trigger = "none";
+		};
+	};*/
+};
