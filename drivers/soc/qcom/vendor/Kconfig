@@ -1,0 +1,2 @@
+source "drivers/soc/qcom/vendor/vlog/Kconfig"
+source "drivers/soc/qcom/vendor/fuseinfo/Kconfig"

@@ -97,5 +97,5 @@ x509.genkey
 # Kconfig presets
 all.config
 
-drivers/soc/qcom/vendor
-include/soc/qcom/vendor
+# drivers/soc/qcom/vendor
+# include/soc/qcom/vendor

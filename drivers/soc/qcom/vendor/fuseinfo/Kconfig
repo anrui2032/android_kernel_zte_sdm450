@@ -1,0 +1,8 @@
+#
+# show the fuse state
+#
+config SHOW_FUSE_INFO
+  bool "show the fuse status"
+  default n
+  help
+  This driver will read fuse status from MSM IC and show with sysfs file.
