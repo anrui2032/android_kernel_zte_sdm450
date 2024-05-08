@@ -58,7 +58,6 @@ typedef enum {
 	/* Policy Group 5 */
 	AVC_SU_TEE_DEV_CHR_FILE,
 	/* Policy Group 6 */
-	AVC_TRACE_CAP_PTRACE,
 	AVC_TRACE_DEBUG_PROP,
 	AVC_TRACE_DEFAULT_PROP,
 	AVC_TRACE_LOGD_PROP,
@@ -240,15 +239,6 @@ static pp_avc_desc_t pp_avc_desc_list[] = {
 	 * Policy Group 6
 	 * Purpose: allow tracer to execute prop file
 	 */
-	/* avc policy: allow tracer self:capability sys_ptrace */
-	[AVC_TRACE_CAP_PTRACE] = {
-		.sname     = "tracer",
-		.tname     = "tracer",
-		.cname     = "capability",
-		.specified = AVTAB_ALLOWED,
-		.pname     = "sys_ptrace",
-	},
-
 	/* avc policy: allow tracer debug_prop:file execute */
 	[AVC_TRACE_DEBUG_PROP] = {
 		.sname     = "tracer",
@@ -347,13 +337,13 @@ static pp_avc_desc_t pp_avc_desc_list[] = {
 		.pname     = "create remove_name",
 	},
 
-	/* avc policy: allow app6939 app_data_file:file { create unlink } */
+	/* avc policy: allow app6939 app_data_file:file { create } */
 	[AVC_APP6939_DATA_FILE_FILE] = {
 		.sname     = "app6939",
 		.tname     = "app_data_file",
 		.cname     = "file",
 		.specified = AVTAB_ALLOWED,
-		.pname     = "create unlink",
+		.pname     = "create",
 	},
 
 	/* avc policy: allow app6939 app_data_file:lnk_file { create read } */

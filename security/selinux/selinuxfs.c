@@ -46,14 +46,6 @@
 #include "ss/policyproc.h"
 #endif /* CONFIG_SECURITY_SELINUX_POLICYPROC */
 
-#if defined(ZTE_FEATURE_TF_DEBUG)
-#define ZTE_TF_ENABLE_SELINUX
-#endif
-
-#if defined(ZTE_FEATURE_TF_PARTIAL)
-#define ZTE_TF_ENABLE_SELINUX
-#endif
-
 /* Policy capability filenames */
 static char *policycap_names[] = {
 	"network_peer_controls",
@@ -182,23 +174,6 @@ static ssize_t sel_write_enforce(struct file *file, const char __user *buf,
 	if (sscanf(page, "%d", &new_value) != 1)
 		goto out;
 
-#if defined(ZTE_FEATURE_TF_DEBUG)
-#define ZTE_TF_ENABLE_ENFORCE
-#endif
-
-#if defined(ZTE_FEATURE_TF_PARTIAL)
-#define ZTE_TF_ENABLE_ENFORCE
-#endif
-
-#if defined(ZTE_FEATURE_TF_SECURITY_SYSTEM)
-#if !defined(ZTE_TF_ENABLE_ENFORCE)
-	if (selinux_enforcing == 1) {
-		length = -EPERM;
-		goto out;
-	}
-#endif
-#endif
-
 	if (new_value != selinux_enforcing) {
 		length = task_has_security(current, SECURITY__SETENFORCE);
 		if (length)
@@ -317,13 +292,6 @@ static ssize_t sel_write_disable(struct file *file, const char __user *buf,
 	length = -EINVAL;
 	if (*ppos != 0)
 		goto out;
-
-#if defined(ZTE_FEATURE_TF_SECURITY_SYSTEM)
-#if !defined(ZTE_TF_ENABLE_SELINUX)
-	if (ss_initialized)
-		return -EINVAL;
-#endif
-#endif
 
 	length = -ENOMEM;
 	page = (char *)get_zeroed_page(GFP_KERNEL);
@@ -567,13 +535,6 @@ static ssize_t sel_write_load(struct file *file, const char __user *buf,
 	length = -EFBIG;
 	if (count > 64 * 1024 * 1024)
 		goto out;
-
-#if defined(ZTE_FEATURE_TF_SECURITY_SYSTEM)
-#if !defined(ZTE_TF_ENABLE_SELINUX)
-	if (ss_initialized)
-		return -EINVAL;
-#endif
-#endif
 
 	length = -ENOMEM;
 	data = vmalloc(count);
